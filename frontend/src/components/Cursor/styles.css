@@ -1,0 +1,18 @@
+*{
+    cursor: none;
+}
+
+.cursor{
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid black;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 15;
+    transform: translate(-50%, -50%);
+    transform-origin: 100% 100%;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transition-property: background-color, transform;
+    backdrop-filter: invert(100%);
+}

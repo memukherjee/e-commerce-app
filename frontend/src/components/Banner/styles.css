@@ -1,0 +1,36 @@
+.banners{
+  position: relative;
+}
+
+.banners img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* transition: opacity 1000ms ease-in; */
+}
+
+.fade-in{
+  animation: fade-in 1000ms ease-in;
+}
+.fade-out{
+  animation: fade-out 1000ms ease-out;
+}
+
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

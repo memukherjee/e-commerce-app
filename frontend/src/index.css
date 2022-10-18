@@ -8,3 +8,27 @@ body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
+::-webkit-scrollbar, ::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: #606060;
+  border-radius: 100px;
+}
+::-webkit-scrollbar, ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection{
+  background: #f4a98b;
+  color: #000;
+}

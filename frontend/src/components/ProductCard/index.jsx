@@ -8,7 +8,7 @@ export default function ProductCard({
 }) {
   return (
     <a
-      className="w-1/3 flex justify-center"
+      className="md:w-1/3 flex justify-center"
       href={product.url}
     >
       <div

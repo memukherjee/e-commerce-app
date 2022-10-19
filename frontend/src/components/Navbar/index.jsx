@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  MouseOverNavItemContext,
-  ScreenContext,
-  ScrollContext,
-} from "../../App";
+import { MouseOverNavItemContext, ScreenContext, ScrollContext } from "../../App";
 
 export default function Navbar() {
   const { setMouseOverNavItem } = useContext(MouseOverNavItemContext);
-  const screen = useContext(ScreenContext);
   const [navOpen, setNavOpen] = useState(false);
+  const mobileScreen = useContext(ScreenContext);
 
   const scroll = useContext(ScrollContext);
 
@@ -20,7 +16,7 @@ export default function Navbar() {
     position: "absolute",
     height: "100vh",
     top: 0,
-    left: 0,
+    left: 0
   };
 
   useEffect(() => {
@@ -76,13 +72,13 @@ export default function Navbar() {
           </svg>
         </button>
         <div
-          style={screen ? collapsableNavStyles : {}}
+          style={mobileScreen ? collapsableNavStyles : {}}
           className="hidden overflow-hidden w-full md:block md:w-auto"
         >
           <ul className="nav-items relative h-full flex flex-col md:flex-row justify-evenly md:justify-center items-center md:gap-x-5 text-xl md:text-lg">
             <span
               onClick={() => setNavOpen(false)}
-              className="cross-btn absolute lg:hidden top-10 right-10 font-normal focus:text-red-500"
+              className="cross-btn absolute md:hidden top-10 right-10 font-normal focus:text-red-500"
             >
               X
             </span>
@@ -92,7 +88,7 @@ export default function Navbar() {
               onMouseLeave={() => setMouseOverNavItem(false)}
             >
               <a
-                className="my-auto lg:hover:text-white transition-all"
+                className="my-auto md:hover:text-white transition-all"
                 href="/"
               >
                 Home
@@ -104,7 +100,7 @@ export default function Navbar() {
               onMouseLeave={() => setMouseOverNavItem(false)}
             >
               <a
-                className="my-auto lg:hover:text-white transition-all"
+                className="my-auto md:hover:text-white transition-all"
                 href="/category"
               >
                 Category
@@ -116,7 +112,7 @@ export default function Navbar() {
               onMouseLeave={() => setMouseOverNavItem(false)}
             >
               <a
-                className="my-auto lg:hover:text-white transition-all"
+                className="my-auto md:hover:text-white transition-all"
                 href="/about"
               >
                 About
@@ -128,7 +124,7 @@ export default function Navbar() {
               onMouseLeave={() => setMouseOverNavItem(false)}
             >
               <a
-                className="my-auto lg:hover:text-white transition-all"
+                className="my-auto md:hover:text-white transition-all"
                 href="/login"
               >
                 Log in
@@ -143,7 +139,7 @@ export default function Navbar() {
                 style={
                   scroll ? { borderColor: "#fff" } : { borderColor: "#000" }
                 }
-                className="my-auto md:border px-3 rounded-xl whitespace-nowrap md:hover:border-white md:hover:text-white transition-all"
+                className="my-auto md:hover:text-white transition-all"
                 href="/"
               >
                 Contact Us

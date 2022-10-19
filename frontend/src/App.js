@@ -16,8 +16,11 @@ function App() {
   const [mouseOverNavItem, setMouseOverNavItem] = useState(false);
   const [mouseOverLink, setMouseOverLink] = useState(false);
   const [scroll, setScroll] = useState(false);
+
   const [mobileScreen, setMobileScreen] = useState(false);
+
   useEffect(() => {
+    // Scrolling
     const changeNavbarColor = () => {
       if (window.scrollY >= 200) {
         setScroll(true);
@@ -26,32 +29,44 @@ function App() {
       }
     };
     window.addEventListener("scroll", changeNavbarColor);
-    if (window.innerWidth < 768) {
-      setMobileScreen(true);
-    }
+
+
+    // Screen size
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setMobileScreen(true);
+      } else {
+        setMobileScreen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
     <Router>
-      <ScreenContext.Provider value={{ mobileScreen }}>
-        <ScrollContext.Provider value={scroll}>
-          <MouseOverLinkContext.Provider
-            value={{ mouseOverLink, setMouseOverLink }}
+      <ScreenContext.Provider value={mobileScreen}>
+      <ScrollContext.Provider value={scroll}>
+        <MouseOverLinkContext.Provider
+          value={{ mouseOverLink, setMouseOverLink }}
+        >
+          <MouseOverNavItemContext.Provider
+            value={{ mouseOverNavItem, setMouseOverNavItem }}
           >
-            <MouseOverNavItemContext.Provider
-              value={{ mouseOverNavItem, setMouseOverNavItem }}
-            >
-              <Cursor />
-              <Navbar />
-            </MouseOverNavItemContext.Provider>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/product/:pid" element={<Product />} />
-              <Route path="/products/:category" element={<Products />} />
-            </Routes>
-            <Footer />
-          </MouseOverLinkContext.Provider>
-        </ScrollContext.Provider>
+            <Cursor />
+            <Navbar />
+          </MouseOverNavItemContext.Provider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:pid" element={<Product />} />
+            <Route path="/products/:category" element={<Products />} />
+          </Routes>
+          <Footer />
+        </MouseOverLinkContext.Provider>
+      </ScrollContext.Provider>
       </ScreenContext.Provider>
     </Router>
   );

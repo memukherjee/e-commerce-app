@@ -7,7 +7,7 @@ export default function Features({ features }) {
       <div className="slides flex justify-evenly items-center w-full flex-wrap">
         {features.map((feature, index) => (
           <div
-            className="slide max-w-200 min-h-200 w-1/5 text-center border-2 p-6 flex justify-center items-center flex-col"
+            className="slide max-w-200 min-h-200 mb-4 md:mb-0 md:w-1/5 text-center border-2 p-6 flex justify-center items-center flex-col"
             key={index}
           >
             <motion.div

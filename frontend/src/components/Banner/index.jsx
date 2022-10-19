@@ -28,7 +28,7 @@ export default function Banner() {
   }, [banners.length, index]);
 
   return (
-    <div className="max-h-70vh w-full overflow-hidden banners bg-gray-200 flex">
+    <div className="max-h-70vh w-full overflow-hidden banners flex">
       <AnimatePresence>
         <motion.img
           variants={variants}

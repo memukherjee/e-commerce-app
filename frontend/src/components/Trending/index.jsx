@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
+import { ScreenContext } from "../../App";
 import ProductCard from "../ProductCard";
 
 const trendingProducts = [
@@ -48,9 +49,12 @@ const trendingProducts = [
 ];
 
 export default function Trending() {
+
+  const mobileScreen = useContext(ScreenContext)
+
   const setCustomProductStyle = (index) => {
     return {
-      margin: (index - 1) % 3 === 0 ? "2rem 0 0" : "0 0 2rem",
+      margin: ((index - 1) % 3 === 0) && !mobileScreen ? "2rem 0 0" : "0 0 2rem",
     };
   };
 

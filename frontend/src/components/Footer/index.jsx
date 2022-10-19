@@ -23,7 +23,7 @@ export default function Footer() {
       className="bg-gray-200"
     >
       <footer className="flex flex-col w-full max-w-1200 py-8 mx-auto">
-        <div className="contact-us flex flex-col-reverse justify-between items-center md:items-top">
+        <div className="contact-us flex flex-col-reverse md:flex-row justify-between items-center md:items-top">
           <div className="contact-details text-center md:text-left w-11/12 md:w-1/3">
             <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
               Contact Us

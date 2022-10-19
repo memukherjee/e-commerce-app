@@ -12,6 +12,7 @@
 
 ## COLOR PALETTE:
 - #164e63
+- #f4a98b
 - #c2410c
 - #e5e7eb
 - #000000

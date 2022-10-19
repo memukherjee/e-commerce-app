@@ -10,7 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 
 @Document(collection="user")
@@ -21,11 +23,20 @@ public class UserData {
 	private BigInteger id;
 	
 	@NotEmpty
+	@Field("name")
 	private String name;         //user name
-	@Email(message="Enter a valid email")
+	
+	
+	@Email(message="Enter a valid email or email id already exist")
+	@Field("email")
 	private String email;        //user email
+	@Indexed(unique=true)
+	
 	@NotEmpty
+	@Field("address")
 	private String address;      //user address
+	
+	@Field("mob")
 	private int mob;             //user mobile no.
 	@NotEmpty
 	@Size(min=4,max=8,message="Password should contain minimum 4 character and maximum 8 character")

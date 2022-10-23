@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { motion } from "framer-motion";
 import { MouseOverLinkContext } from "../../App";
+import InputBox from "../InputBox";
 
 export default function Footer() {
   const [formName, setFormName] = useState("");
@@ -37,39 +38,44 @@ export default function Footer() {
             </p>
           </div>
           <div className="contact-form text-center mb-4 md:mb-0 md:text-right w-11/12 md:w-1/3">
-            <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
+            <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-6">
               Send Us a Message
             </h3>
             <form
               onSubmit={handleFormSubmit}
               className="flex flex-col items-bottom text-gray-500"
             >
-              <input
-                className="w-full p-2 mb-2 outline-none bg-transparent border-b-2 text-center md:text-right border-cyan-900 text-xl"
-                autoComplete="off"
-                autoCorrect="off"
+              <InputBox
+                setValue={setFormName}
                 value={formName}
-                onChange={(e) => setFormName(e.target.value)}
                 type="text"
-                placeholder="Name"
-              />
-              <input
-                className="w-full p-2 mb-2 outline-none bg-transparent border-b-2 border-cyan-900 text-center md:text-right text-xl"
+                label="Name"
+                align="right"
                 autoComplete="off"
-                autoCorrect="off"
+              />
+              <InputBox
+                setValue={setFormEmail}
                 value={formEmail}
-                onChange={(e) => setFormEmail(e.target.value)}
                 type="email"
-                placeholder="Email"
-              />
-              <textarea
-                value={formMessage}
-                onChange={(e) => setFormMessage(e.target.value)}
-                className="w-full p-2 mb-2 outline-none bg-transparent border-b-2 border-cyan-900 text-center md:text-right resize-none overflow-auto text-xl"
+                label="Email"
+                align="right"
                 autoComplete="off"
-                autoCorrect="off"
-                placeholder="Message"
               />
+              <div className="relative">
+                <textarea
+                  id="message"
+                  value={formMessage}
+                  onChange={(e) => setFormMessage(e.target.value)}
+                  className="w-full p-2 mb-2 outline-none bg-transparent text-center md:text-right resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  placeholder="Message"
+                />
+                <label
+                  for="message"
+                  class="absolute text-xl -top-3.5 text-cyan-600 transition-all peer-placeholder-shown:text-xl peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-cyan-900 peer-focus:text-lg right-0"
+                >Message</label>
+              </div>
               <button
                 className="bg-cyan-900 text-white w-11/12 md:w-fit mx-auto rounded-md md:rounded-none md:mr-0 md:ml-auto py-2 md:p-4 hover:bg-black transition-colors cursor-none duration-500"
                 onMouseOver={() => setMouseOverLink(true)}

@@ -6,6 +6,7 @@ import Product from "./pages/Product";
 import Products from "./pages/Products";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Auth from "./pages/Auth";
 
 const MouseOverLinkContext = createContext();
 const MouseOverNavItemContext = createContext();
@@ -61,6 +62,7 @@ function App() {
           </MouseOverNavItemContext.Provider>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/product/:pid" element={<Product />} />
             <Route path="/products/:category" element={<Products />} />
           </Routes>

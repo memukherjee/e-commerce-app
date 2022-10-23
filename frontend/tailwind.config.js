@@ -6,6 +6,8 @@ module.exports = {
     maxWidth: {
       200: "200px",
       300: "300px",
+      450: "450px",
+      500: "500px",
       750: "750px",
       1000: "1000px",
       1200: "1200px",
@@ -39,8 +41,12 @@ module.exports = {
         "1/20": "5%",
         "70vh": "70vh",
         "90vh": "90vh",
+        "100vh": "100vh",
         400: "400px",
       },
+      backdropBlur: {
+        xs: '1px',
+      }
     },
   },
   plugins: [],

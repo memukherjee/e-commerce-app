@@ -40,7 +40,11 @@ export default function Header() {
       <div className="-mt-20 md:-mt-32 flex flex-col md:flex-row items-center md:items-start justify-between md:px-32 w-full">
         <div className="main-text text-center md:text-left w-11/12 md:max-w-1/2 mb-8 md:mb-0">
           <h1
-            style={mobileScreen?{textShadow:"2px 2px #fff"}:{ mixBlendMode: "difference" }}
+            style={
+              mobileScreen
+                ? { textShadow: "2px 2px #fff" }
+                : { mixBlendMode: "difference" }
+            }
             className="text-3xl w-full md:text-9xl font-black m-0 inline z-10 text-cyan-900"
           >
             Wear the best.

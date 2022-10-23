@@ -125,9 +125,9 @@ export default function Navbar() {
             >
               <a
                 className="my-auto md:hover:text-white transition-all"
-                href="/login"
+                href="/auth"
               >
-                Log in
+                Sign Up
               </a>
             </li>
             <li
@@ -136,9 +136,6 @@ export default function Navbar() {
               onMouseLeave={() => setMouseOverNavItem(false)}
             >
               <a
-                style={
-                  scroll ? { borderColor: "#fff" } : { borderColor: "#000" }
-                }
                 className="my-auto md:hover:text-white transition-all"
                 href="/"
               >

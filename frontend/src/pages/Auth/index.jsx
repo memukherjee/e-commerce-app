@@ -6,6 +6,7 @@ import formBg from "./images/form-bg.jpg";
 export default function Auth() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isNewUser, setNewUser] = useState(true);
@@ -14,9 +15,7 @@ export default function Auth() {
 
   const handelAuthForm = () => {
     const route = isNewUser ? "/signup" : "/login";
-    const data = isNewUser
-      ? { name, email, password, confirmPassword }
-      : { email, password };
+    const data = isNewUser ? { name, email, password } : { email, password };
     console.log(route, data);
   };
 
@@ -61,6 +60,14 @@ export default function Auth() {
               label="Email Id"
               type="email"
             />
+            {isNewUser && (
+              <InputBox
+                value={mobileNo}
+                setValue={setMobileNo}
+                label="Mobile No."
+                type="number"
+              />
+            )}
             <InputBox
               value={password}
               setValue={setPassword}
@@ -79,7 +86,7 @@ export default function Auth() {
               type="submit"
               onMouseOver={() => setMouseOverLink(true)}
               onMouseOut={() => setMouseOverLink(false)}
-              className="bg-black w-full text-white text-xl p-2 my-4 cursor-none"
+              className="bg-black w-full text-white text-xl p-1 md:p-2 md:my-4 cursor-none"
             >
               {isNewUser ? "Sign Up" : "Log In"}
             </button>

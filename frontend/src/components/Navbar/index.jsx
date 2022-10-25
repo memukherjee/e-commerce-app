@@ -137,7 +137,7 @@ export default function Navbar() {
             >
               <a
                 className="my-auto md:hover:text-white transition-all"
-                href="/"
+                href="/contact-us"
               >
                 Contact Us
               </a>

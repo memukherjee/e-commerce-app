@@ -1,7 +1,11 @@
 import { useContext, useState } from "react";
+import { motion as m } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { MouseOverLinkContext, ScreenContext } from "../../App";
 import InputBox from "../../components/InputBox";
 import formBg from "./images/form-bg.jpg";
+import axios from "axios";
 
 export default function Auth() {
   const [name, setName] = useState("");
@@ -13,16 +17,121 @@ export default function Auth() {
 
   const mobileScreen = useContext(ScreenContext);
 
-  const handelAuthForm = () => {
+  const clearForm = () => {
+    setName("");
+    setEmail("");
+    setMobileNo("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  };
+
+  const isValidEmail = () => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const isValid = re.test(String(email).toLowerCase());
+    if (!isValid) {
+      toast.error("Not a valid email", toastOptions);
+    }
+    return isValid;
+  };
+
+  const isValidMobileNo = () => {
+    if (!isNewUser) {
+      return true;
+    }
+    const re = /^((\+91)?|91?|0)?[789][0-9]{9}/;
+    const isValid = re.test(String(mobileNo));
+    if (!isValid) {
+      toast.error("Not a valid mobile no.", toastOptions);
+    }
+    return isValid;
+  };
+
+  const isValidPassword = () => {
+    if (!isNewUser) {
+      return true;
+    }
+    // Minimum eight characters, at least one letter and one number
+    const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const isValid = re.test(String(password));
+    if (!isValid) {
+      toast.error(
+        "Not a Strong password. Minimum eight characters, at least one letter and one number required.",
+        toastOptions
+      );
+    }
+    return isValid;
+  };
+
+  const handelAuthForm = (e) => {
+    e.preventDefault();
     const route = isNewUser ? "/signup" : "/login";
-    const data = isNewUser ? { name, email, password } : { email, password };
-    console.log(route, data);
+    const data = isNewUser
+      ? { name, email, mobileNo, password }
+      : { email, password };
+
+    if (
+      isValidEmail() &&
+      isValidMobileNo() &&
+      isValidPassword() &&
+      (isNewUser ? password === confirmPassword : true)
+    ) {
+      // console.log(process.env.REACT_APP_API);
+      axios
+        .post("http://localhost:8000/api" + route, data, {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          },
+          responseType: "json",
+        })
+        .then((res) => {
+          console.log(res);
+          // if (res.data.success) {
+          //   console.log(res.data.message);
+          //   clearForm();
+          // } else {
+          //   toast.error(res.data.message, toastOptions);
+          // }
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    }
   };
 
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
 
   return (
-    <>
+    <m.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className="h-100vh gap-5 md:gap-0 bg-gray-200 w-full relative flex flex-col md:flex-row">
         <div
           style={
@@ -65,7 +174,7 @@ export default function Auth() {
                 value={mobileNo}
                 setValue={setMobileNo}
                 label="Mobile No."
-                type="number"
+                type="tel"
               />
             )}
             <InputBox
@@ -82,6 +191,11 @@ export default function Auth() {
                 type="password"
               />
             )}
+            {password !== confirmPassword && confirmPassword !== "" && (
+              <span className="text-base text-red-400 font-semibold">
+                Passwords doesn't match
+              </span>
+            )}
             <button
               type="submit"
               onMouseOver={() => setMouseOverLink(true)}
@@ -94,6 +208,7 @@ export default function Auth() {
               className="block mt-2 text-base underline underline-offset-2"
               onClick={() => {
                 setNewUser(!isNewUser);
+                clearForm();
               }}
             >
               {isNewUser ? "Already a User? Log in" : "New User? Sign Up"}
@@ -101,6 +216,6 @@ export default function Auth() {
           </form>
         </div>
       </div>
-    </>
+    </m.div>
   );
 }

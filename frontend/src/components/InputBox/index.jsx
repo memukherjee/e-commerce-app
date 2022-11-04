@@ -11,11 +11,11 @@ export default function InputBox({ value, setValue, label, type, align, autoComp
         value={value}
         onChange={(e) => setValue(e.target.value)}
         id={"input-" + elementId}
-        autocomplete={autoComplete}
+        autoComplete={autoComplete}
       />
       <label
-        for={"input-" + elementId}
-        class={"absolute text-lg -top-5 text-cyan-900 transition-all duration-200 peer-placeholder-shown:text-xl peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-cyan-900 peer-focus:text-lg"+ (typeof align!== 'undefined' ? " "+align+"-0": " left-0")}
+        htmlFor={"input-" + elementId}
+        className={"absolute text-lg -top-5 text-cyan-900 transition-all duration-200 peer-placeholder-shown:text-xl peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-cyan-900 peer-focus:text-lg"+ (typeof align!== 'undefined' ? " "+align+"-0": " left-0")}
       >
         {label}
       </label>

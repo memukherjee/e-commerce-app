@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { MouseOverLinkContext, ScreenContext } from "../../App";
 import Banner from "../Banner";
 
@@ -16,7 +17,7 @@ export default function Header() {
   return (
     <header className="pb-14 relative">
       <Banner />
-      <div className="searchbar absolute top-24 md:top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 text-center">
+      <div className="searchbar absolute top-24 md:top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 text-center z-10">
         <input
           className="outline-none border-0 pl-3 pr-8 py-3 md:pl-5 md:pr-14 md:py-4 shadow-md shadow-gray-900 rounded-sm w-full md:max-w-750 mx-auto text-lg md:text-xl overflow-hidden"
           type="text"
@@ -49,7 +50,7 @@ export default function Header() {
           >
             Wear the best.
           </h1>
-          <p className="font-light text-lg">
+          <p className="font-light text-lg mt-8 md:mt-0">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima illo
             eaque cupiditate in asperiores tempora beatae inventore autem, eius
             vitae libero, ullam placeat soluta. Temporibus provident cupiditate
@@ -57,24 +58,24 @@ export default function Header() {
           </p>
         </div>
         <div className="text-white flex flex-row md:flex-col w-fit z-10">
-          <a
+          <Link
             className="bg-cyan-900 rounded-l-md md:rounded-none px-5 py-7 flex justify-between items-center"
-            href="/category"
+            to="/categories"
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
           >
             <span>Shop Now</span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
-          <a
+          </Link>
+          <Link
             className="bg-black rounded-r-md md:rounded-none px-5 py-7"
-            href="/about"
+            to="/about"
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
           >
             <span>Know about us </span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
+          </Link>
         </div>
       </div>
     </header>

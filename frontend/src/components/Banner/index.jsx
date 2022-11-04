@@ -28,21 +28,21 @@ export default function Banner() {
   }, [banners.length, index]);
 
   return (
-    <div className="max-h-70vh w-full overflow-hidden banners flex">
-      <AnimatePresence>
-        <motion.img
-          variants={variants}
-          animate="animate"
-          initial="initial"
-          exit="exit"
-          transition={{
-            opacity: { duration: 0.5 },
-          }}
-          className="w-full h-full object-cover"
-          src={banners[index]}
-          key={banners[index]}
-          alt="Banner"
-        />
+    <div className="h-40vh md:h-70vh w-full overflow-hidden banners flex relative -z-10">
+      <AnimatePresence initial={false}>
+          <motion.img
+            variants={variants}
+            animate="animate"
+            initial="initial"
+            exit="exit"
+            transition={{
+              opacity: { duration: 0.75 },
+            }}
+            className="absolute inset-0 max-w-100vw"
+            src={banners[index]}
+            key={banners[index]}
+            alt="Banner"
+          />
       </AnimatePresence>
     </div>
   );

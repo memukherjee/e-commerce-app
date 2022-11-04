@@ -89,7 +89,6 @@ public void setDiscountPrice(Double discountPrice) {
 	this.discountPrice=discountPrice;
 }
 
-
 public int getProduct_quantity() {
 	return product_quantity;
 }

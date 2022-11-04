@@ -1,4 +1,3 @@
-//Shopping cart
 package com.ecommerce.Entity;
 
 import org.springframework.data.annotation.Id;

@@ -1,13 +1,6 @@
-import { motion } from "framer-motion";
-
 export default function Footer() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="bg-gray-200"
-    >
+    <div className="bg-gray-200">
       <footer className="flex flex-col w-full max-w-1200 py-8 mx-auto">
         <div className="contact-us flex flex-col-reverse md:flex-row justify-between items-center md:items-top">
           <div className="contact-details text-center md:text-left w-11/12 md:w-1/3">
@@ -26,17 +19,27 @@ export default function Footer() {
             <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
               Quick Links
             </h3>
-            <a href="/contact-us" className="hover:text-gray-700">Contact Us</a>
-            <a href="/contact-us" className="hover:text-gray-700">About</a>
-            <a href="/contact-us" className="hover:text-gray-700">Men's Clothing</a>
-            <a href="/contact-us" className="hover:text-gray-700">Women's Clothing</a>
-            <a href="/contact-us" className="hover:text-gray-700">Kid's Clothing</a>
+            <a href="/contact-us" className="hover:text-gray-700">
+              Contact Us
+            </a>
+            <a href="/contact-us" className="hover:text-gray-700">
+              About
+            </a>
+            <a href="/contact-us" className="hover:text-gray-700">
+              Men's Clothing
+            </a>
+            <a href="/contact-us" className="hover:text-gray-700">
+              Women's Clothing
+            </a>
+            <a href="/contact-us" className="hover:text-gray-700">
+              Kid's Clothing
+            </a>
           </div>
         </div>
         <div className="footer-bottom text-center text-base font-light mt-4">
           <span>&copy; {new Date().getFullYear()} Oracle Couture</span>
         </div>
       </footer>
-    </motion.div>
+    </div>
   );
 }

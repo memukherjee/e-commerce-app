@@ -1,5 +1,8 @@
 package com.ecommerce.Controller;
 
+import java.util.Random;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +48,14 @@ public class OrderController {
 	    CartDetails cartDetails=cartService.displayAllCartService(user_id);
 		
 		int pay = (int) cartDetails.getTotal();
+		String receipt = RandomStringUtils.randomAlphanumeric(12);
 		
 		RazorpayClient client = new RazorpayClient("rzp_test_3v5Lsd5HIdHyHy","moWNwD6hOzxwsnyUaVjbxARE");
 		
 		JSONObject ob = new JSONObject();
 		ob.put("amount", pay);
 		ob.put("currency","INR");
-		ob.put("receipt", "txn_235425");
+		ob.put("receipt", receipt);
 		
 		//creating order
 		

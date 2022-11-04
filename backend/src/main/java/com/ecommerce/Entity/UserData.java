@@ -2,11 +2,9 @@ package com.ecommerce.Entity;
 
 import java.math.BigInteger;
 
-import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;

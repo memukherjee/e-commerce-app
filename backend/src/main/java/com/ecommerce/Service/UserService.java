@@ -1,11 +1,8 @@
 package com.ecommerce.Service;
 
 import java.math.BigInteger;
-import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.Entity.UserData;
@@ -26,53 +23,25 @@ public class UserService {
 		return userRepo.findAllByid(id);
 	}
 
-	public UserData findByEmail(String email, String pass) { // login module
+	public UserData findByEmail(String email, String pass) {
 		UserData user = userRepo.findByEmail(email);
-		System.out.println("service=" + user);
-
+		System.out.println("service="+user);
+		
 		if (user != null) {
 			String locpass = user.getPass();
-			if (locpass.equals(pass)) {
-				return user;
+			if(locpass.equals(pass)) {
+			return user;
 			}
-		}
+	}
 		return null;
 
 	}
 
-	public Vector findByEmail(String email) { // forgot password module
-		UserData user = userRepo.findByEmail(email);
-		System.out.println("service=" + user);
-		Vector v = new Vector();
-		if (user != null) {
-			System.out.println("email verified");
-			int otp = (int) (Math.random() * 9999);
-			String random = String.valueOf(otp);
-			System.out.println(random);
-			// email(random);
-			v.add(random);
-			v.add(new ResponseEntity<String>(HttpStatus.FOUND));
-
-		} else {
-			System.out.println("email not verified");
-			v.add(new ResponseEntity<String>(HttpStatus.NOT_FOUND));
-		}
-		return v;
-	}
-
-	public Vector findByEmailreset(String email, String pass) {
-		UserData user = userRepo.findByEmail(email);
-		Vector v = new Vector();
-		if (user != null) {
-			System.out.println(user);
-			user.setPass(pass);
-			userRepo.save(user);
-			v.add(new ResponseEntity<String>(HttpStatus.ACCEPTED));
-		} else {
-			v.add(new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE));
-		}
-		return v;
-
-	}
+//	public String matchData(String email,String pass) {
+//		System.out.println("loginService email and pass="+email+" : "+pass);
+//				
+//
+//		return pass;
+//	}
 
 }

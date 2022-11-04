@@ -1,5 +1,6 @@
+import axios from "axios";
 import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ScreenContext } from "../../App";
 import ProductCard from "../ProductCard";
 
@@ -48,9 +49,17 @@ const trendingProducts = [
   },
 ];
 
-export default function Trending() {
 
+
+
+export default function Trending() {
+  
   const mobileScreen = useContext(ScreenContext)
+  
+  useEffect(() => {
+    axios.get("")
+  }, []);
+
 
   const setCustomProductStyle = (index) => {
     return {

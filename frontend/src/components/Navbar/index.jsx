@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MouseOverNavItemContext, ScreenContext, ScrollContext } from "../../App";
+import { useContext, useEffect, useState } from "react";
+import { ScreenContext, ScrollContext } from "../../App";
+import NavItem from "../NavItem";
+
+
 
 export default function Navbar() {
-  const { setMouseOverNavItem } = useContext(MouseOverNavItemContext);
   const [navOpen, setNavOpen] = useState(false);
   const mobileScreen = useContext(ScreenContext);
 
@@ -16,7 +18,7 @@ export default function Navbar() {
     position: "absolute",
     height: "100vh",
     top: 0,
-    left: 0
+    left: 0,
   };
 
   useEffect(() => {
@@ -82,66 +84,11 @@ export default function Navbar() {
             >
               X
             </span>
-            <li
-              className="nav-item flex align-middle px-4"
-              onMouseOver={() => setMouseOverNavItem(true)}
-              onMouseLeave={() => setMouseOverNavItem(false)}
-            >
-              <a
-                className="my-auto md:hover:text-white transition-all"
-                href="/"
-              >
-                Home
-              </a>
-            </li>
-            <li
-              className="nav-item flex align-middle px-4"
-              onMouseOver={() => setMouseOverNavItem(true)}
-              onMouseLeave={() => setMouseOverNavItem(false)}
-            >
-              <a
-                className="my-auto md:hover:text-white transition-all"
-                href="/category"
-              >
-                Category
-              </a>
-            </li>
-            <li
-              className="nav-item flex align-middle px-4"
-              onMouseOver={() => setMouseOverNavItem(true)}
-              onMouseLeave={() => setMouseOverNavItem(false)}
-            >
-              <a
-                className="my-auto md:hover:text-white transition-all"
-                href="/about"
-              >
-                About
-              </a>
-            </li>
-            <li
-              className="nav-item flex align-middle px-4"
-              onMouseOver={() => setMouseOverNavItem(true)}
-              onMouseLeave={() => setMouseOverNavItem(false)}
-            >
-              <a
-                className="my-auto md:hover:text-white transition-all"
-                href="/auth"
-              >
-                Sign Up
-              </a>
-            </li>
-            <li
-              className="nav-item flex align-middle px-4"
-              onMouseOver={() => setMouseOverNavItem(true)}
-              onMouseLeave={() => setMouseOverNavItem(false)}
-            >
-              <a
-                className="my-auto md:hover:text-white transition-all"
-                href="/contact-us"
-              >
-                Contact Us
-              </a>
-            </li>
+            <NavItem to="/" title="Home" />
+            <NavItem to="/categories" title="Categories" />
+            <NavItem to="/about" title="About" />
+            <NavItem to="/auth" title="Sign Up" />
+            <NavItem to="/contact-us" title="Contact Us" />
           </ul>
         </div>
       </div>

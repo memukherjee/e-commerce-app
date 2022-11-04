@@ -36,9 +36,9 @@ public class UserProductService {
   }
 	  
 	  
-  public List<Product> getProductByCategory(Integer pageNo, Integer pageSize) {
+  public List<Product> getProductByCategory(String product_category,Integer pageNo, Integer pageSize) {
 		  Pageable paging=PageRequest.of(pageNo,pageSize);
-		  Page<Product> P=repository.findAll(paging);
+		  Page<Product> P=repository.findByCategory(product_category,paging);
 		  if(P.hasContent()) {
 			  return P.getContent();
 		  }

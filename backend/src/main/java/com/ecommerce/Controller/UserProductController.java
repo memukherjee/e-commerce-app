@@ -44,7 +44,7 @@ public class UserProductController {
 	 @GetMapping("/product_category/{product_category}")
 	 public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String product_category,@RequestParam(defaultValue = "0") Integer pageNo,
 				@RequestParam(defaultValue = "5") Integer pageSize){
-			List<Product> list=service.getProductByCategory(pageNo,pageSize);
+			List<Product> list=service.getProductByCategory(product_category,pageNo,pageSize);
 			return new ResponseEntity<List<Product>>(list,new HttpHeaders(),HttpStatus.OK);}
 		
 /*Searching product by product name............................*/

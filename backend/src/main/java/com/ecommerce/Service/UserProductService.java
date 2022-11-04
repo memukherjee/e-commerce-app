@@ -47,8 +47,8 @@ public class UserProductService {
 		  }
 }
   
-  public Optional<Product> getProductById(String product_id){
-	  return repository.findById(product_id);
+  public Product getProductById(String product_id){
+	  return repository.findById(product_id).get();
   }
   
  public List<Product> findTrending() {

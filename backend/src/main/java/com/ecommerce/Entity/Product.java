@@ -10,7 +10,7 @@ public class Product {
   private String product_name;
   private String product_category;
   private String product_description;
-  private String brand;
+  private String product_company;
   public Double product_price;
   public Double product_discount;
   public Double discountPrice;
@@ -20,14 +20,14 @@ public class Product {
   
   
 public Product(String product_id, String product_name, String product_category, String product_description,
-		String brand, Double product_price, Double product_discount,Double discountPrice, int product_quantity, int product_sold,
+		String product_company, Double product_price, Double product_discount,Double discountPrice, int product_quantity, int product_sold,
 		String product_imageUrl) {
 	super();
 	this.product_id = product_id;
 	this.product_name = product_name;
 	this.product_category = product_category;
 	this.product_description = product_description;
-	this.brand = brand;
+	this.product_company = product_company;
 	this.product_price = product_price;
 	this.product_discount = product_discount;
 	this.discountPrice=discountPrice;
@@ -61,11 +61,11 @@ public String getProduct_description() {
 public void setProduct_description(String product_description) {
 	this.product_description = product_description;
 }
-public String getBrand() {
-	return brand;
+public String getProduct_company() {
+	return product_company;
 }
-public void setBrand(String brand) {
-	this.brand = brand;
+public void setProduct_company(String product_company) {
+	this.product_company = product_company;
 }
 public Double getProduct_price() {
 	return product_price;

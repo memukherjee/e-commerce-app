@@ -40,7 +40,7 @@ AdminRepository repo;
 		  existingProduct.setProduct_name(product.getProduct_name());
 		  existingProduct.setProduct_category(product.getProduct_category());
 		  existingProduct.setProduct_description(product.getProduct_description());
-		  existingProduct.setBrand(product.getBrand());
+		  existingProduct.setProduct_company(product.getProduct_company());
 		  existingProduct.setProduct_price(product.getProduct_price());
 		  existingProduct.setProduct_discount(product.getProduct_discount());
 		  existingProduct.setProduct_quantity(product.getProduct_quantity());

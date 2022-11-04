@@ -44,7 +44,7 @@ public class OrderController {
 		
 	    CartDetails cartDetails=cartService.displayAllCartService(user_id);
 		
-		double pay = cartDetails.getTotal();
+		int pay = (int) cartDetails.getTotal();
 		
 		RazorpayClient client = new RazorpayClient("rzp_test_3v5Lsd5HIdHyHy","moWNwD6hOzxwsnyUaVjbxARE");
 		

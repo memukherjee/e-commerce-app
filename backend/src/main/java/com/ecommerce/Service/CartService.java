@@ -61,12 +61,13 @@ public class CartService {
 			prod.add(product.getProduct_company());
 			prod.add(product.getProduct_price());
 			prod.add(product.getProduct_discount());
+			prod.add(product.getDiscountPrice());
 			prod.add(shoppingCart.getCart_quantity());
 			prod.add(product.getProduct_imageUrl());
 				
 			productList.add(prod);
 						
-			double p = product.getProduct_discount();
+			double p = product.getDiscountPrice();
 						
 			int q=shoppingCart.getCart_quantity();
 			quantity=quantity+q;

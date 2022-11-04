@@ -11,17 +11,20 @@ public class Product {
   private String product_category;
   private String product_description;
   private String product_company;
-  public Double product_price;
-  public Double product_discount;
-  public Double discountPrice;
+  public double product_price;
+  public double product_discount;
+  public double discountPrice;
   private int product_quantity;
   private int product_sold;
   private String product_imageUrl;
   
   
+
+
+
 public Product(String product_id, String product_name, String product_category, String product_description,
-		String product_company, Double product_price, Double product_discount,Double discountPrice, int product_quantity, int product_sold,
-		String product_imageUrl) {
+		String product_company, double product_price, double product_discount, double discountPrice,
+		int product_quantity, int product_sold, String product_imageUrl) {
 	super();
 	this.product_id = product_id;
 	this.product_name = product_name;
@@ -30,13 +33,11 @@ public Product(String product_id, String product_name, String product_category, 
 	this.product_company = product_company;
 	this.product_price = product_price;
 	this.product_discount = product_discount;
-	this.discountPrice=discountPrice;
+	this.discountPrice = discountPrice;
 	this.product_quantity = product_quantity;
 	this.product_sold = product_sold;
 	this.product_imageUrl = product_imageUrl;
 }
-
-
 public String getProduct_id() {
 	return product_id;
 }
@@ -70,25 +71,23 @@ public void setProduct_company(String product_company) {
 public Double getProduct_price() {
 	return product_price;
 }
-public void setProduct_price(Double product_price) {
-	this.product_price = product_price;
-}
-public Double getProduct_discount() {
+
+
+public double getProduct_discount() {
 	return product_discount;
 }
-public void setProduct_discount(Double product_discount) {
+public void setProduct_discount(double product_discount) {
 	this.product_discount = product_discount;
 }
-
-public Double getDiscountPrice() {
+public double getDiscountPrice() {
 	return discountPrice;
 }
-
-
-public void setDiscountPrice(Double discountPrice) {
-	this.discountPrice=discountPrice;
+public void setDiscountPrice(double discountPrice) {
+	this.discountPrice = discountPrice;
 }
-
+public void setProduct_price(double product_price) {
+	this.product_price = product_price;
+}
 public int getProduct_quantity() {
 	return product_quantity;
 }

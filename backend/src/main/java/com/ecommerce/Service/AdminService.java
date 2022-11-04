@@ -14,11 +14,11 @@ public class AdminService {
 AdminRepository repo;
 	 public Product addProduct(Product product)
 	  {
-		  Double discountRate=0.0;
-		  Double a=product.getProduct_price();
-		  Double b=product.getProduct_discount();
+		  double discountRate=0.0;
+		  double a=product.getProduct_price();
+		  double b=product.getProduct_discount();
 		  discountRate=b/100;
-		  Double c=a-(a*discountRate);
+		  double c=a-(a*discountRate);
 		  product.setDiscountPrice(c);
 		  return repo.save(product);
 	  }

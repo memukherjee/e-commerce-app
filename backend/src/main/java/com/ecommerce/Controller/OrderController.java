@@ -50,8 +50,7 @@ public class OrderController {
 		int pay = (int) cartDetails.getTotal();
 		String receipt = RandomStringUtils.randomAlphanumeric(12);
 		
-		RazorpayClient client = new RazorpayClient("rzp_test_3v5Lsd5HIdHyHy","moWNwD6hOzxwsnyUaVjbxARE");
-		
+		RazorpayClient client = new RazorpayClient("key","secreat");		
 		JSONObject ob = new JSONObject();
 		ob.put("amount", pay);
 		ob.put("currency","INR");

@@ -61,7 +61,7 @@ public class UserService {
 			System.out.println(random);
 			obj.king(random, email); // mail
 			v.add(random);
-			v.add(new ResponseEntity<String>(HttpStatus.FOUND));
+			v.add(new ResponseEntity<String>(HttpStatus.OK));
 
 		} else {
 			System.out.println("email not verified");

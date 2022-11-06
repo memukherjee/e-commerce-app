@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,8 @@ import com.ecommerce.Entity.Product;
 import com.ecommerce.Service.UserProductService;
 
 @RestController
-@RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/products")
 public class UserProductController {
 	@Autowired
 	  UserProductService service;

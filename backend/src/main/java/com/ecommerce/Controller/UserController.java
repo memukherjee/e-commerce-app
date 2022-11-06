@@ -67,17 +67,17 @@ public class UserController {
 	//                                   ************************** Forgot password module **********************************
 
 	@PostMapping("/forgotpass")
-	public Vector ForgotPass(@RequestBody objholder str) {
+	public Object ForgotPass(@RequestBody objholder str) {
 		this.email = str.email;
 		System.out.println("forgotpass controller email=" + str.email);
 		forgot = userService.findByEmail(str.email);
 
-		return forgot;
+		return forgot.lastElement();
 
 	}
 
 	@PostMapping("/otp")
-	public Vector otp(@RequestBody objholder str) {
+	public Object otp(@RequestBody objholder str) {
 		Vector votp = new Vector();
 		this.otp = str.otp;
 		if (forgot.contains(otp)) {
@@ -87,17 +87,17 @@ public class UserController {
 			System.out.println("not matched");
 			votp.add(new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE));
 		}
-		return votp;
+		return votp.lastElement();
 
 	}
 
 	@PostMapping("/reset")
-	public Vector reset(@RequestBody objholder str) {
+	public Object reset(@RequestBody objholder str) {
 		System.out.println("reset speaking");
 		System.out.println(str.pass);
 		System.out.println(email);
 		Vector user = userService.findByEmailreset(email, str.pass);
-		return user;
+		return user.lastElement();
 
 	}
 

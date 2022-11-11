@@ -61,7 +61,7 @@ public class UserController {
 		UserData user = userService.findByEmail(obj.email,obj.pass);
 		Vector v = new Vector();
 		if (user != null) {
-			//v.add(user);
+			
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);

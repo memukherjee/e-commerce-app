@@ -32,16 +32,15 @@ public class UserController {
 	String email; // forgotpass_link
 	String otp;
 
-	Vector forgot = new Vector(); // forgotpass_link
+	public Vector forgot = new Vector(); // forgotpass_link
 
 	@Autowired
 	UserService userService;
 
 //                                     *************************signup module**************************** 
 	@PostMapping("/signup")
-	public Vector signup(@Valid @RequestBody UserData userData) {
-		Vector user = new Vector();
-		user = userService.saveDataTODB(userData);
+	public ResponseEntity<Object> signup(@Valid @RequestBody UserData userData) {
+		ResponseEntity<Object> user = userService.saveDataTODB(userData);
 		return user;
 	}
 
@@ -61,7 +60,7 @@ public class UserController {
 		UserData user = userService.findByEmail(obj.email,obj.pass);
 		Vector v = new Vector();
 		if (user != null) {
-			
+			//v.add(user);
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
@@ -74,23 +73,19 @@ public class UserController {
 	public ResponseEntity<String> ForgotPass(@RequestBody objholder str) {
 		this.email = str.email;
 		System.out.println("forgotpass controller email=" + str.email);
-		forgot = userService.findByEmail(str.email);
+		ResponseEntity<String> user = userService.findByEmail(str.email);
 
-		return new ResponseEntity<>("Email Verified", HttpStatus.OK);
+		return user;
 
 	}
 
 	@PostMapping("/otp")
-	public ResponseEntity<String> otp(@RequestBody objholder str) {
-		Vector votp = new Vector();
+	public ResponseEntity<Object> otp(@RequestBody objholder str) {
+		
 		this.otp = str.otp;
-		if (forgot.contains(otp)) {
-			System.out.println("matched");
-			return new ResponseEntity<>("OTP Verified", HttpStatus.OK);
-		} else {
-			System.out.println("not matched");
-			return new ResponseEntity<>("OTP Incorrect", HttpStatus.NOT_FOUND);
-		}
+		
+		return userService.otpservice(str.otp);
+		
 		
 
 	}
@@ -100,8 +95,12 @@ public class UserController {
 		System.out.println("reset speaking");
 		System.out.println(str.pass);
 		System.out.println(email);
-		ResponseEntity<String> user = userService.findByEmailreset(email, str.pass);
-		return user;
+		if(email!=null && otp!=null && otp.equals(userService.random)) {
+		return userService.findByEmailreset(email, str.pass);
+		}else {
+			return new ResponseEntity<>("invalid", HttpStatus.NOT_FOUND);
+		}
+		
 
 	}
 

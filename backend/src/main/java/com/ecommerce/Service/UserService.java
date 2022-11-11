@@ -1,6 +1,7 @@
 package com.ecommerce.Service;
 
-import java.math.BigInteger;
+
+
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +12,24 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.Entity.UserData;
 import com.ecommerce.Repository.UserRepo;
 
+
 @Service
 public class UserService {
+	public String random;
 
 	@Autowired
 	UserRepo userRepo;
 
-	public Vector saveDataTODB(UserData metaData) { // signup module
-		Vector v = new Vector();
+	public ResponseEntity<Object> saveDataTODB(UserData metaData) { // signup module
+		
 		String email = metaData.getEmail();
 		UserData user = userRepo.findByEmail(email);
 		if (user == null) {
-			v.add(userRepo.save(metaData));
-			return v;
+			//v.add(userRepo.save(metaData));
+			return new ResponseEntity<>(userRepo.save(metaData), HttpStatus.OK);
 		} else {
-			v.add("Email Id Already Exist");
-			return v;
+			return new ResponseEntity<>("Email Id Already Exists", HttpStatus.NOT_FOUND);
+			
 		}
 	}
 
@@ -49,39 +52,53 @@ public class UserService {
 
 	}
 
-	public Vector findByEmail(String email) { // forgot password module
+	public ResponseEntity<String> findByEmail(String email) { // forgot password module
 		UserData user = userRepo.findByEmail(email);
 		OtpMail obj = new OtpMail();
 		System.out.println("service=" + user);
-		Vector v = new Vector();
+		
 		if (user != null) {
 			System.out.println("email verified");
 			int otp = (int) (Math.random() * 9999);
-			String random = String.valueOf(otp);
+			random = String.valueOf(otp);
 			System.out.println(random);
 			obj.king(random, email); // mail
-			v.add(random);
-			v.add(new ResponseEntity<String>(HttpStatus.OK));
+			//v.add(random);
+			
+			return (new ResponseEntity<>("Email Verified", HttpStatus.OK));
 
 		} else {
 			System.out.println("email not verified");
-			v.add(new ResponseEntity<String>(HttpStatus.NOT_FOUND));
+			return (new ResponseEntity<>("Email Not Verified", HttpStatus.NOT_FOUND));
 		}
-		return v;
+		
+	}
+	
+	public ResponseEntity<Object> otpservice(String inotp){
+		if(inotp.equals(random)) {
+			System.out.println("matched");
+			return new ResponseEntity<>("OTP Verified", HttpStatus.OK);
+		}else {
+			System.out.println("not matched");
+			return new ResponseEntity<>("OTP Incorrect", HttpStatus.NOT_FOUND);
+		}
+		
+		
+		
 	}
 
-	public Vector findByEmailreset(String email, String pass) {
+	public ResponseEntity<String>findByEmailreset(String email, String pass) {
 		UserData user = userRepo.findByEmail(email);
 		Vector v = new Vector();
 		if (user != null) {
 			System.out.println(user);
 			user.setPass(pass);
 			userRepo.save(user);
-			v.add(new ResponseEntity<String>(HttpStatus.ACCEPTED));
+			return new ResponseEntity<>("Password Changed", HttpStatus.OK);
 		} else {
-			v.add(new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE));
+			return new ResponseEntity<>("Password Not Changed", HttpStatus.NOT_FOUND);
 		}
-		return v;
+		
 
 	}
 

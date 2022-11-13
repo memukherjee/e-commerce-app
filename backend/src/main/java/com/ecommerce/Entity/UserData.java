@@ -32,16 +32,16 @@ public class UserData {
 	private String email;        //user email
 	@Indexed(unique=true)
 	
-	@NotEmpty
+	
 	@Field("address")
 	private String address;      //user address
 	
 	@Field("mob")
-	private int mob;             //user mobile no.
+	private String mob;             //user mobile no.
 	@NotEmpty
 	@Size(min=4,max=8,message="Password should contain minimum 4 character and maximum 8 character")
 	private String pass;         //user password
-	public UserData(String name, String email, String address, int mob, String pass) {
+	public UserData(String name, String email, String address, String mob, String pass) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -71,10 +71,10 @@ public class UserData {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getMob() {
+	public String getMob() {
 		return mob;
 	}
-	public void setMob(int mob) {
+	public void setMob(String mob) {
 		this.mob = mob;
 	}
 	public String getPass() {

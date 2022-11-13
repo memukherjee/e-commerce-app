@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ScreenContext, ScrollContext } from "../../App";
+import logo from "./images/brand-logo.png";
 import NavItem from "../NavItem";
-
-
 
 export default function Navbar() {
   const [navOpen, setNavOpen] = useState(false);
@@ -40,14 +39,14 @@ export default function Navbar() {
     >
       <div className="flex justify-between items-center max-w-1200 mx-auto">
         <a
-          className="nav-brand px-2 flex align-middle gap-x-3 text-xl md:text-2xl"
+          className="nav-brand px-2 flex items-center gap-x-3 text-xl md:text-2xl"
           href="/"
         >
-          <span className="brand-logo flex align-middle">
-            <i className="fa-solid fa-hat-cowboy-side"></i>
-          </span>
+          <div className="brand-logo h-10">
+            <img className="w-full h-full" style={scroll?{filter: "invert(0)"}:{filter: "invert(1)"}} src={logo} alt="brand logo" />
+          </div>
           <span className="brand-name font-pen whitespace-nowrap font-semibold">
-            Oracle Couture
+            Elegant Apparels
           </span>
         </a>
         <button
@@ -84,11 +83,11 @@ export default function Navbar() {
             >
               X
             </span>
-            <NavItem to="/" title="Home" />
-            <NavItem to="/categories" title="Categories" />
-            <NavItem to="/about" title="About" />
-            <NavItem to="/auth" title="Sign Up" />
-            <NavItem to="/contact-us" title="Contact Us" />
+            <NavItem to="/" title="Home" setNavOpen={setNavOpen} />
+            <NavItem to="/categories" title="Categories" setNavOpen={setNavOpen} />
+            <NavItem to="/about" title="About" setNavOpen={setNavOpen} />
+            <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
+            <NavItem to="/contact-us" title="Contact Us" setNavOpen={setNavOpen} />
           </ul>
         </div>
       </div>

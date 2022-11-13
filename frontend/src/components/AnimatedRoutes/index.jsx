@@ -7,23 +7,28 @@ const Home = lazy(() => import("../../pages/Home"));
 const Products = lazy(() => import("../../pages/Products"));
 const Product = lazy(() => import("../../pages/Product"));
 const Auth = lazy(() => import("../../pages/Auth"));
+const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const ContactUs = lazy(() => import("../../pages/ContactUs"));
+const Category = lazy(() => import("../../pages/Category"));
+const NotFound = lazy(() => import("../../pages/404-NotFound"));
 
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <Suspense fallback={<Loader />}>
-      <AnimatePresence>
+    <AnimatePresence>
+      <Suspense fallback={<Loader />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/categories" element={<Category />} />
           <Route path="/product/:pid" element={<Product />} />
           <Route path="/products/:category" element={<Products />} />
-          <Route path="*" element={<Products />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      </AnimatePresence>
-    </Suspense>
+      </Suspense>
+    </AnimatePresence>
   );
 }
 

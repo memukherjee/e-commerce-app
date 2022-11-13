@@ -10,7 +10,7 @@ import features from "../../utils/features";
 
 export default function Home() {
   useEffect(() => {
-    document.title = "Home || Oracle Couture";
+    document.title = "Home || Elegant Apparels";
   }, []);
 
   return (
@@ -18,6 +18,7 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <Header />
       <Trending />

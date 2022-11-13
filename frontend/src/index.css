@@ -1,14 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Sacramento&display=swap');
-cd
-
-body {
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Sacramento&display=swap");
+cd body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
-::-webkit-scrollbar, ::-webkit-scrollbar-track {
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar {
@@ -24,11 +23,20 @@ textarea::-webkit-scrollbar {
   background: #606060;
   border-radius: 100px;
 }
-::-webkit-scrollbar, ::-webkit-scrollbar-track {
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::selection{
+::selection {
   background: #f4a98b;
   color: #000;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"] {
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield !important;
 }

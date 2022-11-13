@@ -4,6 +4,7 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     maxWidth: {
+      50: "50px",
       200: "200px",
       300: "300px",
       450: "450px",
@@ -17,6 +18,8 @@ module.exports = {
       "100vw": "100vw",
     },
     minHeight: {
+      "90vh": "90vh",
+      "100vh": "100vh",
       "3/4": "75%",
       500: "500px",
       200: "200px",
@@ -27,6 +30,9 @@ module.exports = {
       ink: ["Great Vibes", "cursive"],
     },
     extend: {
+      maxHeight: {
+        '500': '500px',
+      },
       fontSize: {
         sm: ".25rem",
         base: ".75rem",
@@ -40,11 +46,13 @@ module.exports = {
       spacing: {
         "1/2": "50%",
         "1/20": "5%",
-        "70vh": "70vh",
+        "35vh": "35vh",
         "40vh": "40vh",
+        "70vh": "70vh",
         "90vh": "90vh",
         "100vh": "100vh",
         400: "400px",
+        500: "500px",
       },
       backdropBlur: {
         xs: '1px',

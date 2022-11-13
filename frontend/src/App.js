@@ -4,17 +4,19 @@ import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AnimatedRoutes from "./components/AnimatedRoutes";
+import "react-toastify/dist/ReactToastify.css";
 
 const MouseOverLinkContext = createContext();
 const MouseOverNavItemContext = createContext();
 const ScrollContext = createContext();
 const ScreenContext = createContext();
+const UserContext = createContext();
 
 function App() {
   const [mouseOverNavItem, setMouseOverNavItem] = useState(false);
   const [mouseOverLink, setMouseOverLink] = useState(false);
   const [scroll, setScroll] = useState(false);
-
+  const [user, setUser] = useState(null);
   const [mobileScreen, setMobileScreen] = useState(false);
 
   useEffect(() => {
@@ -45,22 +47,24 @@ function App() {
 
   return (
     <Router>
-      <ScreenContext.Provider value={mobileScreen}>
-        <ScrollContext.Provider value={scroll}>
-          <MouseOverLinkContext.Provider
-            value={{ mouseOverLink, setMouseOverLink }}
-          >
-            <MouseOverNavItemContext.Provider
-              value={{ mouseOverNavItem, setMouseOverNavItem }}
+      <UserContext.Provider value={{ user, setUser }}>
+        <ScreenContext.Provider value={mobileScreen}>
+          <ScrollContext.Provider value={scroll}>
+            <MouseOverLinkContext.Provider
+              value={{ mouseOverLink, setMouseOverLink }}
             >
-              <Cursor />
-              <Navbar />
-            </MouseOverNavItemContext.Provider>
-            <AnimatedRoutes />
-            <Footer />
-          </MouseOverLinkContext.Provider>
-        </ScrollContext.Provider>
-      </ScreenContext.Provider>
+              <MouseOverNavItemContext.Provider
+                value={{ mouseOverNavItem, setMouseOverNavItem }}
+              >
+                <Cursor />
+                <Navbar />
+              </MouseOverNavItemContext.Provider>
+              <AnimatedRoutes />
+              <Footer />
+            </MouseOverLinkContext.Provider>
+          </ScrollContext.Provider>
+        </ScreenContext.Provider>
+      </UserContext.Provider>
     </Router>
   );
 }
@@ -69,5 +73,6 @@ export {
   MouseOverNavItemContext,
   ScrollContext,
   ScreenContext,
+  UserContext,
 };
 export default App;

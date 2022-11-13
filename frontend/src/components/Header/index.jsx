@@ -63,6 +63,7 @@ export default function Header() {
             to="/categories"
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
+            onClick={() => setMouseOverLink(false)}
           >
             <span>Shop Now</span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
@@ -72,6 +73,7 @@ export default function Header() {
             to="/about"
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
+            onClick={() => setMouseOverLink(false)}
           >
             <span>Know about us </span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>

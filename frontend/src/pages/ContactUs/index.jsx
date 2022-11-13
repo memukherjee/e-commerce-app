@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion as m } from "framer-motion";
 import { MouseOverLinkContext } from "../../App";
 import InputBox from "../../components/InputBox";
@@ -10,6 +10,10 @@ export default function ContactUs() {
 
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
 
+  useEffect(() => {
+    document.title = "Contact Us || Elegant Apparels";
+  }, []);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     console.log(formName, formEmail, formMessage);
@@ -20,6 +24,7 @@ export default function ContactUs() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <div className="contact-form text-center md:text-left w-11/12 mx-auto max-w-500 h-100vh flex justify-center items-center">
         <div className="w-full">

@@ -7,7 +7,7 @@ export default function Footer() {
             <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
               Contact Us
             </h3>
-            <p className="font-normal text-xl text-gray-500">Oracle Couture</p>
+            <p className="font-normal text-xl text-gray-500">Elegant Apparels</p>
             <p className="font-normal text-xl text-gray-500">
               007/S.B. Gorai Road
             </p>
@@ -37,7 +37,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom text-center text-base font-light mt-4">
-          <span>&copy; {new Date().getFullYear()} Oracle Couture</span>
+          <span>&copy; {new Date().getFullYear()} Elegant Apparels</span>
         </div>
       </footer>
     </div>

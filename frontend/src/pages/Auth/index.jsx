@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion as m } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { MouseOverLinkContext, ScreenContext } from "../../App";
 import InputBox from "../../components/InputBox";
 import formBg from "./images/form-bg.jpg";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Auth() {
   const [name, setName] = useState("");
@@ -17,6 +17,10 @@ export default function Auth() {
 
   const mobileScreen = useContext(ScreenContext);
 
+  useEffect(() => {
+    document.title = "Sign Up or Log In || Elegant Apparels";
+  }, []);
+
   const clearForm = () => {
     setName("");
     setEmail("");
@@ -25,23 +29,12 @@ export default function Auth() {
     setConfirmPassword("");
   };
 
-  const toastOptions = {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-  };
-
   const isValidEmail = () => {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const isValid = re.test(String(email).toLowerCase());
     if (!isValid) {
-      toast.error("Not a valid email", toastOptions);
+      toast.error("Not a valid email");
     }
     return isValid;
   };
@@ -53,7 +46,7 @@ export default function Auth() {
     const re = /^((\+91)?|91?|0)?[789][0-9]{9}/;
     const isValid = re.test(String(mobileNo));
     if (!isValid) {
-      toast.error("Not a valid mobile no.", toastOptions);
+      toast.error("Not a valid mobile no.");
     }
     return isValid;
   };
@@ -67,8 +60,7 @@ export default function Auth() {
     const isValid = re.test(String(password));
     if (!isValid) {
       toast.error(
-        "Not a Strong password. Minimum eight characters, at least one letter and one number required.",
-        toastOptions
+        "Not a Strong password. Minimum eight characters, at least one letter and one number required."
       );
     }
     return isValid;
@@ -78,8 +70,8 @@ export default function Auth() {
     e.preventDefault();
     const route = isNewUser ? "/signup" : "/login";
     const data = isNewUser
-      ? { name, email, mobileNo, password }
-      : { email, password };
+      ? { name, email, mobileNo, pass: password }
+      : { email, pass: password };
 
     if (
       isValidEmail() &&
@@ -87,9 +79,8 @@ export default function Auth() {
       isValidPassword() &&
       (isNewUser ? password === confirmPassword : true)
     ) {
-      // console.log(process.env.REACT_APP_API);
       axios
-        .post("http://localhost:8000/api" + route, data, {
+        .post(process.env.REACT_APP_API + route, data, {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
@@ -119,6 +110,7 @@ export default function Auth() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <ToastContainer
         position="top-right"
@@ -213,6 +205,12 @@ export default function Auth() {
             >
               {isNewUser ? "Already a User? Log in" : "New User? Sign Up"}
             </span>
+            <Link
+              to="/forgot-password"
+              className="block mt-2 text-base underline underline-offset-2"
+            >
+              Forgot Password ?
+            </Link>
           </form>
         </div>
       </div>

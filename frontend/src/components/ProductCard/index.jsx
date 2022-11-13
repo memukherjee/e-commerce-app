@@ -6,10 +6,11 @@ export default function ProductCard({
   isTrending,
   setCustomProductStyle,
 }) {
+  const productUrl = `/product/${product.product_id}`;
   return (
     <a
       className="md:w-1/3 flex justify-center"
-      href={product.url}
+      href={productUrl}
     >
       <div
         style={setCustomProductStyle && setCustomProductStyle(index)}
@@ -23,27 +24,27 @@ export default function ProductCard({
             {index + 1}
           </span>
         )}
-        <div className="product-image bg-gray-200 flex justify-center items-center w-full min-h-3/4">
+        <div className="product-image bg-gray-200 flex justify-center items-center w-full h-3/4">
           <img
-            className="object-cover w-full h-full mx-auto"
+            className="object-contain w-full h-full mx-auto"
             loading="lazy"
-            src={product.url}
-            alt={product.name}
+            src={product.product_imageUrl}
+            alt={product.product_name}
           />
         </div>
         <div className="product-details text-black my-4">
           <span
             className="product-name block text-xl whitespace-nowrap text-ellipsis overflow-hidden"
-            title={product.name}
+            title={product.product_name}
           >
-            {product.name}
+            {product.product_name}
           </span>
           <span className="product-price font-normal text-lg flex flex-wrap justify-center gap-1">
             <span className="product-mrp line-through text-red-400">
-              ₹{product.mrp}
+              ₹{product.product_price}
             </span>
             <span className="product-discounted-price text-green-900">
-              ₹{product.price}
+              ₹{product.discountPrice}
             </span>
           </span>
         </div>

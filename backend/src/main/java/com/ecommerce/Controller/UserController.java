@@ -52,9 +52,9 @@ public class UserController {
 	}
 
 	//                               **************************details of user by email**********************
-	@PostMapping("/UserDetails")
-	public ResponseEntity<Object> UserDetails(@RequestBody objholder obj){
-		return userService.UserDetailsFromDB(obj.email);		
+	@GetMapping("/userDetails/{email}")
+	public ResponseEntity<Object> UserDetails(@PathVariable String email){
+		return userService.UserDetailsFromDB(email);		
 	}
 	// ************************* login module*************************
 	

@@ -37,6 +37,14 @@ public class UserService {
 	public UserData getsUserDetailsFromDB(String id) {
 		return userRepo.findAllByid(id);
 	}
+	public ResponseEntity<Object> UserDetailsFromDB(String email) {
+		UserData user= userRepo.findByEmail(email);
+		if(user!=null) {
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+		}
+	}
 
 	public UserData findByEmail(String email, String pass) { // login module
 		UserData user = userRepo.findByEmail(email);

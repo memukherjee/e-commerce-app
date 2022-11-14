@@ -27,7 +27,7 @@ public class UserData {
 	private String name;         //user name
 	
 	
-	@Email(message="Enter a valid email or email id already exist")
+	
 	@Field("email")
 	private String email;        //user email
 	@Indexed(unique=true)
@@ -39,7 +39,6 @@ public class UserData {
 	@Field("mob")
 	private String mob;             //user mobile no.
 	@NotEmpty
-	@Size(min=4,max=8,message="Password should contain minimum 4 character and maximum 8 character")
 	private String pass;         //user password
 	public UserData(String name, String email, String address, String mob, String pass) {
 		super();

@@ -44,13 +44,18 @@ public class UserController {
 		return user;
 	}
 
-//                                 **************************details of user***********************
+//                                 **************************details of user by id***********************
 	@GetMapping("getUserDetails/{id}")
 	public UserData getUserDetails(@PathVariable String id) {
 		UserData user = userService.getsUserDetailsFromDB(id);
 		return user;
 	}
 
+	//                               **************************details of user by email**********************
+	@PostMapping("/UserDetails")
+	public ResponseEntity<Object> UserDetails(@RequestBody objholder obj){
+		return userService.UserDetailsFromDB(obj.email);		
+	}
 	// ************************* login module*************************
 	
 

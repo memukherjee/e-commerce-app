@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.Entity.UserData;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.UserRepo;
+import com.ecommerce.Service.ContactMail;
 import com.ecommerce.Service.UserService;
 
 @RestController
@@ -107,6 +108,18 @@ public class UserController {
 		}
 		
 
+	}
+	//                           **********************************CONTACT***********************
+	
+	@PostMapping("/contact")
+	public  ResponseEntity<String> contact(@RequestBody objholder str){
+		System.out.println("contact speaking");
+		System.out.println(str.name);
+		System.out.println(str.email);
+		System.out.println(str.msg);
+		ContactMail.king(str.name,str.email);
+		return ContactMail.queen(str.name,str.email,str.msg);
+		
 	}
 
 }

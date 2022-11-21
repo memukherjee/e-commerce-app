@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.Entity.UserData;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.UserRepo;
+import com.ecommerce.Service.ContactMail;
 import com.ecommerce.Service.UserService;
 
 @RestController
@@ -51,28 +52,27 @@ public class UserController {
 		return user;
 	}
 
-	//                               **************************details of user by email**********************
+	// **************************details of user by email**********************
 	@GetMapping("/userDetails/{email}")
-	public ResponseEntity<Object> UserDetails(@PathVariable String email){
-		return userService.UserDetailsFromDB(email);		
+	public ResponseEntity<Object> UserDetails(@PathVariable String email) {
+		return userService.UserDetailsFromDB(email);
 	}
 	// ************************* login module*************************
-	
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> MatchData(@RequestBody objholder obj){
+	public ResponseEntity<Object> MatchData(@RequestBody objholder obj) {
 		System.out.println("login controller email and pass=" + obj.email + " : " + obj.pass);
-		UserData user = userService.findByEmail(obj.email,obj.pass);
-		Vector v = new Vector();
+		UserData user = userService.findByEmail(obj.email, obj.pass);
+
 		if (user != null) {
-			//v.add(user);
+
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
-		
+
 	}
 
-	//                                   ************************** Forgot password module **********************************
+	// ************************** Forgot password module **************
 
 	@PostMapping("/forgotpass")
 	public ResponseEntity<String> ForgotPass(@RequestBody objholder str) {
@@ -86,12 +86,10 @@ public class UserController {
 
 	@PostMapping("/otp")
 	public ResponseEntity<Object> otp(@RequestBody objholder str) {
-		
+
 		this.otp = str.otp;
-		
+
 		return userService.otpservice(str.otp);
-		
-		
 
 	}
 
@@ -100,12 +98,22 @@ public class UserController {
 		System.out.println("reset speaking");
 		System.out.println(str.pass);
 		System.out.println(email);
-		if(email!=null && otp!=null && otp.equals(userService.random)) {
-		return userService.findByEmailreset(email, str.pass);
-		}else {
+		if (email != null && otp != null && otp.equals(userService.random)) {
+			return userService.findByEmailreset(email, str.pass);
+		} else {
 			return new ResponseEntity<>("invalid", HttpStatus.NOT_FOUND);
 		}
-		
+
+	}
+	// ********************************** CONTACT *******************************
+
+	@PostMapping("/contact")
+	public ResponseEntity<String> contact(@RequestBody objholder str) {
+		System.out.println("contact speaking");
+		System.out.println(str.name);
+		System.out.println(str.email);
+		System.out.println(str.msg);
+		return ContactMail.king(str.name, str.email, str.msg);
 
 	}
 

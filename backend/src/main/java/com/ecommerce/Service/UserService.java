@@ -24,6 +24,7 @@ public class UserService {
 		
 		String email = metaData.getEmail();
 		UserData user = userRepo.findByEmail(email);
+		metaData.setAvatar("https://avatars.dicebear.com/api/initials/"+metaData.getName()+".svg");
 		if (user == null) {
 			//v.add(userRepo.save(metaData));
 			return new ResponseEntity<>(userRepo.save(metaData), HttpStatus.OK);

@@ -40,6 +40,14 @@ public class UserData {
 	private String mob;             //user mobile no.
 	@NotEmpty
 	private String pass;         //user password
+	
+	private String avatar;      //user avatar
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 	public UserData(String name, String email, String address, String mob, String pass) {
 		super();
 		this.name = name;

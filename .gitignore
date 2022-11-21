@@ -60,6 +60,8 @@ ivy-cache
 argfile*
 activemq-data/
 classes/
+/src/main/resources/application.properties
+application.properties
 
 # Log files
 jxl.log
@@ -78,7 +80,6 @@ buildSrc/build
 /integration-tests/build
 /src/asciidoc/build
 spring-test/test-output/
-application.properties
 
 # Maven artifacts
 target/

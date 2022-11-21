@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ContactMail {
-	public static void king(String name, String email) {
+	public static ResponseEntity<String> king(String name, String email, String msg) {
 
 		System.out.println("sending mail...");
 
@@ -24,6 +24,7 @@ public class ContactMail {
 		String from = "in.elegantapparels@gmail.com";
 
 		sendEmail(message, subject, to, from);
+		return queen(name,email,msg);
 	}
 	public static ResponseEntity<String> queen(String name,String email,String msg) {
 		String message="Name: "+name+"\nEmail: "+email+"\nMessage: "+msg;

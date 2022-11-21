@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { motion as m } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
-import { MouseOverLinkContext, ScreenContext } from "../../App";
+import { MouseOverLinkContext, ScreenContext, UserContext } from "../../App";
 import InputBox from "../../components/InputBox";
 import formBg from "./images/form-bg.jpg";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setCookie } from "../../utils/cookie";
 
 export default function Auth() {
   const [name, setName] = useState("");
@@ -20,6 +21,9 @@ export default function Auth() {
   useEffect(() => {
     document.title = "Sign Up or Log In || Elegant Apparels";
   }, []);
+
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const clearForm = () => {
     setName("");
@@ -66,11 +70,33 @@ export default function Auth() {
     return isValid;
   };
 
+  const handelSignUp = (res) => {
+    // console.log(res.data);
+    if (res.status === 200) {
+      toast.success("Account created successfully");
+      setUser(res.data);
+      setCookie("user", res.data.email, 7);
+      clearForm();
+      navigate("/");
+    }
+  };
+
+  const handelLogin = (res) => {
+    console.log(res);
+    if (res.status === 200) {
+      toast.success("Logged in successfully");
+      setUser(res.data);
+      setCookie("user", res.data.email, 7);
+      clearForm();
+      navigate("/");
+    }
+  }
+
   const handelAuthForm = (e) => {
     e.preventDefault();
     const route = isNewUser ? "/signup" : "/login";
     const data = isNewUser
-      ? { name, email, mobileNo, pass: password }
+      ? { name, email, address: null, mob: mobileNo, pass: password }
       : { email, pass: password };
 
     if (
@@ -89,7 +115,12 @@ export default function Auth() {
           responseType: "json",
         })
         .then((res) => {
-          console.log(res);
+          if (isNewUser) {
+            handelSignUp(res);
+          }
+          else{
+            handelLogin(res);
+          }
           // if (res.data.success) {
           //   console.log(res.data.message);
           //   clearForm();
@@ -98,7 +129,8 @@ export default function Auth() {
           // }
         })
         .catch((err) => {
-          console.error(err.message);
+          console.error(err);
+          toast.error(err.response.data);
         });
     }
   };
@@ -192,6 +224,7 @@ export default function Auth() {
               type="submit"
               onMouseOver={() => setMouseOverLink(true)}
               onMouseOut={() => setMouseOverLink(false)}
+              onClick={() => setMouseOverLink(false)}
               className="bg-black w-full text-white text-xl p-1 md:p-2 md:my-4 cursor-none"
             >
               {isNewUser ? "Sign Up" : "Log In"}

@@ -1,5 +1,5 @@
 import { motion as m } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ProductCard from "../../components/ProductCard";
@@ -10,11 +10,15 @@ export default function Products() {
   const sampleProduct = {
     product_id: 6,
     product_imageUrl:
-      "https://freepngimg.com/save/28530-nike-shoes-transparent/1464x1533",
-    product_name: "Adidas Shoes",
+      "https://via.placeholder.com/720x1080?text=Product+Image",
+    product_name: "Product Name",
     product_price: 300000,
     discountPrice: 199999,
   };
+
+  useEffect(() => {
+    document.title = `${category} || Elegant Apparels`;
+  }, [category]);
 
   const [filterTabOpen, setFilterTabOpen] = useState(false);
   return (

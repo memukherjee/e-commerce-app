@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { ScreenContext, ScrollContext } from "../../App";
+import { Link } from "react-router-dom";
+import { ScreenContext, ScrollContext, UserContext } from "../../App";
 import logo from "./images/brand-logo.png";
 import NavItem from "../NavItem";
 
 export default function Navbar() {
   const [navOpen, setNavOpen] = useState(false);
   const mobileScreen = useContext(ScreenContext);
+  const { user } = useContext(UserContext);
 
   const scroll = useContext(ScrollContext);
 
@@ -38,17 +40,22 @@ export default function Navbar() {
       className="transition-colors duration-500 fixed top-0 w-full z-20"
     >
       <div className="flex justify-between items-center max-w-1200 mx-auto">
-        <a
+        <Link
           className="nav-brand px-2 flex items-center gap-x-3 text-xl md:text-2xl"
-          href="/"
+          to="/"
         >
           <div className="brand-logo h-10">
-            <img className="w-full h-full" style={scroll?{filter: "invert(0)"}:{filter: "invert(1)"}} src={logo} alt="brand logo" />
+            <img
+              className="w-full h-full"
+              style={scroll ? { filter: "invert(0)" } : { filter: "invert(1)" }}
+              src={logo}
+              alt="brand logo"
+            />
           </div>
           <span className="brand-name font-pen whitespace-nowrap font-semibold">
             Elegant Apparels
           </span>
-        </a>
+        </Link>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
@@ -79,15 +86,27 @@ export default function Navbar() {
           <ul className="nav-items relative h-full flex flex-col md:flex-row justify-evenly md:justify-center items-center md:gap-x-5 text-xl md:text-lg">
             <span
               onClick={() => setNavOpen(false)}
-              className="cross-btn absolute md:hidden top-10 right-10 font-normal focus:text-red-500"
+              className="cross-btn cursor-pointer absolute md:hidden top-10 right-10 font-normal focus:text-red-500"
             >
               X
             </span>
             <NavItem to="/" title="Home" setNavOpen={setNavOpen} />
-            <NavItem to="/categories" title="Categories" setNavOpen={setNavOpen} />
+            <NavItem
+              to="/categories"
+              title="Categories"
+              setNavOpen={setNavOpen}
+            />
             <NavItem to="/about" title="About" setNavOpen={setNavOpen} />
-            <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
-            <NavItem to="/contact-us" title="Contact Us" setNavOpen={setNavOpen} />
+            {user ? (
+              <NavItem to="/account" title="Account" setNavOpen={setNavOpen} />
+            ) : (
+              <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
+            )}
+            <NavItem
+              to="/contact-us"
+              title="Contact Us"
+              setNavOpen={setNavOpen}
+            />
           </ul>
         </div>
       </div>

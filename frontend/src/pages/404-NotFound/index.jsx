@@ -9,10 +9,16 @@ function NotFound() {
   const circle4 = useRef(null);
   const circle5 = useRef(null);
 
+  const getRandom = () => {
+    const min = 0.2;
+    const max = 0.8;
+    return Math.random() * (max - min) + min;
+  }
+
   useEffect(() => {
     document.title = "404 Not Found";
-    const w = window.innerWidth * 0.8;
-    const h = window.innerHeight * 0.8;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
     const bubbleMove = setInterval(() => {
       const randomColor =
         "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -21,16 +27,16 @@ function NotFound() {
       circle3.current.style.backgroundColor = randomColor;
       circle4.current.style.backgroundColor = randomColor;
       circle5.current.style.backgroundColor = randomColor;
-      circle1.current.style.left = `${Math.random() * w}px`;
-      circle1.current.style.top = `${Math.random() * h}px`;
-      circle2.current.style.left = `${Math.random() * w}px`;
-      circle2.current.style.top = `${Math.random() * h}px`;
-      circle3.current.style.left = `${Math.random() * w}px`;
-      circle3.current.style.top = `${Math.random() * h}px`;
-      circle4.current.style.left = `${Math.random() * w}px`;
-      circle4.current.style.top = `${Math.random() * h}px`;
-      circle5.current.style.left = `${Math.random() * w}px`;
-      circle5.current.style.top = `${Math.random() * h}px`;
+      circle1.current.style.left = `${getRandom() * w}px`;
+      circle1.current.style.top = `${getRandom() * h}px`;
+      circle2.current.style.left = `${getRandom() * w}px`;
+      circle2.current.style.top = `${getRandom() * h}px`;
+      circle3.current.style.left = `${getRandom() * w}px`;
+      circle3.current.style.top = `${getRandom() * h}px`;
+      circle4.current.style.left = `${getRandom() * w}px`;
+      circle4.current.style.top = `${getRandom() * h}px`;
+      circle5.current.style.left = `${getRandom() * w}px`;
+      circle5.current.style.top = `${getRandom() * h}px`;
     }, 1000);
     return () => {
       clearInterval(bubbleMove);
@@ -43,7 +49,7 @@ function NotFound() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-11/12 text-center"
+      className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center"
     >
       <h1 className="font-bold text-8xl text-gray-400">
         404 Not Found

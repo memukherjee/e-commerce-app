@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AnimatedRoutes from "./components/AnimatedRoutes";
 import "react-toastify/dist/ReactToastify.css";
+import { getCookie } from "./utils/cookie";
+import axios from "axios";
 
 const MouseOverLinkContext = createContext();
 const MouseOverNavItemContext = createContext();
@@ -29,6 +31,26 @@ function App() {
       }
     };
     window.addEventListener("scroll", changeNavbarColor);
+
+    // User Cookie setting
+    const userCookie = getCookie("user");
+    console.log(userCookie);
+    if (userCookie) {
+      axios
+        .get(process.env.REACT_APP_API + "/userDetails/" + userCookie)
+        .then((res) => {
+          typeof res.data.profilePic !== "undefined"
+            ? setUser(res.data)
+            : setUser({
+                ...res.data,
+                profilePic: `https://avatars.dicebear.com/api/initials/${res.data.name}.svg`,
+              });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
     // Screen size
     const handleResize = () => {

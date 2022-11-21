@@ -30,6 +30,13 @@ module.exports = {
       ink: ["Great Vibes", "cursive"],
     },
     extend: {
+      transitionDuration: {
+        '0': '0ms',
+        '900': '900ms',
+      },
+      scale: {
+        '300': '3',
+      },
       maxHeight: {
         '500': '500px',
       },
@@ -45,6 +52,8 @@ module.exports = {
       },
       spacing: {
         "1/2": "50%",
+        "32%": "32%",
+        "23%": "23%",
         "1/20": "5%",
         "35vh": "35vh",
         "40vh": "40vh",

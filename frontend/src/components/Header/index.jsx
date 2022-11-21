@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { MouseOverLinkContext, ScreenContext } from "../../App";
+import AnimatedText from "../AnimatedText";
 import Banner from "../Banner";
 
 export default function Header() {
@@ -48,14 +49,15 @@ export default function Header() {
             }
             className="text-3xl w-full md:text-9xl font-black m-0 inline z-10 text-cyan-900"
           >
-            Wear the best.
+            <AnimatedText text="Wear the best." direction="y" size="large" align={mobileScreen?"center":""} />
           </h1>
-          <p className="font-light text-lg mt-8 md:mt-0">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima illo
+          <span className="font-light text-lg mt-8 md:mt-0">
+            <AnimatedText text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima illo
             eaque cupiditate in asperiores tempora beatae inventore autem, eius
             vitae libero, ullam placeat soluta. Temporibus provident cupiditate
-            atque. Deserunt, repellendus?
-          </p>
+            atque." align={mobileScreen?"center":""}/>
+            
+          </span>
         </div>
         <div className="text-white flex flex-row md:flex-col w-fit z-10">
           <Link

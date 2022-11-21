@@ -56,7 +56,7 @@ export default function Trending() {
     axios
       .get(`${process.env.REACT_APP_API}/products/trending`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setTrendingProducts(res.data);
       })
       .catch((err) => console.log(err));
@@ -75,6 +75,7 @@ export default function Trending() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
+        viewport={{ once: true }}
       >
         <h1 className="text-xl font-medium mx-auto mb-2 text-cyan-900">
           Trending Products

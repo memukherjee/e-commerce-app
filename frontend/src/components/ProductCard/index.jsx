@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({
   product,
@@ -8,10 +8,7 @@ export default function ProductCard({
 }) {
   const productUrl = `/product/${product.product_id}`;
   return (
-    <a
-      className="md:w-1/3 flex justify-center"
-      href={productUrl}
-    >
+    <Link className="md:w-1/3 flex justify-center" to={productUrl}>
       <div
         style={setCustomProductStyle && setCustomProductStyle(index)}
         className="product-card relative flex-wrap w-11/12 max-w-300 h-400 px-4 py-5 box-border hover:shadow-lg hover:shadow-gray-500 transition-all duration-300 ease-in-out"
@@ -49,6 +46,6 @@ export default function ProductCard({
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

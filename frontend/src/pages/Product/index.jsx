@@ -1,5 +1,5 @@
 import { motion as m } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Product() {
@@ -15,6 +15,10 @@ export default function Product() {
   exercitationem quidem voluptatem quos quas. Quisquam, quae. Quisquam
   voluptas, quod, quia, voluptate quae voluptates quibusdam
   exercitationem quidem voluptatem quos quas. Quisquam, quae.`;
+
+  useEffect(() => {
+    document.title = `${pid} || Elegant Apparels`;
+  }, [pid]);
 
   const [expandDetails, setExpandDetails] = useState(false);
 

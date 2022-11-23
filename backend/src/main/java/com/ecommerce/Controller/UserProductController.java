@@ -30,7 +30,7 @@ public class UserProductController {
 	 
 /*Searching the product based on product id.........................*/
 	 
-	 @GetMapping("/findAllProduct/{product_id}")
+	 @GetMapping("/getProduct/{product_id}")
 		public Product getProduct(@PathVariable String product_id){
 			return service.getProductById(product_id);
 		}

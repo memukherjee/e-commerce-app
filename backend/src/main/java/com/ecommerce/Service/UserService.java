@@ -5,8 +5,10 @@ package com.ecommerce.Service;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.Entity.UserData;
@@ -19,12 +21,18 @@ public class UserService {
 
 	@Autowired
 	UserRepo userRepo;
+	
+	BCryptPasswordEncoder PasswordEncoder;
+	
 
 	public ResponseEntity<Object> saveDataTODB(UserData metaData) { // signup module
 		
 		String email = metaData.getEmail();
 		UserData user = userRepo.findByEmail(email);
 		metaData.setAvatar("https://avatars.dicebear.com/api/initials/"+metaData.getName()+".svg");
+		this.PasswordEncoder=new BCryptPasswordEncoder();
+		String encodedPassword=this.PasswordEncoder.encode(metaData.getPass());
+		metaData.setPass(encodedPassword);
 		if (user == null) {
 			//v.add(userRepo.save(metaData));
 			return new ResponseEntity<>(userRepo.save(metaData), HttpStatus.OK);
@@ -52,8 +60,10 @@ public class UserService {
 		System.out.println("service=" + user);
 
 		if (user != null) {
-			String locpass = user.getPass();
-			if (locpass.equals(pass)) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
+			//encoder.matches(pass, user.getPass());  
+			//String locpass = user.getPass();
+			if (encoder.matches(pass, user.getPass())) {
 				return user;
 			}
 		}

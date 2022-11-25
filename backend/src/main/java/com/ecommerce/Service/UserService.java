@@ -111,7 +111,10 @@ public class UserService {
 		Vector v = new Vector();
 		if (user != null) {
 			System.out.println(user);
-			user.setPass(pass);
+			this.PasswordEncoder=new BCryptPasswordEncoder();
+			String encodedPassword=this.PasswordEncoder.encode(pass);
+			user.setPass(encodedPassword);
+			//user.setPass(pass);
 			userRepo.save(user);
 			return new ResponseEntity<>("Password Changed", HttpStatus.OK);
 		} else {

@@ -31,7 +31,7 @@ public class UserService {
 		UserData user = userRepo.findByEmail(email);
 		metaData.setAvatar("https://avatars.dicebear.com/api/initials/"+metaData.getName()+".svg");
 		this.PasswordEncoder=new BCryptPasswordEncoder();
-		String encodedPassword=this.PasswordEncoder.encode(metaData.getPass());
+        String encodedPassword=this.PasswordEncoder.encode(metaData.getPass());
 		metaData.setPass(encodedPassword);
 		if (user == null) {
 			//v.add(userRepo.save(metaData));
@@ -60,7 +60,7 @@ public class UserService {
 		System.out.println("service=" + user);
 
 		if (user != null) {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
+		    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
 			//encoder.matches(pass, user.getPass());  
 			//String locpass = user.getPass();
 			if (encoder.matches(pass, user.getPass())) {
@@ -112,7 +112,7 @@ public class UserService {
 		if (user != null) {
 			System.out.println(user);
 			this.PasswordEncoder=new BCryptPasswordEncoder();
-			String encodedPassword=this.PasswordEncoder.encode(pass);
+            String encodedPassword=this.PasswordEncoder.encode(pass);
 			user.setPass(encodedPassword);
 			//user.setPass(pass);
 			userRepo.save(user);

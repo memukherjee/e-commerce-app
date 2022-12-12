@@ -61,7 +61,7 @@ argfile*
 activemq-data/
 classes/
 
-application.properties
+
 
 # Log files
 jxl.log

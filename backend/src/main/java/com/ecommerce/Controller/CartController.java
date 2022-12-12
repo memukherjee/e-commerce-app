@@ -16,7 +16,7 @@ import com.ecommerce.Service.CartService;
 
 
 @RestController
-@RequestMapping("/addToCart")
+@RequestMapping("api/addToCart")
 public class CartController {
 
 	@Autowired

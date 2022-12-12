@@ -60,7 +60,7 @@ ivy-cache
 argfile*
 activemq-data/
 classes/
-/src/main/resources/application.properties
+
 application.properties
 
 # Log files

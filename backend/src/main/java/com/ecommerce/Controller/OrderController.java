@@ -21,7 +21,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("api/order")
 public class OrderController {
 	
 	@Autowired

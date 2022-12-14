@@ -10,6 +10,7 @@ import com.ecommerce.Entity.Product;
 import com.ecommerce.Repository.AdminRepository;
 @Service
 public class AdminService {
+	
 @Autowired
 AdminRepository repo;
 	 public Product addProduct(Product product)

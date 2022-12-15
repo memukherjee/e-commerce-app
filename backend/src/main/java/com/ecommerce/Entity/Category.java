@@ -15,11 +15,11 @@ public class Category {
 		this.category_name = category_name;
 		this.category_image = category_image;
 	}
-	public Category( String category_name, String category_image) {
-		super();
-		this.category_name = category_name;
-		this.category_image = category_image;
-	}
+//	public Category( String category_name, String category_image) {
+//		super();
+//		this.category_name = category_name;
+//		this.category_image = category_image;
+//	}
 	
 	public String getCategory_id() {
 		return category_id;

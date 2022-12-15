@@ -17,12 +17,7 @@ public class EcommerceApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(EcommerceApplication.class, args);
 		
-		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-				"cloud_name", "dbziwyqwd",
-				"api_key", "917479111298556",
-				"api_secret", "rrKP00LNoa1BMXUNh_duTXiPrE8",
-				"secure", true));
-		
+
 		
 	}
 

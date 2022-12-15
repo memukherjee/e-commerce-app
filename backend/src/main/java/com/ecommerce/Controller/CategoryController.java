@@ -30,27 +30,28 @@ public class CategoryController {
 
 	@Autowired
 	CategoryService categoryservice;
-	@Autowired
-	CloudinaryController cloudinaryController;
 	
-	@PostMapping("/addCategory")
-	 public ResponseEntity<Category> Categoryadd(@RequestBody MultipartFile image,@RequestBody String category) throws IOException{
-		String image_url=cloudinaryController.upload(image);
-		return new ResponseEntity<>(categoryservice.CategoryAdd(new Category(category,image_url)),HttpStatus.OK);
-	}
+	
+//	@PostMapping("/addCategory")
+//	 public ResponseEntity<Category> Categoryadd(@RequestBody MultipartFile image,@RequestBody String category) throws IOException{
+//		String image_url=cloudinaryController.upload(image);
+//		return new ResponseEntity<>(categoryservice.CategoryAdd(new Category(category,image_url)),HttpStatus.OK);
+//	}
+	
+	
 //		Map<Category, String> s=categoryservice.addCategory(multipartFile,category);
 //		return new ResponseEntity<Map<Category,String>>(new HttpHeaders(),HttpStatus.OK);
 //		}
 	
 	
-//	@PostMapping("/addCategory")
-//	public Category addCategory(@RequestBody Category category)
-//	{
-//		return categoryservice.CategoryAdd(category);
-//	}
+	@PostMapping("/addCategory")
+	public Category addCategory(@RequestBody Category category)
+	{
+		return categoryservice.CategoryAdd(category);
+	}
  
 	
-	@GetMapping("/GetAllCategory")
+	@GetMapping("/getAllCategory")
 	public List<Category> getAllCategories()
 	{
 		return categoryservice.getAll();

@@ -58,7 +58,6 @@ public class CartService {
             prod.add(product.getProduct_discount());
             prod.add(product.getDiscountPrice());
             prod.add(shoppingCart.getCart_quantity());
-            prod.add(product.getProduct_imageUrl());
 
             productList.add(prod);
 

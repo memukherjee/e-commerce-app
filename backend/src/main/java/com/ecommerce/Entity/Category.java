@@ -1,8 +1,11 @@
 package com.ecommerce.Entity;
 
 import org.springframework.data.annotation.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Document(collection = "category")
 public class Category {
     @Id

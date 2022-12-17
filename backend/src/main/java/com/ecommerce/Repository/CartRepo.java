@@ -8,13 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.ecommerce.Entity.ShoppingCart;
 
-
-
 @Repository
-public interface CartRepo extends MongoRepository<ShoppingCart, String>{
+public interface CartRepo extends MongoRepository<ShoppingCart, String> {
 
-	@Query("{user_id: ?0}")
-	ArrayList<ShoppingCart> findByuser_id(String user_id);
+    @Query("{user_id: ?0}")
+    ArrayList<ShoppingCart> findByuser_id(String user_id);
 
-	
 }

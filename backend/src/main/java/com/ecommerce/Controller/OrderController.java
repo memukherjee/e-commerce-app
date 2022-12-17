@@ -23,58 +23,52 @@ import com.razorpay.RazorpayException;
 @RestController
 @RequestMapping("api/order")
 public class OrderController {
-	
-	@Autowired
-	private CartService cartService;
-	
-	@Autowired
-	private OrderService orderService;
-	
-	@GetMapping("/checkQuantity/{user_id}")
-	public String checkQuantity(@PathVariable String user_id)
-	{
-		
-		return orderService.checkQuantityService(user_id);
-	}
-	
-	
-	//make payment get t_id ***********************************
-	
-	@PostMapping("/payment/{user_id}")
-	@ResponseBody
-	public String paymentOrder(@PathVariable String user_id) throws RazorpayException
-	{
-		
-	    CartDetails cartDetails=cartService.displayAllCartService(user_id);
-		
-		int pay = (int) cartDetails.getTotal();
-		String receipt = RandomStringUtils.randomAlphanumeric(12);
-		
-		RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ","sUQ3F3PoY3RK2ODu4N1tU6e1");		
-		JSONObject ob = new JSONObject();
-		ob.put("amount", pay);
-		ob.put("currency","INR");
-		ob.put("receipt", receipt);
-		
-		//creating order
-		
-		Order order =client.Orders.create(ob);
-		return order.toString();
-	}
 
-	//place order *************************************************
-	
-	@GetMapping("/placeOrder/{user_id}/{t_id}")
-	public OrderDetails addOrderDetails(@PathVariable String user_id,@PathVariable String t_id) 
-	{
-		return orderService.showAll(user_id,t_id);
-	}
-	
-	//show all ordered products ******************************************
-	@GetMapping("/showOrder/{user_id}")
-	public OrderDetails showOrderDetails(@PathVariable String user_id)
-	{
-		return orderService.getOrderDetails(user_id);
-	}
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/checkQuantity/{user_id}")
+    public String checkQuantity(@PathVariable String user_id) {
+
+        return orderService.checkQuantityService(user_id);
+    }
+
+    // make payment get t_id ***********************************
+
+    @PostMapping("/payment/{user_id}")
+    @ResponseBody
+    public String paymentOrder(@PathVariable String user_id) throws RazorpayException {
+
+        CartDetails cartDetails = cartService.displayAllCartService(user_id);
+
+        int pay = (int) cartDetails.getTotal();
+        String receipt = RandomStringUtils.randomAlphanumeric(12);
+
+        RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ", "sUQ3F3PoY3RK2ODu4N1tU6e1");
+        JSONObject ob = new JSONObject();
+        ob.put("amount", pay);
+        ob.put("currency", "INR");
+        ob.put("receipt", receipt);
+
+        // creating order
+
+        Order order = client.Orders.create(ob);
+        return order.toString();
+    }
+
+    // place order *************************************************
+
+    @GetMapping("/placeOrder/{user_id}/{t_id}")
+    public OrderDetails addOrderDetails(@PathVariable String user_id, @PathVariable String t_id) {
+        return orderService.showAll(user_id, t_id);
+    }
+
+    // show all ordered products ******************************************
+    @GetMapping("/showOrder/{user_id}")
+    public OrderDetails showOrderDetails(@PathVariable String user_id) {
+        return orderService.getOrderDetails(user_id);
+    }
 }
-

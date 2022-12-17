@@ -20,20 +20,18 @@ import com.ecommerce.Service.CloudinaryService;
 @RequestMapping("api/cloudinary")
 public class CloudinaryController {
 
-	@Autowired
-	CloudinaryService cloudinaryService;
-	
-	@PostMapping("/upload")
-	public String upload(@RequestParam MultipartFile multipartFile)throws IOException
-	{
-		Map result=cloudinaryService.upload(multipartFile);
-		return (String) result.get("url");
-	}
-	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Map> delete(@PathVariable("id") String id)throws IOException
-	{
-		Map result=cloudinaryService.delete(id);
-		return new ResponseEntity<Map>(result, HttpStatus.OK);
-	}
+    @Autowired
+    CloudinaryService cloudinaryService;
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam MultipartFile multipartFile) throws IOException {
+        Map result = cloudinaryService.upload(multipartFile);
+        return (String) result.get("url");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map> delete(@PathVariable("id") String id) throws IOException {
+        Map result = cloudinaryService.delete(id);
+        return new ResponseEntity<Map>(result, HttpStatus.OK);
+    }
 }

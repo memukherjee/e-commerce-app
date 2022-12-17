@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import com.ecommerce.Entity.OrderDetails;
 
 @Repository
-public interface OrderRepo extends MongoRepository<OrderDetails, String>{
+public interface OrderRepo extends MongoRepository<OrderDetails, String> {
 
-	@Query("{user_id: ?0}")
-	OrderDetails findAllOrder(String user_id);
+    @Query("{user_id: ?0}")
+    OrderDetails findAllOrder(String user_id);
 
 }

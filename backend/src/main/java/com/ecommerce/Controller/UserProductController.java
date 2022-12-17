@@ -23,45 +23,44 @@ import com.ecommerce.Service.UserProductService;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/products")
 public class UserProductController {
-	@Autowired
-	  UserProductService service;
- 
+    @Autowired
+    UserProductService service;
 
-	 
-/*Searching the product based on product id.........................*/
-	 
-	 @GetMapping("/getProduct/{product_id}")
-		public Product getProduct(@PathVariable String product_id){
-			return service.getProductById(product_id);
-		}
-	
-/*Getting all the trending products.........................*/
-	 
-	 @GetMapping("/trending")
-	 public List<Product> TrendingProducts(){
-		 return service.findTrending();
-	 }
-	 
-/*Searching product by category....................*/	 
-	 @GetMapping("/product_category/{product_category}")
-	 public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String product_category,@RequestParam(defaultValue = "0") Integer pageNo,
-				@RequestParam(defaultValue = "5") Integer pageSize){
-			List<Product> list=service.getProductByCategory(product_category,pageNo,pageSize);
-			return new ResponseEntity<List<Product>>(list,new HttpHeaders(),HttpStatus.OK);}
-		
-/*Searching product by product name............................*/
-	 
-		@GetMapping("/product_name/{product_name}")
-		 public List<Product> getProductByName(@PathVariable String product_name){
-				return service.getProductByName(product_name);
-				
-		}
-		
-		@GetMapping("/getAllProduct")
-		public ResponseEntity<List<Product>> getProduct(@RequestParam(defaultValue = "0") Integer pageNo,
-				@RequestParam(defaultValue = "5") Integer pageSize){
-			List<Product> list=service.getAllProduct(pageNo,pageSize);
-			return new ResponseEntity<List<Product>>(list,new HttpHeaders(),HttpStatus.OK);
-		}
+    /* Searching the product based on product id......................... */
+
+    @GetMapping("/getProduct/{product_id}")
+    public Product getProduct(@PathVariable String product_id) {
+        return service.getProductById(product_id);
+    }
+
+    /* Getting all the trending products......................... */
+
+    @GetMapping("/trending")
+    public List<Product> TrendingProducts() {
+        return service.findTrending();
+    }
+
+    /* Searching product by category.................... */
+    @GetMapping("/product_category/{product_category}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String product_category,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize) {
+        List<Product> list = service.getProductByCategory(product_category, pageNo, pageSize);
+        return new ResponseEntity<List<Product>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    /* Searching product by product name............................ */
+
+    @GetMapping("/product_name/{product_name}")
+    public List<Product> getProductByName(@PathVariable String product_name) {
+        return service.getProductByName(product_name);
+
+    }
+
+    @GetMapping("/getAllProduct")
+    public ResponseEntity<List<Product>> getProduct(@RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize) {
+        List<Product> list = service.getAllProduct(pageNo, pageSize);
+        return new ResponseEntity<List<Product>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
 }
-

@@ -1,6 +1,5 @@
 package com.ecommerce.Controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import com.ecommerce.Entity.Category;
 import com.ecommerce.Entity.Product;
@@ -52,8 +50,7 @@ public class CategoryController {
     	Category categoryJson= categoryservice.getJson(category,file);
     	return categoryJson;
     }
-    
-    
+
     @GetMapping("/getAllCategory")
     public List<Category> getAllCategories() {
         return categoryservice.getAll();

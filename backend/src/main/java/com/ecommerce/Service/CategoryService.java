@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.validator.cfg.context.ReturnValueConstraintMappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,18 +25,9 @@ public class CategoryService {
     public List<Category> getAll() {
         return repo.findAll();
     }
-
-//	public Map<Category, String> addCategory(MultipartFile multipartFile,Category category) {
-//		
-//		return repo.save(multipartFile,category);
-//	}
-
-//    public Category CategoryAdd(Category category) {
-//        return repo.save(category);
-//    }
     
     public Category getJson(String category, MultipartFile file) throws IOException {
-    	Category categoryJson= new Category(category, category, category);
+    	Category categoryJson= new Category(category, category);
     	try {
     		ObjectMapper objectMapper= new ObjectMapper();
     		categoryJson=objectMapper.readValue(category, Category.class);
@@ -51,3 +41,13 @@ public class CategoryService {
     	return categoryJson;
     }
 }
+
+
+//	public Map<Category, String> addCategory(MultipartFile multipartFile,Category category) {
+//		
+//		return repo.save(multipartFile,category);
+//	}
+
+//    public Category CategoryAdd(Category category) {
+//        return repo.save(category);
+//    }

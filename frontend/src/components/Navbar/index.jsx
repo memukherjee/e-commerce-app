@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ScreenContext, ScrollContext, UserContext } from "../../App";
+import { ScrollContext } from "../../contexts/scrollContext";
+import { ScreenContext } from "../../contexts/screenContext";
+import { UserContext } from "../../contexts/userContext";
 import logo from "./images/brand-logo.png";
 import NavItem from "../NavItem";
 
@@ -102,11 +104,20 @@ export default function Navbar() {
             ) : (
               <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
             )}
+            {
+              user?
+            <NavItem
+              to="/cart"
+              title="My Cart"
+              setNavOpen={setNavOpen}
+            />
+            :
             <NavItem
               to="/contact-us"
               title="Contact Us"
               setNavOpen={setNavOpen}
             />
+            }
           </ul>
         </div>
       </div>

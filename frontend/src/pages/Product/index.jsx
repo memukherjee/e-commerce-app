@@ -1,55 +1,81 @@
+import axios from "axios";
 import { motion as m } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../components/Loader";
+import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
+import ProductColorPicker from "../../components/ProductColorPicker";
+import useTitle from "../../hooks/useTitle";
 
 export default function Product() {
   const { pid } = useParams();
-  const [quantity, setQuantity] = useState(1);
-  const productDetails = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-  voluptas, quod, quia, voluptate quae voluptates quibusdam
-  exercitationem quidem voluptatem quos quas. Quisquam, quae. Quisquam
-  voluptas, quod, quia, voluptate quae voluptates quibusdam
-  exercitationem quidem voluptatem quos quas. Quisquam, quae. Lorem
-  ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-  voluptas, quod, quia, voluptate quae voluptates quibusdam
-  exercitationem quidem voluptatem quos quas. Quisquam, quae. Quisquam
-  voluptas, quod, quia, voluptate quae voluptates quibusdam
-  exercitationem quidem voluptatem quos quas. Quisquam, quae.`;
+  const [product, setProduct] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
+
+  const addToWishList = () => {
+    setLiked(!liked);
+  };
+
+  useTitle("Product || Elegant Apparels")
 
   useEffect(() => {
-    document.title = `${pid} || Elegant Apparels`;
-  }, [pid]);
+    axios
+      .get(process.env.REACT_APP_API + "/products/getProduct/" + pid)
+      .then((res) => {
+        console.log(res);
+        setProduct(res.data);
+        document.title = `${res.data.product_name} || Elegant Apparels`;
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/404");
+      });
+  }, [pid, navigate]);
+
+  const productColors = ["gold", "silver", "black", "orange"];
+
+  const [quantity, setQuantity] = useState(1);
 
   const [expandDetails, setExpandDetails] = useState(false);
 
-  return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center"
-    >
-      <div className="product min-h-90vh md:h-100vh pt-16 pb-4 w-full flex flex-col md:flex-row justify-between gap-4 md:gap-16">
-        <div className="image-container relative w-full md:w-1/3 h-35vh md:h-70vh bg-gray-200">
+  const [productColor, setProductColor] = useState(productColors[0]);
+
+  return product ? (
+    <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center">
+      <div className="product min-h-90vh md:h-100vh pt-16 pb-4 w-full flex flex-col justify-between gap-4 md:grid md:grid-rows-3 md:grid-cols-4 md:gap-8">
+        <div className="image-container relative w-full h-35vh md:h-full bg-gray-200 p-4 pb-8 md:row-start-1 md:row-end-3 md:col-start-1 md:col-end-2">
           <img
             className="w-full h-full object-contain"
-            src="https://via.placeholder.com/720x1080?text=Product+Image"
-            alt=""
+            src={product.product_imageUrl}
+            alt={product.product_name}
           />
+          <m.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+            className="wishlisting-btn absolute bottom-5 right-12 w-12 h-12 bg-white rounded-full shadow shadow-gray-600 text-red-400 text-xl"
+            onClick={addToWishList}
+          >
+            {liked ? (
+              <i className="fa-solid fa-heart"></i>
+            ) : (
+              <i className="fa-regular fa-heart"></i>
+            )}
+          </m.button>
         </div>
-        <div className="product-info w-full md:w-2/3 text-left md:text-right flex flex-col justify-between md:items-end">
-          <h1 className="font-bold text-2xl md:text-4xl text-gray-400">
-            Product Name
+        <div className="product-info order-2 w-full max-h-100vh text-left md:text-right flex flex-col justify-between md:items-end md:row-start-1 md:row-end-4 md:col-start-2 md:col-end-5">
+          <h1 className="font-bold max-w-750 text-2xl md:text-4xl text-gray-400">
+            {product.product_name}
           </h1>
           <p
             style={
               expandDetails ? { maxHeight: "100%" } : { maxHeight: "100px" }
             }
-            className="text-gray-400 text-lg md:mt-4 md:text-right transition-all duration-500 overflow-hidden border-b-2 border-gray-200 md:border-none"
+            className="text-gray-400 max-w-500 text-lg md:mt-4 md:text-justify transition-all duration-500 overflow-hidden border-b-2 border-gray-200 md:border-none"
             onClick={() => setExpandDetails(true)}
           >
-            {productDetails}
+            {product.product_description}
           </p>
           <span
             className="text-gray-700 text-base mb-4"
@@ -59,9 +85,11 @@ export default function Product() {
           </span>
           <span className="price flex items-center gap-2">
             <span className="text-gray-400 text-xl">Price:</span>
-            <span className="text-green-400 text-2xl font-bold">₹99</span>
+            <span className="text-green-400 text-2xl font-bold">
+              ₹{product.discountPrice}
+            </span>
             <span className="text-red-400 text-xl font-bold line-through">
-              ₹150
+              ₹{product.product_price}
             </span>
           </span>
           <div className="flex items-center justify-between w-full md:max-w-200 mb-4 md:mb-0 md:ml-auto">
@@ -87,6 +115,15 @@ export default function Product() {
               Buy Now
             </button>
           </div>
+        </div>
+        <div className="productSelectDetails md:row-start-3 md:row-end-4 md:col-start-1 md:col-end-2 w-full">
+          {productColors && (
+            <ProductColorPicker
+              productColor={productColor}
+              setProductColor={setProductColor}
+              productColors={productColors}
+            />
+          )}
         </div>
       </div>
       <div className="more-details flex flex-col md:flex-row justify-between gap-16 mt-8">
@@ -176,6 +213,8 @@ export default function Product() {
           </div>
         </div>
       </div>
-    </m.div>
+    </PageFadeTransitionContainer>
+  ) : (
+    <Loader />
   );
 }

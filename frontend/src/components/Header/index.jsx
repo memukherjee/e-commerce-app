@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { MouseOverLinkContext, ScreenContext } from "../../App";
+import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
+import { ScreenContext } from "../../contexts/screenContext";
 import AnimatedText from "../AnimatedText";
 import Banner from "../Banner";
 
@@ -49,7 +50,7 @@ export default function Header() {
             }
             className="text-3xl w-full md:text-9xl font-black m-0 inline z-10 text-cyan-900"
           >
-            <AnimatedText text="Wear the best." direction="y" size="large" align={mobileScreen?"center":""} />
+            <AnimatedText className="last:text-orange-400 md:last:text-inherit" text="Wear The Best." direction="y" size="large" align={mobileScreen?"center":""} />
           </h1>
           <span className="font-light text-lg mt-8 md:mt-0">
             <AnimatedText text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima illo
@@ -72,12 +73,12 @@ export default function Header() {
           </Link>
           <Link
             className="bg-black rounded-r-md md:rounded-none px-5 py-7"
-            to="/about"
+            to="/contact-us"
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
             onClick={() => setMouseOverLink(false)}
           >
-            <span>Know about us </span>
+            <span>Contact Us </span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
           </Link>
         </div>

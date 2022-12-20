@@ -1,6 +1,6 @@
 @media (min-width: 768px) {
   * {
-    cursor: none;
+    cursor: none !important;
   }
 
   .cursor {
@@ -13,7 +13,6 @@
     transform-origin: 100% 100%;
     pointer-events: none;
     transition: all 0.3s ease;
-    transition-property: background-color, transform;
-    backdrop-filter: invert(100%);
+    transition-property: background-color, transform, backdrop-filter;
   }
 }

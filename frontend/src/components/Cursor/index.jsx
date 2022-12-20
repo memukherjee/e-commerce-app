@@ -1,38 +1,31 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import {
-  MouseOverLinkContext,
-  MouseOverNavItemContext,
-  ScrollContext,
-} from "../../App";
+import React, { useContext, useMemo } from "react";
+import { MouseOverNavItemContext } from "../../contexts/mouseOverNavItemContext";
+import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
+import { ScrollContext } from "../../contexts/scrollContext";
+import useCursorPosition from "../../hooks/useCursorPosition";
 import "./styles.css";
+import { MouseTransparentContext } from "../../contexts/mouseTransparentContext";
 
-export default function Cursor() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+function Cursor() {
+  const cursorPosition = useCursorPosition();
 
   const { mouseOverLink } = useContext(MouseOverLinkContext);
   const { mouseOverNavItem } = useContext(MouseOverNavItemContext);
+  const { mouseTransparent } = useContext(MouseTransparentContext);
   const scroll = useContext(ScrollContext);
   const cursorStyles = useMemo(
     () => ({
       left: cursorPosition.x + "px",
       top: cursorPosition.y + "px",
       transform: mouseOverNavItem || mouseOverLink ? "scale(2)" : "",
-      backgroundColor: (mouseOverNavItem && !scroll) ? "#000" : "initial",
+      backgroundColor: mouseOverNavItem && !scroll ? "#000" : "initial",
       zIndex: scroll ? "50" : "15",
+      backdropFilter: mouseTransparent?"invert(0)":"invert(1)",
     }),
-    [cursorPosition, mouseOverNavItem, mouseOverLink, scroll]
+    [cursorPosition, mouseOverNavItem, mouseOverLink, scroll, mouseTransparent]
   );
-
-
-  useEffect(() => {
-    const onMouseMove = (e) => {
-      setCursorPosition({ x: e.pageX, y: e.pageY });
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-    };
-  }, []);
 
   return <div style={cursorStyles} className="cursor hidden md:block"></div>;
 }
+
+export default Cursor;

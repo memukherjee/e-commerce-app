@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <div className="bg-gray-200">
@@ -19,21 +21,21 @@ export default function Footer() {
             <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
               Quick Links
             </h3>
-            <a href="/contact-us" className="hover:text-gray-700">
+            <Link to="/contact-us" className="hover:text-gray-700">
               Contact Us
-            </a>
-            <a href="/contact-us" className="hover:text-gray-700">
-              About
-            </a>
-            <a href="/contact-us" className="hover:text-gray-700">
+            </Link>
+            <Link to="/seller" className="hover:text-gray-700">
+              Are you a Seller?
+            </Link>
+            <Link to="/product/men" className="hover:text-gray-700">
               Men's Clothing
-            </a>
-            <a href="/contact-us" className="hover:text-gray-700">
+            </Link>
+            <Link to="/product/women" className="hover:text-gray-700">
               Women's Clothing
-            </a>
-            <a href="/contact-us" className="hover:text-gray-700">
+            </Link>
+            <Link href="/product/kid" className="hover:text-gray-700">
               Kid's Clothing
-            </a>
+            </Link>
           </div>
         </div>
         <div className="footer-bottom text-center text-base font-light mt-4">

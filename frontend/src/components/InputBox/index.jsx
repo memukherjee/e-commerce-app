@@ -1,15 +1,16 @@
 import React from "react";
 
-export default function InputBox({ value, setValue, label, type, align, autoComplete }) {
+export default function InputBox({ value, onChange, name, label, type, align, autoComplete }) {
   const elementId = label.toLowerCase().replace(" ", "-");
   return (
     <div className="flex justify-between mb-6 md:mb-8 relative">
       <input
         className={"w-full bg-transparent px-0.5 py-1 text-xl text-cyan-900 placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"+ (typeof align!== 'undefined' ? " text-"+align: "")}
         placeholder={label}
+        name={name}
         type={type}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={onChange}
         id={"input-" + elementId}
         autoComplete={autoComplete}
       />

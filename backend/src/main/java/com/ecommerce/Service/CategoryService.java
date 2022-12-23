@@ -38,7 +38,7 @@ public class CategoryService {
     	String image_url=cloudinaryController.upload(file);
     	categoryJson.setCategory_image(image_url);
     	
-    	return categoryJson;
+    	return repo.save(categoryJson);
     }
 }
 

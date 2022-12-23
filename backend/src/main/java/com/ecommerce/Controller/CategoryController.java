@@ -45,10 +45,10 @@ public class CategoryController {
 //    }
     
     @PostMapping(value = "/addCategory" , consumes= { org.springframework.http.MediaType.APPLICATION_JSON_VALUE, org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE })
-    public Category addCategory(@RequestPart String category, @RequestPart MultipartFile file) throws IOException
+    public ResponseEntity<Category> addCategory(@RequestPart String category, @RequestPart MultipartFile file) throws IOException
     {
     	Category categoryJson= categoryservice.getJson(category,file);
-    	return categoryJson;
+    	return new ResponseEntity<Category>(categoryJson,  new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping("/getAllCategory")

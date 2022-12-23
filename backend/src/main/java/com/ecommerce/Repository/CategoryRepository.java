@@ -15,6 +15,7 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
 
     List<Category> findAll();
 
+
     // Map<Category, String> save(MultipartFile multipartFile, Category category);
 
 }

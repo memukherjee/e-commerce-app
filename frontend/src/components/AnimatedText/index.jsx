@@ -1,6 +1,6 @@
 import { motion as m } from "framer-motion";
 
-export default function AnimatedText({ text, align, direction, size }) {
+export default function AnimatedText({ text, align, direction, size, className }) {
   const words = text.split(" ");
 
   const container = {
@@ -69,6 +69,7 @@ export default function AnimatedText({ text, align, direction, size }) {
           style={
             size === "large" ? { marginRight: "20px" } : { marginRight: "5px" }
           }
+          className={className}
           key={index}
         >
           {word}

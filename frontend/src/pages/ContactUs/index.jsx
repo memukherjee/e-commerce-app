@@ -1,50 +1,77 @@
-import { useContext, useEffect, useState } from "react";
-import { motion as m } from "framer-motion";
-import { MouseOverLinkContext } from "../../App";
+import { useContext, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { PulseLoader } from "react-spinners";
+import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
 import InputBox from "../../components/InputBox";
+import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
+import useForm from "../../hooks/useForm";
+import useTitle from "../../hooks/useTitle";
 
 export default function ContactUs() {
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formMessage, setFormMessage] = useState("");
-
+  const [formProcessing, setFormProcessing] = useState(false);
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
 
-  useEffect(() => {
-    document.title = "Contact Us || Elegant Apparels";
-  }, []);
+  useTitle("Contact Us || Elegant Apparels");
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log(formName, formEmail, formMessage);
+  const sendMessage = (values) => {
+    const { name, email, message } = values;
+    console.log(name, email, message);
+    const data = {
+      name,
+      email,
+      msg: message,
+    };
+    setFormProcessing(true);
+    axios
+      .post(process.env.REACT_APP_API + "/contact", data)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          toast.success("Message sent successfully");
+          clearForm();
+        } else {
+          toast.error(res.data.message);
+        }
+        setFormProcessing(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Error sending message");
+        setFormProcessing(false);
+      });
   };
 
+  const [values, handleChange, onSubmitHandler, clearForm] = useForm(
+    {},
+    sendMessage
+  );
+
+  const { name = "", email = "", message = "" } = values;
+
   return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageFadeTransitionContainer>
       <div className="contact-form text-center md:text-left w-11/12 mx-auto max-w-500 h-100vh flex justify-center items-center">
         <div className="w-full">
           <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-6">
             Send Us a Message
           </h3>
           <form
-            onSubmit={handleFormSubmit}
+            onSubmit={onSubmitHandler}
             className="flex flex-col items-bottom text-gray-500"
           >
             <InputBox
-              setValue={setFormName}
-              value={formName}
+              onChange={handleChange}
+              name="name"
+              value={name}
               type="text"
               label="Name"
               autoComplete="off"
             />
             <InputBox
-              setValue={setFormEmail}
-              value={formEmail}
+              onChange={handleChange}
+              name="email"
+              value={email}
               type="email"
               label="Email"
               autoComplete="off"
@@ -52,8 +79,9 @@ export default function ContactUs() {
             <div className="relative">
               <textarea
                 id="message"
-                value={formMessage}
-                onChange={(e) => setFormMessage(e.target.value)}
+                name="message"
+                value={message}
+                onChange={handleChange}
                 className="w-full p-2 mb-2 outline-none bg-transparent md:text-left resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
                 autoComplete="off"
                 autoCorrect="off"
@@ -72,11 +100,20 @@ export default function ContactUs() {
               onMouseOut={() => setMouseOverLink(false)}
               type="submit"
             >
-              Send
+              {formProcessing ? (
+                <PulseLoader
+                  color="#fff"
+                  loading={true}
+                  size={10}
+                  aria-label="Loading Spinner"
+                />
+              ) : (
+                "Send Message"
+              )}
             </button>
           </form>
         </div>
       </div>
-    </m.div>
+    </PageFadeTransitionContainer>
   );
 }

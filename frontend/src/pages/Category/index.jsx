@@ -1,60 +1,47 @@
-import { motion as m } from "framer-motion";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { MouseOverLinkContext } from "../../App";
+import Loader from "../../components/Loader";
+import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
+import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
+import useCategories from "../../hooks/useCategories";
+import useTitle from "../../hooks/useTitle";
 
 export default function Category() {
-  const categories = ["Shirt", "Pant", "Kurta", "Shoe", "Watch", "Bag", "Hat"];
-  const images = {
-    Shirt:
-      "https://images.unsplash.com/photo-1603252109303-2751441dd157?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    Pant: "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    Kurta:
-      "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-    Shoe: "https://images.unsplash.com/photo-1617606002806-94e279c22567?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    Watch:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-    Bag: "https://images.unsplash.com/photo-1622560480654-d96214fdc887?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80",
-    Hat: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-  };
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
 
-  useEffect(() => {
-    document.title = "Categories || Elegant Apparels";
-  }, []);
+  useTitle("Categories || Elegant Apparels");
 
-  return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="text-center py-10"
-    >
+  const categories = useCategories();
+
+  return categories.length === 0 ? (
+    <Loader />
+  ) : (
+    <PageFadeTransitionContainer className="text-center py-10 min-h-100vh">
       <h1 className="mb-8 text-2xl font-bold">Category</h1>
+
       <div className="flex flex-wrap justify-around items-center gap-8">
         {categories.map((category) => (
           <Link
             onMouseOver={() => setMouseOverLink(true)}
             onMouseOut={() => setMouseOverLink(false)}
             onClick={() => setMouseOverLink(false)}
-            key={category}
-            to={`/products/${category}`}
+            key={category.category_name}
+            to={`/products/${category.category_name}`}
             className="w-11/12 md:w-1/4"
           >
             <div
               style={{
-                backgroundImage: `url(${images[category]})`,
+                backgroundImage: `url(${category.category_image})`,
               }}
-              className="outline bg-center outline-4 outline-cyan-900 outline-offset-4 bg-cyan-900 w-full py-20"
+              className="outline bg-center bg-cover outline-4 outline-cyan-900 outline-offset-4 bg-cyan-900 w-full py-16"
             >
-              <span className="text-white font-medium text-xl bg-black bg-opacity-80 py-4 px-8">
-                {category}
+              <span className="text-white font-medium text-xl bg-black bg-opacity-70 py-6 px-8 backdrop-blur-sm inline-block">
+                {category.category_name}
               </span>
             </div>
           </Link>
         ))}
       </div>
-    </m.div>
+    </PageFadeTransitionContainer>
   );
 }

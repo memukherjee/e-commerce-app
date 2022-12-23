@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useEffect } from "react";
-import { motion as m } from "framer-motion";
+import useTitle from "../../hooks/useTitle";
+import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
 
 function NotFound() {
   const circle1 = useRef(null);
@@ -13,10 +14,11 @@ function NotFound() {
     const min = 0.2;
     const max = 0.8;
     return Math.random() * (max - min) + min;
-  }
+  };
+
+  useTitle("404 Not Found");
 
   useEffect(() => {
-    document.title = "404 Not Found";
     const w = window.innerWidth;
     const h = window.innerHeight;
     const bubbleMove = setInterval(() => {
@@ -44,16 +46,8 @@ function NotFound() {
   }, []);
 
   return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center"
-    >
-      <h1 className="font-bold text-8xl text-gray-400">
-        404 Not Found
-      </h1>
+    <PageFadeTransitionContainer className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center">
+      <h1 className="font-bold text-8xl text-gray-400">404 Not Found</h1>
       {[1, 2, 3, 4, 5].map((i) => {
         return (
           <div
@@ -61,14 +55,16 @@ function NotFound() {
             // eslint-disable-next-line no-eval
             ref={eval(`circle${i}`)}
             style={{
-              width: `${50*i}px`,
-              height: `${50*i}px`,
+              width: `${50 * i}px`,
+              height: `${50 * i}px`,
             }}
-            className={`circle ${i%2===0?"-left-400":"left-full"} ${i%2===0?"-top-400":"top-full"} left transition-all duration-1000 absolute opacity-50 bg-cyan-500 rounded-full`}
+            className={`circle ${i % 2 === 0 ? "-left-400" : "left-full"} ${
+              i % 2 === 0 ? "-top-400" : "top-full"
+            } left transition-all duration-1000 absolute opacity-50 bg-cyan-500 rounded-full`}
           ></div>
         );
       })}
-    </m.div>
+    </PageFadeTransitionContainer>
   );
 }
 

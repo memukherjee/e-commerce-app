@@ -43,7 +43,7 @@ input[type="number"] {
 
 .rainbow-text {
   animation: rainbow 5s infinite alternate-reverse;
-  background-image: linear-gradient(90deg, #380060, #863bcd, #b89cff, #c1a4ff);
+  background-image: linear-gradient(-45deg, #e73c7e, #ee7752, #23d5ab, #9123d5);
   background-size: 500%;
 }
 

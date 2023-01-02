@@ -1,24 +1,17 @@
 package com.ecommerce;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-
-@SpringBootApplication(exclude=SecurityAutoConfiguration.class)
+//@SpringBootApplication(exclude=SecurityAutoConfiguration.class)
+@SpringBootApplication
+@EnableMongoRepositories
 public class EcommerceApplication {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
-		
-
-		
 	}
 
 }

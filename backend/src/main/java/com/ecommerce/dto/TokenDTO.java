@@ -3,40 +3,23 @@ package com.ecommerce.dto;
 import com.ecommerce.Entity.RefreshToken;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+//import lombok.Getter;
+//import lombok.Setter;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @AllArgsConstructor
 public class TokenDTO {
     private String userId;
     private String accessToken;
     private String refreshToken;
-    public TokenDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-	public TokenDTO(String id, String accessToken2, RefreshToken refreshToken2) {
-		// TODO Auto-generated constructor stub
-    	this.setUserId(id);
-    	this.setAccessToken(accessToken2);
-    	this.setRefreshToken(accessToken2);
-	}
 	
-	
-
-	public TokenDTO(String id, String accessToken2, String refreshTokenString) {
-		this.setUserId(id);
-    	this.setAccessToken(accessToken2);
-    	this.setRefreshToken(accessToken2);
+    
+    public TokenDTO(String id, String accessToken, String refreshTokenString) {
+		this.userId=id;
+		this.accessToken=accessToken;
+		this.refreshToken=refreshTokenString;
 	}
-
-
-
 	public String getUserId() {
 		return userId;
 	}
@@ -56,4 +39,5 @@ public class TokenDTO {
 		this.refreshToken = refreshToken;
 	}
 	
+   
 }

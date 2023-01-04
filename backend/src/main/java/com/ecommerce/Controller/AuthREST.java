@@ -62,7 +62,7 @@ public class AuthREST {
         System.out.println("refreshToken="+refreshTokenString);
 
        
-        return ResponseEntity.ok(new TokenDTO(user.getId(),accessToken,refreshToken));
+        return ResponseEntity.ok(new TokenDTO(user.getId(),accessToken,refreshTokenString));
     }
 
     @PostMapping("signup")

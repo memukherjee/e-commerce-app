@@ -8,7 +8,7 @@ public class ShoppingCart {
 
     @Id
     private String id;
-    private UserData user;
+    private User user;
     private String product_id;
     private int cart_quantity;
 

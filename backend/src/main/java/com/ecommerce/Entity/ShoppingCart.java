@@ -12,7 +12,7 @@ public class ShoppingCart {
     private String product_id;
     private int cart_quantity;
 
-    public ShoppingCart(String id, UserData user, String product_id, int cart_quantity) {
+    public ShoppingCart(String id, User user, String product_id, int cart_quantity) {
         super();
         this.id = id;
         this.user = user;
@@ -28,11 +28,11 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public UserData getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserData user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

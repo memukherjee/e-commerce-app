@@ -12,6 +12,7 @@ import com.ecommerce.Repository.RefreshTokenRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -48,6 +49,9 @@ public class AuthREST {
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto) {
     	System.out.println(dto.getEmail()+" ---"+dto.getPassword());
     	User logUser=userRepository.findByEmail(dto.getEmail());
+    	if(logUser==null) {
+    		return new ResponseEntity("",HttpStatus.UNAUTHORIZED);
+    	}
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logUser.getUsername(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();

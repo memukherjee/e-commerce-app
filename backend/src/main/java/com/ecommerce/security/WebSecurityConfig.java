@@ -53,7 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(accessTokenEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/api/produts/**").permitAll()
+                .antMatchers("/api/category/**").permitAll()
+                .antMatchers("/api/addToCart/**").permitAll()
+                .antMatchers("/api/cloudinary/**").permitAll()
+                .antMatchers("/api/order/**").permitAll()              
+                .anyRequest().permitAll();
         http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

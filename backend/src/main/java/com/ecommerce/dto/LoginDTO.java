@@ -1,20 +1,27 @@
 package com.ecommerce.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+//import lombok.Getter;
+//import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class LoginDTO {
-    @NotBlank
-    private String username;
-    public String getUsername() {
-		return username;
+//    @NotBlank
+//    private String username;
+//    public String getUsername() {
+//		return username;
+//	}
+//	public void setUsername(String username) {
+//		this.username = username;
+//	}
+	private String email;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;
@@ -24,4 +31,5 @@ public class LoginDTO {
 	}
 	@NotBlank
     private String password;
+	
 }

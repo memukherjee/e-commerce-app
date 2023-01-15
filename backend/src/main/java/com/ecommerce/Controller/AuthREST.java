@@ -215,11 +215,17 @@ public class AuthREST {
     		@PostMapping("/contact")
     		public ResponseEntity<String> contact(@RequestBody objholder str) {
     			System.out.println("contact speaking");
-    			System.out.println(str.name);
+    			System.out.println(str.username);
     			System.out.println(str.email);
     			System.out.println(str.msg);
-    			return ContactMail.king(str.name, str.email, str.msg);
+    			return ContactMail.king(str.username, str.email, str.msg);
     	
+    		}
+    		//************************PROFILE*************************************
+    		
+    		@PostMapping("/profile")
+    		public  ResponseEntity<Object> profile(@RequestBody objholder str, @RequestHeader(value="authorization",defaultValue="")String auth) {
+    			return userService.profile(str, auth);
     		}
 }
 

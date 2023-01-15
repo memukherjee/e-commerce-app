@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.UserRepository;
+import com.ecommerce.jwt.TokenValidator;
 
 
 @Service
@@ -24,6 +25,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
     UserRepository userRepository;
+	@Autowired
+	TokenValidator token;
+	
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
@@ -140,30 +144,36 @@ public class UserService implements UserDetailsService {
 		
 
 	}
-//	public ResponseEntity<Object> profile(objholder str){       //profile  service controller objholder to commit
-//		User user = userRepo.findByEmail(str.email);
-//		if(user!=null) {
-//			if(str.name!=null) {
-//				user.setName(str.name);
-//				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.name+".svg");
-//			}
-//			if(str.address!=null) {
-//				user.setAddress(str.address);
-//			}
-//			if(str.mob!=null) {
-//				user.setMob(str.mob);
-//			}
-//			if(str.pass!=null) {
-//				user.setPass(str.pass);
-//			}
-//			user.setEmail(str.email);  //check
-//			
-//			return new ResponseEntity<>(userRepo.save(user), HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<>("User Not Matched", HttpStatus.NOT_FOUND);
-//		}
-//		
-//		
-//	}
+	public ResponseEntity<Object> profile(objholder str,String auth){       //profile  service controller objholder to commit
+		
+		User user=token.validate(auth);
+		if(user==null) {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		}
+		
+			if(str.username!=null) {
+				user.setUsername(str.username);
+				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.username+".svg");
+			}
+			if(str.address!=null) {
+				user.setAddress(str.address);
+			}
+			if(str.mobile!=null) {
+				user.setMobile(str.mobile);
+			}
+			if(str.password!=null) {
+				this.PasswordEncoder=new BCryptPasswordEncoder();
+				String encodedPassword=this.PasswordEncoder.encode(str.password);
+				user.setPassword(encodedPassword);
+			}
+			if(str.email!=null) {
+			user.setEmail(str.email);  //check
+			}
+			
+			return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+		
+		
+		
+	}
 
 }

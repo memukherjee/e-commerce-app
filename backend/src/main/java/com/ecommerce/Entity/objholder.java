@@ -1,11 +1,16 @@
 package com.ecommerce.Entity;
 
 public class objholder {
-
-    public String email;
-    public String pass;
-    public String otp;
-    public String name;
-    public String msg;
+	
+		public String email=null;
+		public String password=null;
+		public String otp=null;
+		public String username=null;
+		public String msg=null;
+		public String address=null;
+		public String mobile=null;
+		
+		
+     
 
 }

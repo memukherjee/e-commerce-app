@@ -33,6 +33,12 @@ public class CartService {
     public ShoppingCart getCartById(String id) {
         return cartRepo.findById(id).get();
     }
+    
+//    public CartDetails displayAllCartService(String user_id) {
+//            System.out.print(user_id);
+//            System.out.print(cartRepo.findByuser_id(user_id));
+//            return null;
+//    }
 
     public CartDetails displayAllCartService(String user_id) {
         double total = 0;
@@ -53,6 +59,7 @@ public class CartService {
             prod.add(product.getProduct_name());
             prod.add(product.getProduct_category());
             prod.add(product.getProduct_description());
+            prod.add(product.getProduct_colours());
             prod.add(product.getProduct_company());
             prod.add(product.getProduct_price());
             prod.add(product.getProduct_discount());

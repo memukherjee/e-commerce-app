@@ -12,6 +12,6 @@ import com.ecommerce.Entity.ShoppingCart;
 public interface CartRepo extends MongoRepository<ShoppingCart, String> {
 
     @Query("{user_id: ?0}")
-    ArrayList<ShoppingCart> findByuser_id(String user_id);
+    ArrayList<ShoppingCart> findByuser_id(String email);
 
 }

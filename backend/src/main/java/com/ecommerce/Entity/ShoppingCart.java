@@ -8,19 +8,22 @@ public class ShoppingCart {
 
     @Id
     private String id;
+    private String user_id;
     private User user;
     private String product_id;
     private int cart_quantity;
 
-    public ShoppingCart(String id, User user, String product_id, int cart_quantity) {
-        super();
-        this.id = id;
-        this.user = user;
-        this.product_id = product_id;
-        this.cart_quantity = cart_quantity;
-    }
+    
+    public ShoppingCart(String id, String user_id, User user, String product_id, int cart_quantity) {
+		super();
+		this.id = id;
+		this.user_id = user_id;
+		this.user = user;
+		this.product_id = product_id;
+		this.cart_quantity = cart_quantity;
+	}
 
-    public String getId() {
+	public String getId() {
         return id;
     }
 
@@ -28,7 +31,16 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public User getUser() {
+    
+    public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public User getUser() {
         return user;
     }
 
@@ -52,10 +64,11 @@ public class ShoppingCart {
         this.cart_quantity = cart_quantity;
     }
 
-    @Override
-    public String toString() {
-        return "ShoppingCart [id=" + id + ", user=" + user + ", product_id=" + product_id + ", cart_quantity="
-                + cart_quantity + "]";
-    }
+	@Override
+	public String toString() {
+		return "ShoppingCart [id=" + id + ", user_id=" + user_id + ", user=" + user + ", product_id=" + product_id
+				+ ", cart_quantity=" + cart_quantity + "]";
+	}
 
+    
 }

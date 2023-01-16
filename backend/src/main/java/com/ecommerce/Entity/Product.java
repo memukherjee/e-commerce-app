@@ -25,7 +25,7 @@ public class Product {
     @NotEmpty
     private String product_description;
     
-    private List<Colour> product_colours;
+   // private List<Colour> product_colours;
     private String product_company;
 
     @NotEmpty
@@ -36,35 +36,39 @@ public class Product {
     public double discountPrice;
     private int product_quantity;
     private int product_sold;
+    private String product_imageUrl;
 
-    public Product(String product_name, String product_category, String product_description,
-            List<Colour> product_colours, String product_company, double product_price, double product_discount,
-            double discountPrice, int product_quantity, int product_sold) {
-        super();
-        this.product_name = product_name;
-        this.product_category = product_category;
-        this.product_description = product_description;
-        this.product_colours = product_colours;
-        this.product_company = product_company;
-        this.product_price = product_price;
-        this.product_discount = product_discount;
-        this.discountPrice = discountPrice;
-        this.product_quantity = product_quantity;
-        this.product_sold = product_sold;
-    }
+        
+    public Product(String product_id, @NotEmpty String product_name, @NotEmpty String product_category,
+			@NotEmpty String product_description, String product_company,
+			@NotEmpty double product_price, @NotEmpty double product_discount, double discountPrice,
+			int product_quantity, int product_sold, String product_imageUrl) {
+		super();
+		this.product_id = product_id;
+		this.product_name = product_name;
+		this.product_category = product_category;
+		this.product_description = product_description;
+//		this.product_colours = product_colours;
+		this.product_company = product_company;
+		this.product_price = product_price;
+		this.product_discount = product_discount;
+		this.discountPrice = discountPrice;
+		this.product_quantity = product_quantity;
+		this.product_sold = product_sold;
+		this.product_imageUrl = product_imageUrl;
+	}
 
-    
-    public String getProduct_id() {
+	public String getProduct_id() {
         return product_id;
     }
 
-    public List<Colour> getProduct_colours() {
-        return product_colours;
-    }
-
-    public void setProduct_colours(List<Colour> product_colours) {
-        this.product_colours = product_colours;
-    }
+//    public List<Colour> getProduct_colours() {
+//        return product_colours;
+//    }
+//
+//    public void setProduct_colours(List<Colour> product_colours) {
+//        this.product_colours = product_colours;
+//    }
     
     public String getProduct_name() {
         return product_name;
@@ -92,13 +96,13 @@ public class Product {
         this.product_description = product_description;
     }
 
-    public List<Colour> getProduct_colour() {
-        return product_colours;
-    }
-
-    public void setProduct_colour(List<Colour> product_colours) {
-        this.product_colours = product_colours;
-    }
+//    public List<Colour> getProduct_colour() {
+//        return product_colours;
+//    }
+//
+//    public void setProduct_colour(List<Colour> product_colours) {
+//        this.product_colours = product_colours;
+//    }
 
     public String getProduct_company() {
         return product_company;
@@ -148,5 +152,14 @@ public class Product {
         this.product_sold = product_sold;
     }
 
+	public String getProduct_imageUrl() {
+		return product_imageUrl;
+	}
+
+	public void setProduct_imageUrl(String product_imageUrl) {
+		this.product_imageUrl = product_imageUrl;
+	}
+
+    
 }
     

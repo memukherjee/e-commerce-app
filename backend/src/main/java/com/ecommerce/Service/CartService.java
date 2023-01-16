@@ -59,12 +59,13 @@ public class CartService {
             prod.add(product.getProduct_name());
             prod.add(product.getProduct_category());
             prod.add(product.getProduct_description());
-            prod.add(product.getProduct_colours());
+//            prod.add(product.getProduct_colours());
             prod.add(product.getProduct_company());
             prod.add(product.getProduct_price());
             prod.add(product.getProduct_discount());
             prod.add(product.getDiscountPrice());
             prod.add(shoppingCart.getCart_quantity());
+            prod.add(product.getProduct_imageUrl());
 
             productList.add(prod);
 

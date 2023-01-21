@@ -166,16 +166,17 @@ public class AuthREST {
 
         throw new BadCredentialsException("invalid token");
     }
-    @PostMapping("/demo")
-    public ResponseEntity<?> demo(@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
+    @PostMapping("/getUserDetailsByJWT")
+    public ResponseEntity<?> getUserDetailsByJWT(@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
     	
-    	System.out.println("demo");
+    	System.out.println("getUserDetailsByJWT");
     	User user=token.validate(auth);
     	if(user==null)
 		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
     	else
     		return new ResponseEntity(user,HttpStatus.OK);
     }
+
     
     
  // ************************** Forgot password module **************

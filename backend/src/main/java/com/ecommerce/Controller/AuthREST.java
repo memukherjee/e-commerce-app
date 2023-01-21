@@ -166,7 +166,7 @@ public class AuthREST {
 
         throw new BadCredentialsException("invalid token");
     }
-    @PostMapping("/getUserDetailsByJWT")
+    @GetMapping("/getUserDetailsByJWT")
     public ResponseEntity<?> getUserDetailsByJWT(@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
     	
     	System.out.println("getUserDetailsByJWT");

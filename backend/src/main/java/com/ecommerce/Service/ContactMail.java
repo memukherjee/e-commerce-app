@@ -14,86 +14,85 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ContactMail {
-    public static ResponseEntity<String> king(String name, String email, String msg) {
+	public static ResponseEntity<String> king(String name, String email, String msg) {
 
-        System.out.println("sending mail...");
+		System.out.println("sending mail...");
 
-        String message = "Hi " + name
-                + "...\nThanks for contacting us...\nWe have received Your messsage and will update you soon...";
-        String subject = "Feedback Received";
-        String to = email;
-        String from = "in.elegantapparels@gmail.com";
+		String message = "Hi "+name+"...\nThanks for contacting us...\nWe have received Your messsage and will update you soon...";
+		String subject = "Feedback Received";
+		String to = email;
+		String from = "in.elegantapparels@gmail.com";
 
-        sendEmail(message, subject, to, from);
-        return queen(name, email, msg);
-    }
+		sendEmail(message, subject, to, from);
+		return queen(name,email,msg);
+	}
+	public static ResponseEntity<String> queen(String name,String email,String msg) {
+		String message="Name: "+name+"\nEmail: "+email+"\nMessage: "+msg;
+		String subject="Feedback Received";
+		String to="in.elegantapparels@gmail.com";
+		String from = "in.elegantapparels@gmail.com";
+		
+		if(sendEmail(message, subject, to, from)) {
+			return new ResponseEntity<>("Success", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Unsuccessful", HttpStatus.NOT_FOUND);
+		}
+		
+	}
 
-    public static ResponseEntity<String> queen(String name, String email, String msg) {
-        String message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + msg;
-        String subject = "Feedback Received";
-        String to = "in.elegantapparels@gmail.com";
-        String from = "in.elegantapparels@gmail.com";
+	private static boolean sendEmail(String message, String subject, String to, String from) {
 
-        if (sendEmail(message, subject, to, from)) {
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Unsuccessful", HttpStatus.NOT_FOUND);
-        }
+		String host = "smtp.gmail.com";
 
-    }
+		// get the system properties
+		Properties properties = System.getProperties();
+		System.out.println("prop" + properties);
 
-    private static boolean sendEmail(String message, String subject, String to, String from) {
+		properties.put("mail.smtp.auth", true);
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.port", 587);
+		properties.put("mail.smtp.ssl.trust", host);
+		properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
 
-        String host = "smtp.gmail.com";
+		Session session = Session.getInstance(properties, new Authenticator() {
 
-        // get the system properties
-        Properties properties = System.getProperties();
-        System.out.println("prop" + properties);
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				// TODO Auto-generated method stub
+				return new PasswordAuthentication("in.elegantapparels@gmail.com", "izrretjlgbxifkhb");
+			}
 
-        properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", 587);
-        properties.put("mail.smtp.ssl.trust", host);
-        properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+		});
+		session.setDebug(true);
 
-        Session session = Session.getInstance(properties, new Authenticator() {
+		MimeMessage m = new MimeMessage(session);
 
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                // TODO Auto-generated method stub
-                return new PasswordAuthentication("in.elegantapparels@gmail.com", "izrretjlgbxifkhb");
-            }
+		try {
+			m.setFrom(from);
 
-        });
-        session.setDebug(true);
+			// adding recipient to message
+			m.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-        MimeMessage m = new MimeMessage(session);
+			// adding subject to message
+			m.setSubject(subject);
 
-        try {
-            m.setFrom(from);
+			// adding text to message
+			m.setText(message);
 
-            // adding recipient to message
-            m.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			// send
+			// step3: send the message using transport class
+			Transport.send(m);
 
-            // adding subject to message
-            m.setSubject(subject);
+			System.out.println("success...");
+			return true;
 
-            // adding text to message
-            m.setText(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 
-            // send
-            // step3: send the message using transport class
-            Transport.send(m);
-
-            System.out.println("success...");
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-
-    }
+	}
+	
 
 }

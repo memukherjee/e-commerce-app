@@ -13,6 +13,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ecommerce.Entity.RefreshToken;
+import com.ecommerce.Entity.Seller;
+import com.ecommerce.Entity.SellerRefreshToken;
 import com.ecommerce.Entity.User;
 
 
@@ -50,12 +52,30 @@ public class JwtHelper {
                 .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
                 .sign(accessTokenAlgorithm);
     }
+    
+    public String generateAccessToken(Seller seller) {                  //seller
+        return JWT.create()
+                .withIssuer(issuer)
+                .withSubject(seller.getId())
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
+                .sign(accessTokenAlgorithm);
+    }
 
     public String generateRefreshToken(User user, RefreshToken refreshToken) {
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(user.getId())
                 .withClaim("tokenId", refreshToken.getId())
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
+                .sign(refreshTokenAlgorithm);
+    }
+    public String generateRefreshToken(Seller seller, SellerRefreshToken sellerRefreshToken) {        //seller
+        return JWT.create()
+                .withIssuer(issuer)
+                .withSubject(seller.getId())
+                .withClaim("tokenId", sellerRefreshToken.getId())
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .sign(refreshTokenAlgorithm);

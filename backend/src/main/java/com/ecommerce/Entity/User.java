@@ -24,8 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
-import lombok.Data;
-import lombok.NonNull;
+//import lombok.Data;
+//import lombok.NonNull;
 
 
 @Document(collection="user")

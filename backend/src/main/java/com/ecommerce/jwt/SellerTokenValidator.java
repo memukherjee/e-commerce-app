@@ -3,31 +3,33 @@ package com.ecommerce.jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.User;
+import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserRepository;
 
 @Component
-public class TokenValidator {
+public class SellerTokenValidator {
   
 	@Autowired
 	JwtHelper jwtHelper;
 	@Autowired
-	UserRepository userRepository;
+	SellerRepository sellerRepository;
 	
-	User user=null;
+	Seller seller=null;
 
-	public User validate(String auth) {
+	public Seller validate(String auth) {
 		System.out.println("token validation started");
 		System.out.println(auth);
 		
     	if(jwtHelper.validateRefreshToken(auth)) {
     		String uid=jwtHelper.getUserIdFromRefreshToken(auth);
-    		user=userRepository.findAllByid(uid);
+    		seller=sellerRepository.findAllByid(uid);
     	}else {
     		return null;
     	}
     	System.out.println("token validation ended");
-		return user;
+		return seller;
 	}
 	
 	

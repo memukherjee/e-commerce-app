@@ -1,6 +1,6 @@
 package com.ecommerce.security;
 
-import lombok.extern.log4j.Log4j2;
+//import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 
-@Log4j2
+//@Log4j2
 public class AccessTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtHelper jwtHelper;

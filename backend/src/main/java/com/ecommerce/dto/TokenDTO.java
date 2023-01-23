@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 
 //@Getter
 //@Setter
-//@AllArgsConstructor
+@AllArgsConstructor
 public class TokenDTO {
     private String userId;
     private String accessToken;

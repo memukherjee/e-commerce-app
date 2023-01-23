@@ -21,7 +21,9 @@ import com.ecommerce.Service.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    private UserService userService=null;
+    @Autowired
+    private SellerService sellerService=null;
     @Autowired
     private AccessTokenEntryPoint accessTokenEntryPoint;
 
@@ -43,8 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	if(userService!=null) {
         auth.userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
+    	}
+        auth.userDetailsService(sellerService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -53,12 +58,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(accessTokenEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/seller/auth/**").permitAll()
                 .antMatchers("/api/produts/**").permitAll()
                 .antMatchers("/api/category/**").permitAll()
                 .antMatchers("/api/addToCart/**").permitAll()
                 .antMatchers("/api/cloudinary/**").permitAll()
-                .antMatchers("/api/order/**").permitAll()              
-                .anyRequest().permitAll();
-        http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/api/order/**").permitAll() 
+                .anyRequest().authenticated();
+        http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+        
+        .logout()
+        	.clearAuthentication(true);
     }
+    
 }

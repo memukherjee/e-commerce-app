@@ -88,6 +88,10 @@ public class AuthREST {
     @Transactional
     public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
     	System.out.println(dto.getUsername()+" ---"+dto.getEmail()+"---"+dto.getPassword());
+    	
+    	User check=userRepository.findByEmail(dto.getEmail());
+    	if(check!=null)
+    		return new ResponseEntity("Email id incorrect or already exist",HttpStatus.UNAUTHORIZED);
 
     	
         User user = new User(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());

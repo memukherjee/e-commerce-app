@@ -28,8 +28,8 @@ public class SellerService implements UserDetailsService {
 	
     @Override
     public Seller loadUserByUsername(String username) throws UsernameNotFoundException {
-        return sellerRepository.findByEmail(username);
-               // .orElseThrow(() -> new UsernameNotFoundException("username not found"));
+        return sellerRepository.findByUsername(username)
+               .orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
 
     public Seller findById(String id) {

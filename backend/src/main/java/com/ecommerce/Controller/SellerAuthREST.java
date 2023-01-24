@@ -69,7 +69,7 @@ public class SellerAuthREST {
     	if(logSeller==null) {
     		return new ResponseEntity("email not matched",HttpStatus.UNAUTHORIZED);
     	}
-    	if(logSeller.getAccountStatus().equals("Not Verified")) {
+    	if(logSeller.getAccountStatus()==false) {
     		return new ResponseEntity("Your account is yet to be verified by Elegant Apparels.",HttpStatus.NOT_FOUND);
     	}
     	System.out.println("hi seller"+logSeller.getUsername());

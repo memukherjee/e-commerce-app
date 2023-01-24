@@ -20,7 +20,7 @@ public class Seller implements UserDetails{
 	private String mobile;
 	private String address;
 	private String avatar;
-	private String accountStatus="Not Verified";
+	private boolean accountStatus=false;
 	
 	
 
@@ -80,11 +80,11 @@ public class Seller implements UserDetails{
 		this.avatar = avatar;
 	}
 
-	public String getAccountStatus() {
+	public boolean getAccountStatus() {
 		return accountStatus;
 	}
 
-	public void setAccountStatus(String accountStatus) {
+	public void setAccountStatus(boolean accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 

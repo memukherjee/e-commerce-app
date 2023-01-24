@@ -8,23 +8,23 @@ import lombok.AllArgsConstructor;
 
 //@Getter
 //@Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 public class TokenDTO {
-    private String userId;
+    private String Id;
     private String accessToken;
     private String refreshToken;
 	
     
     public TokenDTO(String id, String accessToken, String refreshTokenString) {
-		this.userId=id;
+		this.Id=id;
 		this.accessToken=accessToken;
 		this.refreshToken=refreshTokenString;
 	}
-	public String getUserId() {
-		return userId;
+	public String getId() {
+		return Id;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setId(String Id) {
+		this.Id = Id;
 	}
 	public String getAccessToken() {
 		return accessToken;

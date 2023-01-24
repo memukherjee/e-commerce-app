@@ -25,7 +25,7 @@ const UserProvider = ({ children }) => {
           toast("Welcome " + res.data.name,{
             position: "top-center"
           })
-          console.log(res.data);
+          // console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -35,7 +35,6 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     // User Cookie setting
     const userCookie = getCookie("refreshToken");
-    console.log(userCookie);
     if (userCookie) {
       fetchUser(userCookie);
     }

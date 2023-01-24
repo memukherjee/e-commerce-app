@@ -26,11 +26,21 @@ public class Category {
 	    @DBRef
 	    private List<Product> products;
 
-	    public Category(String category_name, String category_image) {
+	    
+	    public Category( String category_name, String category_image) {
 	        super();
+	        
 	        this.category_name = category_name;
 	        this.category_image = category_image;
 	        this.products = new ArrayList<Product>();
+	    }
+	    
+	    public String getCategory_id() {
+	        return category_id ;
+	    }
+
+	    public void setCategory_id(String category_id) {
+	        this.category_id = category_id;
 	    }
 
 	    public String getCategory_name() {

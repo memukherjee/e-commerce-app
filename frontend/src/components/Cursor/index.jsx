@@ -5,6 +5,7 @@ import { ScrollContext } from "../../contexts/scrollContext";
 import useCursorPosition from "../../hooks/useCursorPosition";
 import "./styles.css";
 import { MouseTransparentContext } from "../../contexts/mouseTransparentContext";
+import { ModalContext } from "../../contexts/modalContext";
 
 function Cursor() {
   const cursorPosition = useCursorPosition();
@@ -13,16 +14,17 @@ function Cursor() {
   const { mouseOverNavItem } = useContext(MouseOverNavItemContext);
   const { mouseTransparent } = useContext(MouseTransparentContext);
   const scroll = useContext(ScrollContext);
+  const {modalOpen} = useContext(ModalContext);
   const cursorStyles = useMemo(
     () => ({
       left: cursorPosition.x + "px",
       top: cursorPosition.y + "px",
       transform: mouseOverNavItem || mouseOverLink ? "scale(2)" : "",
       backgroundColor: mouseOverNavItem && !scroll ? "#000" : "initial",
-      zIndex: scroll ? "50" : "15",
+      zIndex: scroll || modalOpen ? "50" : "15",
       backdropFilter: mouseTransparent?"invert(0)":"invert(1)",
     }),
-    [cursorPosition, mouseOverNavItem, mouseOverLink, scroll, mouseTransparent]
+    [cursorPosition, mouseOverNavItem, mouseOverLink, scroll, mouseTransparent, modalOpen]
   );
 
   return <div style={cursorStyles} className="cursor hidden md:block"></div>;

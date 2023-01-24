@@ -4,7 +4,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
-import { UserContext } from "../../contexts/userContext";
 import InputBox from "../InputBox";
 import { setCookie } from "../../utils/cookie";
 import isValidAuthCredentials, {
@@ -13,25 +12,26 @@ import isValidAuthCredentials, {
 import useTitle from "../../hooks/useTitle";
 import useForm from "../../hooks/useForm";
 import getSellerAuthInputDetails from "../../assets/sellerAuthInputDetails";
+import { SellerContext } from "../../contexts/sellerContext";
 
 export default function SellerAuthForm() {
   const [isNewSeller, setNewSeller] = useState(true);
   const [processing, setProcessing] = useState(false);
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
-  const { setUser } = useContext(UserContext);
+  const { fetchSeller } = useContext(SellerContext);
   const navigate = useNavigate();
 
   useTitle("Sign Up or Log In for Sellers || Elegant Apparels");
 
   const handelAuthForm = (userData) => {
-    const route = `/seller/${isNewSeller ? "signup" : "login"}`;
-    console.log(userData);
+    const route = `/seller/auth/${isNewSeller ? "signup" : "login"}`;
+    // console.log(userData);
 
     const { name, email, mobileNo, password, confirmPassword } = userData;
 
     const authData = isNewSeller
-      ? { name, email, mob: mobileNo, pass: password }
-      : { email, pass: password };
+      ? { name, email, mobile: mobileNo, password }
+      : { email, password };
 
     if (
       isValidAuthCredentials(
@@ -47,11 +47,18 @@ export default function SellerAuthForm() {
         .post(process.env.REACT_APP_API + route, authData)
         .then((res) => {
           setProcessing(false);
+          console.log(res);
           if (res.status === 200) {
-            setUser(res.data);
-            setCookie("user", res.data.email, 7);
+            if(isNewSeller){
+              toast.success(res.data);
+            }
+            else{
+              setCookie("seller-accessToken", res.data.accessToken, 7);  
+              setCookie("seller-refreshToken", res.data.refreshToken, 7);
+              fetchSeller(res.data.refreshToken);
+              navigate("/seller");
+            }
             clearForm();
-            navigate("/");
           }
         })
         .catch((err) => {

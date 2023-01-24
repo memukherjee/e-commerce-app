@@ -7,19 +7,28 @@ import ScreenProvider from "./contexts/screenContext";
 import ScrollProvider from "./contexts/scrollContext";
 import MouseOverLinkProvider from "./contexts/mouseOverLinkContext";
 import MouseTransparentProvider from "./contexts/mouseTransparentContext";
+import MouseOverNavItemProvider from "./contexts/mouseOverNavItemContext";
+import SellerProvider from "./contexts/sellerContext";
+import ModalProvider from "./contexts/modalContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ScrollProvider>
       <ScreenProvider>
-        <UserProvider>
-          <MouseOverLinkProvider>
-            <MouseTransparentProvider>
-              <App />
-            </MouseTransparentProvider>
-          </MouseOverLinkProvider>
-        </UserProvider>
+        <ModalProvider>
+          <SellerProvider>
+            <UserProvider>
+              <MouseOverLinkProvider>
+                <MouseOverNavItemProvider>
+                  <MouseTransparentProvider>
+                    <App />
+                  </MouseTransparentProvider>
+                </MouseOverNavItemProvider>
+              </MouseOverLinkProvider>
+            </UserProvider>
+          </SellerProvider>
+        </ModalProvider>
       </ScreenProvider>
     </ScrollProvider>
   </React.StrictMode>

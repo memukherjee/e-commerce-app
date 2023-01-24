@@ -31,19 +31,20 @@ module.exports = {
     },
     extend: {
       transitionDuration: {
-        '0': '0ms',
-        '900': '900ms',
+        0: "0ms",
+        900: "900ms",
       },
       scale: {
-        '300': '3',
+        300: "3",
       },
       maxHeight: {
-        '500': '500px',
+        500: "500px",
       },
       fontSize: {
         sm: ".25rem",
         base: ".75rem",
         lg: "1rem",
+        "3/4xl": "1.15rem",
         xl: "1.5rem",
         "2xl": "2rem",
         "3xl": "3rem",
@@ -64,8 +65,8 @@ module.exports = {
         500: "500px",
       },
       backdropBlur: {
-        xs: '1px',
-      }
+        xs: "1px",
+      },
     },
   },
   plugins: [],

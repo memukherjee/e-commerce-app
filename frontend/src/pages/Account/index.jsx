@@ -31,7 +31,7 @@ export default function Account() {
         </Link>
         <span className="font-pen text-cyan-900 text-4xl font-bold block mb-4">
           <AnimatedText
-            text={`Hi, ${user.name.split(" ")[0]}`}
+            text={`Hi, ${user.username.split(" ")[0]}`}
             align="center"
             direction="y"
           />

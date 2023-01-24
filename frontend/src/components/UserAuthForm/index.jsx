@@ -16,21 +16,21 @@ import InputBox from "../InputBox";
 export default function UserAuthForm() {
   const [isNewUser, setNewUser] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { fetchUser } = useContext(UserContext);
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
   const navigate = useNavigate();
 
   const handelUserAuthForm = (userData) => {
-    const route = isNewUser ? "/signup" : "/login";
+    const route = isNewUser ? "/auth/signup" : "/auth/login";
     const { name, email, mobileNo, password, confirmPassword } = userData;
     const authData = isNewUser
       ? {
-          name,
           email,
-          mob: mobileNo,
-          pass: password,
+          name,
+          mobile: mobileNo,
+          password,
         }
-      : { email: email, pass: password };
+      : { email, password };
 
     if (
       isValidAuthCredentials(
@@ -43,12 +43,20 @@ export default function UserAuthForm() {
     ) {
       setProcessing(true);
       axios
-        .post(process.env.REACT_APP_API + route, authData)
+        .post(process.env.REACT_APP_API + route, authData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+          )
         .then((res) => {
           setProcessing(false);
+          // console.log(res);
           if (res.status === 200) {
-            setUser(res.data);
-            setCookie("user", res.data.email, 7);
+            setCookie("accessToken", res.data.accessToken, 7);
+            setCookie("refreshToken", res.data.refreshToken, 7);
+            fetchUser(res.data.refreshToken);
             clearForm();
             navigate("/");
           }

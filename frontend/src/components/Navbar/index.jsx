@@ -2,16 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ScrollContext } from "../../contexts/scrollContext";
 import { ScreenContext } from "../../contexts/screenContext";
-import { UserContext } from "../../contexts/userContext";
 import logo from "./images/brand-logo.png";
-import NavItem from "../NavItem";
+import NavItems from "../NavItems";
+import { moduleBasedOnPath } from "../../utils/checkModule";
 
-export default function Navbar() {
+export default function Navbar({ route }) {
   const [navOpen, setNavOpen] = useState(false);
   const mobileScreen = useContext(ScreenContext);
-  const { user } = useContext(UserContext);
 
   const scroll = useContext(ScrollContext);
+  // console.log(route);
 
   const collapsableNavStyles = {
     display: navOpen ? "block" : "none",
@@ -44,7 +44,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center max-w-1200 mx-auto">
         <Link
           className="nav-brand px-2 flex items-center gap-x-3 text-xl md:text-2xl"
-          to="/"
+          to={moduleBasedOnPath(route, "/", "/seller", "/admin")}
         >
           <div className="brand-logo h-10">
             <img
@@ -92,32 +92,7 @@ export default function Navbar() {
             >
               X
             </span>
-            <NavItem to="/" title="Home" setNavOpen={setNavOpen} />
-            <NavItem
-              to="/categories"
-              title="Categories"
-              setNavOpen={setNavOpen}
-            />
-            <NavItem to="/about" title="About" setNavOpen={setNavOpen} />
-            {user ? (
-              <NavItem to="/account" title="Account" setNavOpen={setNavOpen} />
-            ) : (
-              <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
-            )}
-            {
-              user?
-            <NavItem
-              to="/cart"
-              title="My Cart"
-              setNavOpen={setNavOpen}
-            />
-            :
-            <NavItem
-              to="/contact-us"
-              title="Contact Us"
-              setNavOpen={setNavOpen}
-            />
-            }
+            <NavItems route={route} setNavOpen={setNavOpen} />
           </ul>
         </div>
       </div>

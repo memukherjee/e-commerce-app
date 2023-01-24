@@ -1,41 +1,26 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Loader from "../../components/Loader";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
 import ProductCard from "../../components/ProductCard";
 import ProductFilter from "../../components/ProductFilter";
+import useProducts from "../../hooks/useProducts";
 import useTitle from "../../hooks/useTitle";
 
 export default function Products() {
-  const { category } = useParams();
-  const [products, setProducts] = useState(null);
-  const navigate = useNavigate();
 
-  useTitle(`${category} || Elegant Apparels`);
-  
-  useEffect(() => {
-    axios
-      .get(
-        `${
-          process.env.REACT_APP_API
-        }/products/product_category/${category.toUpperCase()}?pageNo=0&pageSize=10`
-      )
-      .then((res) => {
-        console.log(res);
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/404");
-      });
-  }, [category, navigate]);
+  const {category} = useLocation()?.state || {};
+
+  useTitle(`${category?.category_name} || Elegant Apparels`);
+
+  const products = useProducts(category?.category_id);
 
   const [filterTabOpen, setFilterTabOpen] = useState(false);
+  
   return products ? (
     <PageFadeTransitionContainer className="products-section relative mt-10 min-h-100vh text-center w-11/12 mx-auto">
       <h1 className="text-xl font-semibold">Products</h1>
-      <p className="text-lg font-medium">Category: {category}</p>
+      <p className="text-lg font-medium">Category: {category?.category_name}</p>
 
       {/* Filter */}
       <button

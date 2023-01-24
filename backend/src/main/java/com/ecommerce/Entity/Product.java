@@ -1,6 +1,7 @@
 package com.ecommerce.Entity;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ public class Product {
     @NotEmpty
     private String product_description;
     
+    private ArrayList<String> size;
+    
    // private List<Colour> product_colours;
     private String product_company;
 
@@ -40,7 +43,7 @@ public class Product {
 
         
     public Product(String product_id, @NotEmpty String product_name, @NotEmpty String product_category,
-			@NotEmpty String product_description, String product_company,
+			@NotEmpty String product_description,ArrayList<String> size, String product_company,
 			@NotEmpty double product_price, @NotEmpty double product_discount, double discountPrice,
 			int product_quantity, int product_sold, String product_imageUrl) {
 		super();
@@ -48,6 +51,7 @@ public class Product {
 		this.product_name = product_name;
 		this.product_category = product_category;
 		this.product_description = product_description;
+		this.size=size;
 //		this.product_colours = product_colours;
 		this.product_company = product_company;
 		this.product_price = product_price;
@@ -94,6 +98,14 @@ public class Product {
 
     public void setProduct_description(String product_description) {
         this.product_description = product_description;
+    }
+    
+    public ArrayList<String> getSize() {
+        return size;
+    }
+
+    public void setSize(ArrayList<String> size) {
+        this.size = size;
     }
 
 //    public List<Colour> getProduct_colour() {

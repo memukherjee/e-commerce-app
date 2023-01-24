@@ -51,6 +51,7 @@ public User() {
 	}
 
 private String username;
+private String name;
     
     private String email;
     @JsonIgnore
@@ -86,13 +87,20 @@ private String username;
 	private String address;
     
     private String avatar;
+    public String getName() {
+    	return name;
+    }
+    public void setName(String name) {
+    	this.name=name;
+    }
    
     
-    public User(String username, String email, String encode,String mobile,String address) {
-    	this.setAvatar("https://avatars.dicebear.com/api/initials/"+username+".svg");
+    public User(String name, String email, String encode,String mobile,String address) {
+    	this.setAvatar("https://avatars.dicebear.com/api/initials/"+name+".svg");
 		this.setMobile(mobile);
+		this.name=name;
 		this.setAddress(address);
-		this.setUsername(username);
+		this.setUsername(email);
 		this.setEmail(email);
 		this.setPassword(encode);
 		System.out.println(this.username+this.email+this.password);

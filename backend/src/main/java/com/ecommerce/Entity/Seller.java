@@ -14,6 +14,7 @@ public class Seller implements UserDetails{
 	
 	@Id
 	private String id;
+	private String name;
 	private String username;
 	private String email;
 	private String password;
@@ -29,10 +30,11 @@ public class Seller implements UserDetails{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Seller(String username, String email, String encode,String mobile,String address) {
+	public Seller(String name, String email, String encode,String mobile,String address) {
 		super();
-		this.setAvatar("https://avatars.dicebear.com/api/initials/"+username+".svg");
-		this.username = username;
+		this.setAvatar("https://avatars.dicebear.com/api/initials/"+name+".svg");
+		this.name=name;
+		this.username = email;
 		this.email = email;
 		this.password=encode;
 		this.mobile = mobile;
@@ -95,6 +97,12 @@ public class Seller implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	 public String getName() {
+	    	return name;
+	    }
+	    public void setName(String name) {
+	    	this.name=name;
+	    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

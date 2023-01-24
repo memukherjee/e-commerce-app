@@ -87,14 +87,14 @@ public class AuthREST {
     @PostMapping("signup")
     @Transactional
     public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
-    	System.out.println(dto.getUsername()+" ---"+dto.getEmail()+"---"+dto.getPassword());
+    	System.out.println(dto.getName()+" ---"+dto.getEmail()+"---"+dto.getPassword());
     	
     	User check=userRepository.findByEmail(dto.getEmail());
     	if(check!=null)
     		return new ResponseEntity("Email id incorrect or already exist",HttpStatus.UNAUTHORIZED);
 
     	
-        User user = new User(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
+        User user = new User(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
         userRepository.save(user);
 
         RefreshToken refreshToken = new RefreshToken();

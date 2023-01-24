@@ -94,14 +94,14 @@ public class SellerAuthREST {
     @PostMapping("signup")
     @Transactional
     public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
-    	System.out.println(dto.getUsername()+" ---"+dto.getEmail()+"---"+dto.getPassword());
+    	System.out.println(dto.getName()+" ---"+dto.getEmail()+"---"+dto.getPassword());
     	
     	Seller check=sellerRepository.findByEmail(dto.getEmail());
     	if(check!=null)
     		return new ResponseEntity("Email id incorrect or already exist",HttpStatus.UNAUTHORIZED);
 
     	
-        Seller seller = new Seller(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
+        Seller seller = new Seller(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
         sellerRepository.save(seller);
 
         return new ResponseEntity<>("Your account is created but yet to be verified by Elegant Apparels.",HttpStatus.OK);

@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 //@Setter
 public class SignupDTO {
     
-    private String username;
+    private String name;
 private String email;
     
     private String password;
@@ -36,11 +36,11 @@ private String email;
 		this.avatar = avatar;
 	}
 	private String avatar;
-    public String getUsername() {
-		return username;
+    public String getName() {
+		return name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;

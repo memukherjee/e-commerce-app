@@ -66,7 +66,7 @@ public class AuthREST {
     	if(logUser==null) {
     		return new ResponseEntity("",HttpStatus.UNAUTHORIZED);
     	}
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logUser.getUsername(), dto.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logUser.getEmail(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();
 

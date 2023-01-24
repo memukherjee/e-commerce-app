@@ -73,7 +73,7 @@ public class SellerAuthREST {
     		return new ResponseEntity("Your account is yet to be verified by Elegant Apparels.",HttpStatus.NOT_FOUND);
     	}
     	System.out.println("hi seller"+logSeller.getUsername());
-    	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getUsername(), dto.getPassword()));
+    	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getEmail(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Seller seller = (Seller) authentication.getPrincipal();
         

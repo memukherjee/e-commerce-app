@@ -25,6 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SellerService sellerService=null;
     @Autowired
+    private AdminAuthService adminAuthService=null;
+    @Autowired
     private AccessTokenEntryPoint accessTokenEntryPoint;
 
     @Bean
@@ -50,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     	}
         auth.userDetailsService(sellerService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(adminAuthService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -59,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/seller/auth/**").permitAll()
+                .antMatchers("/api/admin/auth/**").permitAll()
                 .antMatchers("/admin/**").permitAll()
                 .antMatchers("/api/products/**").permitAll()
                 .antMatchers("/api/category/**").permitAll()

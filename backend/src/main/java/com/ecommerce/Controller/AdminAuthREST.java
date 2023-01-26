@@ -1,0 +1,173 @@
+package com.ecommerce.Controller;
+
+import java.net.http.HttpHeaders;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommerce.Entity.Admin;
+import com.ecommerce.Entity.AdminRefreshToken;
+import com.ecommerce.Entity.Seller;
+import com.ecommerce.Entity.SellerRefreshToken;
+import com.ecommerce.Repository.AdminRefreshTokenRepository;
+import com.ecommerce.Repository.AdminAuthRepository;
+import com.ecommerce.Repository.SellerRefreshTokenRepository;
+import com.ecommerce.Repository.SellerRepository;
+import com.ecommerce.Service.AdminAuthService;
+import com.ecommerce.Service.SellerService;
+import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.SignupDTO;
+import com.ecommerce.dto.TokenDTO;
+import com.ecommerce.jwt.AdminTokenValidator;
+import com.ecommerce.jwt.JwtHelper;
+import com.ecommerce.jwt.SellerTokenValidator;
+import com.ecommerce.Entity.User;
+import com.ecommerce.Entity.objholder;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/admin/auth")
+public class AdminAuthREST {
+	
+	 @Autowired
+	    AuthenticationManager authenticationManager;
+	 @Autowired
+	    JwtHelper jwtHelper;
+	    @Autowired
+	    PasswordEncoder passwordEncoder;
+	    
+	    @Autowired
+	    AdminAuthRepository adminAuthRepository;
+	    @Autowired
+	    AdminRefreshTokenRepository adminRefreshTokenRepository;
+	    
+	    @Autowired
+		AdminTokenValidator token;
+	    
+	    @Autowired
+	    AdminAuthService adminAuthService;
+	    @Autowired
+	    SellerRepository sellerRepository;
+	    
+	    
+	    
+	    
+	    
+	    @PostMapping("/login")
+	    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto){
+	    	System.out.println("admin login-email-"+dto.getEmail()+" password-"+dto.getPassword());
+	    	Admin logAdmin=adminAuthRepository.findByEmail(dto.getEmail());
+	    	if(logAdmin==null) {
+	    		return new ResponseEntity("email not matched",HttpStatus.UNAUTHORIZED);
+	    	}
+	    	
+	    	System.out.println("hi admin "+logAdmin.getUsername());
+	    	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logAdmin.getUsername(), dto.getPassword()));
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        Admin admin = (Admin) authentication.getPrincipal();
+	        
+	        System.out.println("admin="+admin);
+	        AdminRefreshToken adminRefreshToken = new AdminRefreshToken();
+	        adminRefreshToken.setOwner(admin);
+	        adminRefreshTokenRepository.save(adminRefreshToken);
+	        
+	        String accessToken = jwtHelper.generateAccessToken(admin);
+	        System.out.println("login--"+accessToken);
+	        String refreshTokenString = jwtHelper.generateRefreshToken(admin, adminRefreshToken);
+	        System.out.println("refreshToken="+refreshTokenString);
+
+	        return ResponseEntity.ok(new TokenDTO(admin.getId(),accessToken,refreshTokenString));
+	    	
+	    }
+	    
+	    @PostMapping("signup")
+	    @Transactional
+	    public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
+	    	System.out.println(dto.getName()+" ---"+dto.getEmail()+"---"+dto.getPassword());
+	    	
+	    	Admin check=adminAuthRepository.findByEmail(dto.getEmail());
+	    	if(check!=null)
+	    		return new ResponseEntity("Email id incorrect or already exist",HttpStatus.UNAUTHORIZED);
+
+	    	
+	        Admin admin = new Admin(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
+	        adminAuthRepository.save(admin);
+
+	        return new ResponseEntity<>("Your account is created but yet to be verified by Elegant Apparels.",HttpStatus.OK);
+	    }
+	    
+	    @PostMapping("logout")
+	    public ResponseEntity<?> logout(@RequestBody TokenDTO dto) {
+	        String refreshTokenString = dto.getRefreshToken();
+	        System.out.println(refreshTokenString);
+	        if (jwtHelper.validateRefreshToken(refreshTokenString) && adminRefreshTokenRepository.existsById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString))) {
+	            // valid and exists in db
+	            adminRefreshTokenRepository.deleteById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString));
+	            return ResponseEntity.ok().build();
+	        }
+
+	        throw new BadCredentialsException("invalid token");
+	    }
+	    @GetMapping("/getAdminDetailsByJWT")
+	    public ResponseEntity<?> getUserDetailsByJWT(@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
+	    	
+	    	System.out.println("getUserDetailsByJWT");
+	    	Admin admin=token.validate(auth);
+	    	if(admin==null)
+			return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
+	    	else
+	    		return new ResponseEntity(admin,HttpStatus.OK);
+	    }
+	    
+	  
+	    
+
+	    @GetMapping("/getAllUser")
+	    public ResponseEntity<List<User>> getProduct(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "1") Integer pageSize) {
+	        List<User> list = adminAuthService.getUser(pageNo, pageSize);
+	        return new ResponseEntity<List<User>>(list,new org.springframework.http.HttpHeaders(), HttpStatus.OK);
+	    }
+	    
+	    
+	    @PostMapping("/validateSeller")
+	    public ResponseEntity<?> verify(@RequestBody objholder obj,@RequestHeader(value="authorization",defaultValue="")String auth){
+	    	Admin admin=token.validate(auth);
+	    	if(admin==null)
+	    		return new ResponseEntity<>("INVALID TOKEN",HttpStatus.NOT_FOUND);
+	    	
+	    	String sid=obj.id;
+	    	System.out.println(sid);
+	    	Seller seller=sellerRepository.findAllByid(sid);
+	    	if(seller==null)
+	    		return new ResponseEntity<>("Seller ID Invalid",HttpStatus.NOT_FOUND);
+	    	
+	    	seller.setAccountStatus(true);
+	    	sellerRepository.save(seller);
+	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
+	    	
+	    	
+	    }
+	    
+	    
+	    
+
+}

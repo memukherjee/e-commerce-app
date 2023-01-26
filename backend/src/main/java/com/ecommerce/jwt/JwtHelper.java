@@ -12,6 +12,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ecommerce.Entity.Admin;
+import com.ecommerce.Entity.AdminRefreshToken;
 import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
@@ -61,6 +63,14 @@ public class JwtHelper {
                 .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
                 .sign(accessTokenAlgorithm);
     }
+    public String generateAccessToken(Admin seller) {                  //admin
+        return JWT.create()
+                .withIssuer(issuer)
+                .withSubject(seller.getId())
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
+                .sign(accessTokenAlgorithm);
+    }
 
     public String generateRefreshToken(User user, RefreshToken refreshToken) {
         return JWT.create()
@@ -76,6 +86,15 @@ public class JwtHelper {
                 .withIssuer(issuer)
                 .withSubject(seller.getId())
                 .withClaim("tokenId", sellerRefreshToken.getId())
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
+                .sign(refreshTokenAlgorithm);
+    }
+    public String generateRefreshToken(Admin admin, AdminRefreshToken adminRefreshToken) {        //admin
+        return JWT.create()
+                .withIssuer(issuer)
+                .withSubject(admin.getId())
+                .withClaim("tokenId", adminRefreshToken.getId())
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .sign(refreshTokenAlgorithm);

@@ -32,6 +32,7 @@ import com.ecommerce.Repository.AdminRefreshTokenRepository;
 import com.ecommerce.Repository.AdminAuthRepository;
 import com.ecommerce.Repository.SellerRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
+import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Service.AdminAuthService;
 import com.ecommerce.Service.SellerService;
 import com.ecommerce.dto.LoginDTO;
@@ -67,6 +68,8 @@ public class AdminAuthREST {
 	    AdminAuthService adminAuthService;
 	    @Autowired
 	    SellerRepository sellerRepository;
+	    @Autowired
+	    UserRepository userRepository;
 	    
 	    
 	    
@@ -164,6 +167,42 @@ public class AdminAuthREST {
 	    	sellerRepository.save(seller);
 	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
 	    	
+	    	
+	    }
+	    
+	    @PostMapping("/deleteUser")
+	    public ResponseEntity<?> deleteUser(@RequestBody objholder obj,@RequestHeader(value="authorization",defaultValue="")String auth){
+	    	Admin admin=token.validate(auth);
+	    	if(admin==null)
+	    		return new ResponseEntity<>("INVALID TOKEN",HttpStatus.NOT_FOUND);
+	    	
+	    	String sid=obj.id;
+	    	System.out.println(sid);
+	    	User user=userRepository.findAllByid(sid);
+	    	if(user==null)
+	    		return new ResponseEntity<>("User ID Invalid",HttpStatus.NOT_FOUND);
+	    	
+	    	userRepository.delete(user);
+	    	return new ResponseEntity<>("User Removed",HttpStatus.OK);
+			
+	    	
+	    }
+	    
+	    @PostMapping("/deleteSeller")
+	    public ResponseEntity<?> deleteSeller(@RequestBody objholder obj,@RequestHeader(value="authorization",defaultValue="")String auth){
+	    	Admin admin=token.validate(auth);
+	    	if(admin==null)
+	    		return new ResponseEntity<>("INVALID TOKEN",HttpStatus.NOT_FOUND);
+	    	
+	    	String sid=obj.id;
+	    	System.out.println(sid);
+	    	Seller seller=sellerRepository.findAllByid(sid);
+	    	if(seller==null)
+	    		return new ResponseEntity<>("User ID Invalid",HttpStatus.NOT_FOUND);
+	    	
+	    	sellerRepository.delete(seller);
+	    	return new ResponseEntity<>("Seller Removed",HttpStatus.OK);
+			
 	    	
 	    }
 	    

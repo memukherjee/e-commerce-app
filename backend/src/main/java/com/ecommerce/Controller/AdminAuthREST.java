@@ -151,7 +151,7 @@ public class AdminAuthREST {
 	    }
 	    
 	    
-	    @PostMapping("/validateSeller")
+	   @PostMapping("/validateSeller")
 	    public ResponseEntity<?> verify(@RequestBody objholder obj,@RequestHeader(value="authorization",defaultValue="")String auth){
 	    	Admin admin=token.validate(auth);
 	    	if(admin==null)
@@ -161,11 +161,10 @@ public class AdminAuthREST {
 	    	System.out.println(sid);
 	    	Seller seller=sellerRepository.findAllByid(sid);
 	    	if(seller==null)
-	    		return new ResponseEntity<>("Seller ID Invalid",HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<>("Seller ID Invalid",HttpStatus.NOT_FOUND);
 	    	
 	    	seller.setAccountStatus(true);
-	    	sellerRepository.save(seller);
-	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
+	    	sellerRepository.save(seller);	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
 	    	
 	    	
 	    }

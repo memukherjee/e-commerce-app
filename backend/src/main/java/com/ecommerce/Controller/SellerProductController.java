@@ -1,11 +1,16 @@
 package com.ecommerce.Controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +26,7 @@ import com.ecommerce.Service.SellerProductService;
 import com.ecommerce.jwt.SellerTokenValidator;
 
 @RestController
-@RequestMapping("/api/sellerProduct")
+@RequestMapping("/api/seller")
 public class SellerProductController {
 
 	@Autowired
@@ -31,7 +36,7 @@ public class SellerProductController {
 	@Autowired
 	UserProductRepository repo;
 	
-	@PostMapping("/add")
+	@PostMapping("/addProduct")
 	 public ResponseEntity<?> postProductAdd(@RequestBody Product product,@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
 		 Seller seller=token.validate(auth);
 	    	if(seller==null)
@@ -59,6 +64,28 @@ public class SellerProductController {
 			   return service.deleteProduct(product_id);
 	    	    
 		}
+	 
+	 @GetMapping("/getAll")
+	 public List<Product> getProduct(@RequestHeader(value="authorization",defaultValue="")String auth)throws Exception{
+		 Seller seller=token.validate(auth);
+		 String id= seller.getId();
+		 if(seller!=null) {
+	            return service.getAllProduct(id);}
+	     else {
+	    		return null;}
+	    	
+	 }
+	 
+	 
+	 @PutMapping("/updateProducts")
+	 public Product updateCategory(@RequestBody Product product, @RequestHeader(value="authorization",defaultValue="")String auth)throws Exception{
+		 Seller seller=token.validate(auth);
+		 String id= seller.getId();
+		 if(seller!=null) {
+		     return service.updateProduct(id,product);}
+		 else 
+	         return null;
+		 }
 	
 	
 

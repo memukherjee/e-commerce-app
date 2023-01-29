@@ -15,15 +15,22 @@ import com.ecommerce.Entity.Product;
 @Repository
 public interface UserProductRepository extends MongoRepository<Product, String> {
 
-    List<Product> findAll();
+
+	List<Product> findAll();
 
     // Product findById(String product_id);
-    Product save(Product product);
+    Product save(List<Product> existingProduct);
 
     @Query("{product_category: ?0}")
     Page<Product> findByCategory(String product_category, Pageable paging);
 
     @Query("{product_name: ?0}")
     List<Product> getProductByName(String product_name);
+
+//    @Query("{seller_id: ?0}")
+//    Product getAllProduct(String seller_id);
+
+    @Query("{seller_id: ?0}")
+	List<Product> findBySellerId(String id);
 
 }

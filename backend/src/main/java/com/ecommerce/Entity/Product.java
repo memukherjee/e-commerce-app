@@ -64,6 +64,15 @@ public class Product {
 		this.product_sold = product_sold;
 		this.product_imageUrl = product_imageUrl;
 	}
+    
+    
+
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	public String getProduct_id() {
         return product_id;
@@ -177,7 +186,6 @@ public class Product {
 	public void setProduct_imageUrl(String product_imageUrl) {
 		this.product_imageUrl = product_imageUrl;
 	}
-
-    
+	
 }
     

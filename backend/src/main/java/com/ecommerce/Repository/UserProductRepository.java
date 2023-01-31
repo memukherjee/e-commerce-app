@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.Entity.Product;
 
@@ -32,5 +33,7 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
 
     @Query("{seller_id: ?0}")
 	List<Product> findBySellerId(String id);
+
+	
 
 }

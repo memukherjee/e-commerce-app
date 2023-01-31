@@ -5,6 +5,7 @@ import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/order")
 public class OrderController {
 

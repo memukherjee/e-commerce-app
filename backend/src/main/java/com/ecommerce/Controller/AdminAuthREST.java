@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -144,14 +146,20 @@ public class AdminAuthREST {
 	  
 	    
 
-	    @GetMapping("/getAllUser")
-	    public ResponseEntity<List<User>> getProduct(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "1") Integer pageSize) {
-	        List<User> list = adminAuthService.getUser(pageNo, pageSize);
-	        return new ResponseEntity<List<User>>(list,new org.springframework.http.HttpHeaders(), HttpStatus.OK);
+	    @GetMapping("/getAllUser/{pageNo}/{pageSize}")
+	    public ResponseEntity<?> getUser(@PathVariable Integer pageNo,@PathVariable Integer pageSize) {
+	        Page<User> list = adminAuthService.getUser(pageNo, pageSize);
+	        return new ResponseEntity<>(list.getContent(),HttpStatus.OK);
+	    }
+	    
+	    @GetMapping("/getAllSeller/{pageNo}/{pageSize}")
+	    public ResponseEntity<?> getSeller(@PathVariable Integer pageNo,@PathVariable Integer pageSize) {
+	        Page<Seller> list = adminAuthService.getSeller(pageNo, pageSize);
+	        return new ResponseEntity<>(list.getContent(),HttpStatus.OK);
 	    }
 	    
 	    
-	   @PostMapping("/validateSeller")
+	    @PostMapping("/validateSeller")
 	    public ResponseEntity<?> verify(@RequestBody objholder obj,@RequestHeader(value="authorization",defaultValue="")String auth){
 	    	Admin admin=token.validate(auth);
 	    	if(admin==null)
@@ -161,10 +169,11 @@ public class AdminAuthREST {
 	    	System.out.println(sid);
 	    	Seller seller=sellerRepository.findAllByid(sid);
 	    	if(seller==null)
-    		return new ResponseEntity<>("Seller ID Invalid",HttpStatus.NOT_FOUND);
+	    		return new ResponseEntity<>("Seller ID Invalid",HttpStatus.NOT_FOUND);
 	    	
 	    	seller.setAccountStatus(true);
-	    	sellerRepository.save(seller);	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
+	    	sellerRepository.save(seller);
+	    	return new ResponseEntity<>("Seller account verified",HttpStatus.OK);
 	    	
 	    	
 	    }

@@ -16,6 +16,7 @@ import com.ecommerce.Entity.Admin;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.AdminAuthRepository;
+import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.jwt.AdminTokenValidator;
 
@@ -28,6 +29,8 @@ public class AdminAuthService implements UserDetailsService{
 	AdminTokenValidator token;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	SellerRepository sellerRepository;
 
 	 @Override
 	    public Admin loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,16 +41,15 @@ public class AdminAuthService implements UserDetailsService{
 	        return adminAuthRepository.findById(id)
 	                .orElseThrow(() -> new UsernameNotFoundException("user id not found"));
 	    }
-	public List<User> getUser(Integer pageNo, Integer pageSize) {
-			Pageable paging=PageRequest.of(pageNo, pageSize);
-			Page<User> p=userRepository.findAll(paging);
-			
-			if(p.hasContent()) {
-				return p.getContent();
-			}else {
-				return new ArrayList<User>();
-			}
+	public Page<User> getUser(Integer pageNo, Integer pageSize) {
+			Page<User> user = userRepository.findAll(PageRequest.of(pageNo, pageSize));
+			return user;
 			
 	}
+	public Page<Seller> getSeller(Integer pageNo, Integer pageSize) {
+		Page<Seller> seller = sellerRepository.findAll(PageRequest.of(pageNo, pageSize));
+		return seller;
+		
+}
 
 }

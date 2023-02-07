@@ -71,12 +71,10 @@ public class SellerProductController {
 				}
 	    	product.setSeller_id(seller.getId());
 	    	}
-	        double discountRate = 0.0;
-	        double a = product.getProduct_price();
-	        double b = product.getProduct_discount();
-	        discountRate = b / 100;
-	        double c = a - (a * discountRate);
-	        product.setDiscountPrice(c);
+
+	        double productPrice = product.getProduct_price();
+	        double discountedRate = product.getDiscountPrice();
+	        product.setProduct_discount((productPrice - discountedRate)/productPrice*100);
 	        Product productJson= new Product();
 	    	try {
 	    		ObjectMapper objectMapper= new ObjectMapper();

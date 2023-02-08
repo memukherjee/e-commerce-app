@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.User;
 
 @Repository
 public interface UserProductRepository extends MongoRepository<Product, String> {
@@ -33,7 +34,9 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
 
     @Query("{seller_id: ?0}")
 	List<Product> findBySellerId(String id);
+    @Query("{'product_category': ?0}")
+	List<Product> findByCategory(String product_category);
 
-	
+
 
 }

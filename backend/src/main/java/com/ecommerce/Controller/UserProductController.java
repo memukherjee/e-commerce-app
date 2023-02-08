@@ -1,11 +1,17 @@
 
 package com.ecommerce.Controller;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.Entity.Category;
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Repository.CategoryRepository;
+import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Service.UserProductService;
 
 @RestController
@@ -25,6 +34,10 @@ import com.ecommerce.Service.UserProductService;
 public class UserProductController {
     @Autowired
     UserProductService service;
+    @Autowired
+    UserProductRepository userProductRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     /* Searching the product based on product id......................... */
 
@@ -62,6 +75,56 @@ public class UserProductController {
             @RequestParam(defaultValue = "5") Integer pageSize) {
         List<Product> list = service.getAllProduct(pageNo, pageSize);
         return new ResponseEntity<List<Product>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam("query") String query,@RequestParam("pageNo") int pageNo,@RequestParam("pageSize") int pageSize){
+    	query.toLowerCase();
+    	List<Category> cat = categoryRepository.findAll();
+    	ArrayList<String> catIdAll=new ArrayList<String>();
+    	for(int i=0;i<cat.size();i++) {
+    		if(cat.get(i).getCategory_name().toLowerCase().contains(query.toLowerCase())) {
+    			catIdAll.add(cat.get(i).getCategory_id());
+    		}
+    	}
+    	
+
+    	List<Product> concatenated_list
+        = new ArrayList<Product>();
+    	for(String i:catIdAll) {
+    	
+    	concatenated_list.addAll( userProductRepository.findByCategory(i));
+    	}
+    	
+    	List<Product> pro=userProductRepository.findAll();
+    	ArrayList<Product> proAll=new ArrayList<Product>();
+    	for(int i=0;i<pro.size();i++) {
+    		if(pro.get(i).getProduct_name().toLowerCase().contains(query.toLowerCase())) {
+    			proAll.add(pro.get(i));
+    		}
+    	}
+    	
+    	
+    	concatenated_list.addAll(proAll);
+    	
+    	
+    	
+    	
+    	for(int i=0;i<concatenated_list.size();i++) {
+    		for(int j=i+1;j<concatenated_list.size();j++) {
+    			if(concatenated_list.get(i).getProduct_id().equals(concatenated_list.get(j).getProduct_id())) {
+    				concatenated_list.remove(j); 				
+    			}
+    		}		
+    	}
+    	
+    	PagedListHolder<Product> pagedListHolder=new PagedListHolder<Product>(concatenated_list);
+    	pagedListHolder.setPage(pageNo);
+    	pagedListHolder.setPageSize(pageSize);
+    	
+    	
+    		return new ResponseEntity<>(pagedListHolder.getPageList(),HttpStatus.OK);
+    	
+    	
     }
     
     

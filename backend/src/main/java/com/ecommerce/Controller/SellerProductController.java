@@ -91,10 +91,10 @@ public class SellerProductController {
 	
 	
 	 @DeleteMapping("/deleteProduct/{product_id}")
-	 public String deleteProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth)throws Exception{
+	 public ResponseEntity<String> deleteProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth)throws Exception{
 		 Seller seller=token.validate(auth);
 	    	if(seller==null)
-		          return ("Not verified");
+		          return new ResponseEntity<String>("Not verified",HttpStatus.UNAUTHORIZED);
 	    	else 
 			   return service.deleteProduct(product_id);
 	    	    
@@ -113,21 +113,36 @@ public class SellerProductController {
 	 }
 	 
 	 
-	 @PutMapping("/updateProducts")
-	 public Product updateCategory(@RequestBody Product product, @RequestHeader(value="authorization",defaultValue="")String auth)throws Exception{
-		 Seller seller=token.validate(auth);
-		 String id= seller.getId();
-		 if(seller!=null) {
+	 @PutMapping(value="/updateProducts",consumes= { org.springframework.http.MediaType.APPLICATION_JSON_VALUE, org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE })
+	 public ResponseEntity<Product> updateCategory(@RequestParam("file")MultipartFile file,@RequestParam("productData")String productData, @RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
+		 Product product = null;
+			Seller seller=token.validate(auth);
+		    	if(seller==null)
+				     return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
+		    	else {
+		    		try {
+		    			product=mapper.readValue(productData, Product.class);
+		    		}
+		    		catch (JsonProcessingException e) {
+		    			return new ResponseEntity("Invalid",HttpStatus.UNAUTHORIZED);
+					}
+		    		product.setSeller_id(seller.getId());
+		    	}
+		    	Product productJson= new Product();
+		    	try {
+		    		ObjectMapper objectMapper= new ObjectMapper();
+		    		String jsonString=objectMapper.writeValueAsString(productJson);
+		    	} catch(IOException err)
+		    	{
+		    		System.out.printf("Error",err.toString());
+		    	}
+		    	String id= seller.getId();
+		        double productPrice = product.getProduct_price();
+			    double discountedRate = product.getDiscountPrice();
+			    product.setProduct_discount((productPrice - discountedRate)/productPrice*100);
+		    	String image_url=cloudinaryController.upload(file);
+		    	product.setProduct_imageUrl(image_url);
 		     return service.updateProduct(id,product);}
-		 else 
-	         return null;
 		 }
-	
-	
 
-
-
-    
-
-}
 

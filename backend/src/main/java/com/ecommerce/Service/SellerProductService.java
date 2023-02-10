@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,9 +43,9 @@ public class SellerProductService {
 //    	return repository.save(productJson);
 //	}
 	
-	public String deleteProduct(String product_id) {
+	public ResponseEntity<String> deleteProduct(String product_id) {
         repository.deleteById(product_id);
-        return "Product Deleted";
+        return new ResponseEntity<String>("Product Deleted",HttpStatus.OK);
     }
 
 	public List<Product> getAllProduct(String id) {
@@ -51,19 +53,23 @@ public class SellerProductService {
 	       
 	    }
 
-	public Product updateProduct(String id,Product product) {
+	public ResponseEntity<Product> updateProduct(String id,Product product) {
 		Product existingProduct = repository.findById(product.getProduct_id()).get();
          existingProduct.setProduct_name(product.getProduct_name());
-        existingProduct.setProduct_category(product.getProduct_category());
-        existingProduct.setProduct_description(product.getProduct_description());
+         existingProduct.setProduct_category(product.getProduct_category());
+         existingProduct.setProduct_description(product.getProduct_description());
+         existingProduct.setSize(product.getSize());
          existingProduct.setProduct_company(product.getProduct_company());
          existingProduct.setProduct_price(product.getProduct_price());
-       existingProduct.setProduct_discount(product.getProduct_discount());
-        existingProduct.setProduct_quantity(product.getProduct_quantity());
+         existingProduct.setProduct_discount(product.getProduct_discount());
+         existingProduct.setDiscountPrice(product.getDiscountPrice());
+         existingProduct.setProduct_quantity(product.getProduct_quantity());
          existingProduct.setProduct_imageUrl(product.getProduct_imageUrl());
 
-        return  repository.save(existingProduct);
+        repository.save(existingProduct);
+        return new ResponseEntity<Product>(product,  new HttpHeaders(), HttpStatus.OK);
 	}
-	}
+}
+	
 
 

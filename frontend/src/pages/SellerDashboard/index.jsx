@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import getSellerDashboardOptions from "../../assets/sellerDashboardOptions";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
 import { SellerContext } from "../../contexts/sellerContext";
+import useTitle from "../../hooks/useTitle";
 
 export default function SellerDashboard() {
   const {seller} = useContext(SellerContext);
   const dashboardData = getSellerDashboardOptions(seller);
+
+  useTitle("Seller Dashboard | Elegant Apparels");
 
   return (
     <PageFadeTransitionContainer className="min-h-100vh relative pt-12">

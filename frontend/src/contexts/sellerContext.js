@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { moduleBasedOnPath } from "../utils/checkModule";
 import { getCookie } from "../utils/cookie";
 
 export const SellerContext = createContext({
@@ -26,24 +28,27 @@ const SellerProvider = ({ children }) => {
         toast("Welcome " + res.data.name, {
           position: "top-center",
         });
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const isSeller = moduleBasedOnPath(useLocation().pathname,false,true,false);
   useEffect(() => {
     const sellerCookie = getCookie("seller-refreshToken");
-    console.log(sellerCookie);
-    if (sellerCookie) {
+    // console.log(sellerCookie);
+
+
+    if (isSeller && sellerCookie) {
       fetchSeller(sellerCookie);
     }
     return () => {
       // console.log("Seller Provider Unmounted");
       setSeller(null);
     };
-  }, []);
+  }, [isSeller]);
 
   return (
     <SellerContext.Provider value={{ seller, setSeller, fetchSeller }}>

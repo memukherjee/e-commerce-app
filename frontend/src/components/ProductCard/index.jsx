@@ -37,9 +37,11 @@ export default function ProductCard({
             {product.product_name}
           </span>
           <span className="product-price font-normal text-lg flex flex-wrap justify-center gap-1">
-            <span className="product-mrp line-through text-red-400">
-              ₹{product.product_price}
-            </span>
+            {product.product_price > product.discountPrice && (
+              <span className="product-mrp line-through text-red-400">
+                ₹{product.product_price}
+              </span>
+            )}
             <span className="product-discounted-price text-green-900">
               ₹{product.discountPrice}
             </span>

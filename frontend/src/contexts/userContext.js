@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { moduleBasedOnPath } from "../utils/checkModule";
 import { getCookie } from "../utils/cookie";
 
 export const UserContext = createContext({
@@ -32,16 +34,20 @@ const UserProvider = ({ children }) => {
         });
   }
 
+
+  const isUser = moduleBasedOnPath(useLocation().pathname,true,false,false);
+
+
   useEffect(() => {
     // User Cookie setting
     const userCookie = getCookie("refreshToken");
-    if (userCookie) {
+    if (isUser && userCookie) {
       fetchUser(userCookie);
     }
     return () => {
       setUser(null);
     };
-  }, []);
+  }, [isUser]);
 
   return (
     <UserContext.Provider value={{ user, setUser, fetchUser }}>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import ProductColorPicker from "../../components/ProductColorPicker";
+import ProductSizePicker from "../../components/ProductSizePicker";
 import useTitle from "../../hooks/useTitle";
 
 export default function Product() {
@@ -33,13 +33,13 @@ export default function Product() {
       });
   }, [pid, navigate]);
 
-  const productColors = ["gold", "silver", "black", "orange"];
+  const productSizes = ["S", "M", "L", "XL", "2XL","3XL"];
 
   const [quantity, setQuantity] = useState(1);
 
   const [expandDetails, setExpandDetails] = useState(false);
 
-  const [productColor, setProductColor] = useState(productColors[0]);
+  const [productSize, setProductSize] = useState("");
 
   return product ? (
     <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center">
@@ -117,11 +117,11 @@ export default function Product() {
           </div>
         </div>
         <div className="productSelectDetails md:row-start-3 md:row-end-4 md:col-start-1 md:col-end-2 w-full">
-          {productColors && (
-            <ProductColorPicker
-              productColor={productColor}
-              setProductColor={setProductColor}
-              productColors={productColors}
+          {productSizes.length!==0 && (
+            <ProductSizePicker
+              productSize={productSize}
+              setProductSize={setProductSize}
+              productSizes={productSizes}
             />
           )}
         </div>

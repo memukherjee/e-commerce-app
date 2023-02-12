@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import UserProvider from "./contexts/userContext";
@@ -14,22 +15,24 @@ import ModalProvider from "./contexts/modalContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ScrollProvider>
-      <ScreenProvider>
-        <ModalProvider>
-          <SellerProvider>
-            <UserProvider>
-              <MouseOverLinkProvider>
-                <MouseOverNavItemProvider>
-                  <MouseTransparentProvider>
-                    <App />
-                  </MouseTransparentProvider>
-                </MouseOverNavItemProvider>
-              </MouseOverLinkProvider>
-            </UserProvider>
-          </SellerProvider>
-        </ModalProvider>
-      </ScreenProvider>
-    </ScrollProvider>
+    <Router>
+      <ScrollProvider>
+        <ScreenProvider>
+          <ModalProvider>
+            <SellerProvider>
+              <UserProvider>
+                <MouseOverLinkProvider>
+                  <MouseOverNavItemProvider>
+                    <MouseTransparentProvider>
+                      <App />
+                    </MouseTransparentProvider>
+                  </MouseOverNavItemProvider>
+                </MouseOverLinkProvider>
+              </UserProvider>
+            </SellerProvider>
+          </ModalProvider>
+        </ScreenProvider>
+      </ScrollProvider>
+    </Router>
   </React.StrictMode>
 );

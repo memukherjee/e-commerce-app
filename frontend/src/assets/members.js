@@ -9,6 +9,7 @@ const members = [
       github: "https://github.com/memukherjee",
       twitter: "https://twitter.com/memukherjeee",
       facebook: "https://www.facebook.com/memukherjeee",
+      website: "https://memukherjee.me",
     },
   },
   {
@@ -25,7 +26,7 @@ const members = [
     name: "Mili Biswas",
     title: "Backend Developer",
     avatar:
-      "https://media-exp1.licdn.com/dms/image/C4D03AQHHcf1k530DuQ/profile-displayphoto-shrink_400_400/0/1652020965556?e=1674086400&v=beta&t=BckTXowF2NO10H1m4rmcjbSJtX86uS1_VtEEQp7fqDs",
+      "https://avatars.githubusercontent.com/u/91645997?v=4",
     accentColor: "#29c1b4",
     social: {
       linkedIn: "https://www.linkedin.com/in/mili-biswas-93b2b71a5/",
@@ -36,8 +37,7 @@ const members = [
   {
     name: "Aishwarya Ghosh",
     title: "Backend Developer",
-    avatar:
-      "https://media-exp1.licdn.com/dms/image/C4D03AQFp2_TZap7hCQ/profile-displayphoto-shrink_400_400/0/1656685909604?e=1674086400&v=beta&t=Hetw6nrL6K0NNF8Jb1jpNmG5gC9S-RMmWYVjavQRcoI",
+    avatar: "https://avatars.githubusercontent.com/u/98577840?v=4",
     accentColor: "#ff6c80",
     social: {
       linkedIn: "https://www.linkedin.com/in/aishwarya-ghosh-5114811b6/",
@@ -46,6 +46,5 @@ const members = [
     },
   },
 ];
-
 
 export default members;

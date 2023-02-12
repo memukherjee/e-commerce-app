@@ -23,7 +23,7 @@ export default function LogOut({ sellerRoute, adminRoute }) {
           Id: user.id,
         })
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           if (res.status === 200) {
             eraseCookie("accessToken");
             eraseCookie("refreshToken");

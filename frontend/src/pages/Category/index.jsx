@@ -26,7 +26,7 @@ export default function Category() {
             onMouseOut={() => setMouseOverLink(false)}
             onClick={() => setMouseOverLink(false)}
             key={category.category_name}
-            to={`/products`}
+            to={`/products?category=${JSON.stringify({"category_id": category.category_id, "category_name": category.category_name})}`}
             state={{ category }}
             className="w-11/12 md:w-1/4"
           >

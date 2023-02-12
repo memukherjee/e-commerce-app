@@ -1,4 +1,3 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./toast-custom.css"
@@ -10,7 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
-    <Router>
+    <>
       <ScrollToTop />
         <Cursor />
       <ToastContainer
@@ -28,7 +27,7 @@ function App() {
       />
       <AnimatedRoutes />
       <Footer />
-    </Router>
+    </>
   );
 }
 export default App;

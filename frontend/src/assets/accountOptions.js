@@ -12,13 +12,12 @@ const accountOptions = [
     icon: "fas fa-shopping-bag",
     link: "/account/orders",
     color: "#86efac",
-  },
-  {
-    name: "Addresses",
-    description: "View and manage your addresses",
-    icon: "fas fa-map-marker-alt",
-    link: "/account/addresses",
-    color: "#fdba74",
+  },{
+    name:"Cart",
+    description:"Checkout your cart",
+    icon:"fas fa-shopping-cart",
+    link:"/cart",
+    color:"#fcc135"
   },
   {
     name: "Wishlist",
@@ -26,13 +25,6 @@ const accountOptions = [
     icon: "fas fa-heart",
     link: "/account/wishlist",
     color: "#fca5a5",
-  },
-  {
-    name: "Coupons",
-    description: "View and manage your coupons",
-    icon: "fas fa-tags",
-    link: "/account/coupons",
-    color: "#d8b4fe",
   },
   {
     name: "Contact Us",

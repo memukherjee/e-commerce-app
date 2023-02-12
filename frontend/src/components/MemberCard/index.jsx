@@ -54,6 +54,13 @@ export default function MemberCard({ member }) {
             </a>
           </li>
         )}
+        {member.social.website && (
+          <li>
+            <a href={member.social.website} aria-hidden="true" rel="noreferrer" target="_blank">
+              <i className="fas fa-globe"></i>
+            </a>
+          </li>
+        )}
       </ul>
     </div>
   );

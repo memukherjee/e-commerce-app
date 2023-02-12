@@ -120,6 +120,11 @@ public class UserProductController {
     	PagedListHolder<Product> pagedListHolder=new PagedListHolder<Product>(concatenated_list);
     	pagedListHolder.setPage(pageNo);
     	pagedListHolder.setPageSize(pageSize);
+    	int size=pagedListHolder.getPageCount();
+    	System.out.println(size);
+    	ArrayList<Product> leo=new ArrayList<>(); 
+    	if(pageNo>=size)
+    		return new ResponseEntity<>(leo,HttpStatus.OK);
     	
     	
     		return new ResponseEntity<>(pagedListHolder.getPageList(),HttpStatus.OK);

@@ -4,6 +4,7 @@ package com.ecommerce.Controller;
 
 import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.User;
+import com.ecommerce.Entity.WishList;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.dto.LoginDTO;
 import com.ecommerce.dto.SignupDTO;
@@ -12,8 +13,11 @@ import com.ecommerce.jwt.JwtHelper;
 import com.ecommerce.jwt.TokenValidator;
 import com.ecommerce.Repository.RefreshTokenRepository;
 import com.ecommerce.Repository.UserRepository;
+import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.ContactMail;
 import com.ecommerce.Service.UserService;
+import com.ecommerce.Service.wishlistService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +30,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.validation.Valid;
 
@@ -56,6 +65,13 @@ public class AuthREST {
     
     @Autowired
 	TokenValidator token;
+    
+    @Autowired
+    wishListRepository wishListRepository;
+    
+   @Autowired
+   wishlistService wishlistService;
+    WishList wishList;
 
 
     @PostMapping("/login")
@@ -182,7 +198,13 @@ public class AuthREST {
     		return new ResponseEntity(user,HttpStatus.OK);
     }
 
-    
+    @GetMapping("/search/{query}")
+    public ResponseEntity<Object> search(@PathVariable("query") String query){
+    	System.out.println(query);
+    	return new ResponseEntity<Object>(userRepository.findByNameContainingIgnoreCase(query),HttpStatus.OK);
+		
+    	
+    }
     
  // ************************** Forgot password module **************
     
@@ -235,5 +257,31 @@ public class AuthREST {
     		public  ResponseEntity<Object> profile(@RequestBody objholder str, @RequestHeader(value="authorization",defaultValue="")String auth) {
     			return userService.profile(str, auth);
     		}
+    		
+    		@PostMapping("/addwishlist")
+    		public ResponseEntity<?> addwishList(@RequestBody objholder str,@RequestHeader(value="authorization",defaultValue="")String auth){
+    			System.out.println("hi");
+    			User user=token.validate(auth);
+    			if(user==null)
+    				return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+    			System.out.println("hi");
+    			return wishlistService.add(user.getId(),str.productId);
+    
+    			
+    		}
+    		
+    		@PostMapping("/deletewishlist")
+    		public ResponseEntity<?> deletewishList(@RequestBody objholder str,@RequestHeader(value="authorization",defaultValue="")String auth){
+    			System.out.println("hi");
+    			User user=token.validate(auth);
+    			if(user==null)
+    				return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+    			System.out.println("hi");
+    			return wishlistService.delete(user.getId(),str.productId);
+    
+    			
+    		}
+    			
+    		
 }
 

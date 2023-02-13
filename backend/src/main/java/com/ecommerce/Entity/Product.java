@@ -16,7 +16,18 @@ public class Product {
 	@Id
     @GeneratedValue
     private String product_id;
+	public boolean wishlisted=false;
 	
+	public boolean isWishlisted() {
+		return wishlisted;
+	}
+
+
+
+	public void setWishlisted(boolean wishlisted) {
+		this.wishlisted = wishlisted;
+	}
+
 	private String seller_id;
 
     @NotEmpty

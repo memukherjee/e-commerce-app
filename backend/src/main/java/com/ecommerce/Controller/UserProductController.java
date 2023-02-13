@@ -52,8 +52,27 @@ public class UserProductController {
     /* Searching the product based on product id......................... */
 
     @GetMapping("/getProduct/{product_id}")
-    public Product getProduct(@PathVariable String product_id) {
-        return service.getProductById(product_id);
+    public Product getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
+    	User user=token.validate(auth);
+
+    	
+    	
+    	List<WishList> wish=null;
+    	
+    	Product pro = service.getProductById(product_id);
+    	if(user!=null) {
+    	wish = wishListRepository.findByuserIdAndProductId(user.getId(),product_id);
+    	if(!wish.isEmpty()) {
+    		;
+    	pro.setWishlisted(true);
+    	}else {
+    		pro.setWishlisted(false);
+    	}
+    	}
+ 
+        
+        
+        return pro;
     }
 
     /* Getting all the trending products......................... */

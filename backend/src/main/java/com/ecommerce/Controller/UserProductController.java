@@ -32,6 +32,7 @@ import com.ecommerce.Repository.CategoryRepository;
 import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.UserProductService;
+import com.ecommerce.dto.wishlistDTO;
 import com.ecommerce.jwt.TokenValidator;
 
 @RestController
@@ -48,31 +49,37 @@ public class UserProductController {
    	TokenValidator token;
     @Autowired
     wishListRepository wishListRepository;
+    
+    wishlistDTO wishlistdto=null;
 
     /* Searching the product based on product id......................... */
 
     @GetMapping("/getProduct/{product_id}")
-    public Product getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
+    public wishlistDTO getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
     	User user=token.validate(auth);
 
     	
     	
-    	List<WishList> wish=null;
+    	List<WishList> wish=new ArrayList<WishList>();
     	
     	Product pro = service.getProductById(product_id);
+    	System.out.println(pro.discountPrice);
+    	
     	if(user!=null) {
     	wish = wishListRepository.findByuserIdAndProductId(user.getId(),product_id);
     	if(!wish.isEmpty()) {
-    		;
-    	pro.setWishlisted(true);
+    		
+    		wishlistDTO wishlistDTO=new wishlistDTO(pro, true);
+    		return wishlistDTO;
     	}else {
-    		pro.setWishlisted(false);
+    		wishlistDTO wishlistDTO=new wishlistDTO(pro, false);
+    		return wishlistDTO;
     	}
     	}
  
+    	return null;
         
         
-        return pro;
     }
 
     /* Getting all the trending products......................... */

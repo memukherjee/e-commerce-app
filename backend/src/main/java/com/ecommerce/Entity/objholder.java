@@ -10,6 +10,7 @@ public class objholder {
 		public String address=null;
 		public String mobile=null;
 		public String id=null;
+		public String productId=null;
 		
 		
 		

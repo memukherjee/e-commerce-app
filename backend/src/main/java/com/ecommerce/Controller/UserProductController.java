@@ -3,6 +3,7 @@ package com.ecommerce.Controller;
 
 import java.awt.print.Pageable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,15 +19,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.Entity.Category;
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.User;
+import com.ecommerce.Entity.WishList;
 import com.ecommerce.Repository.CategoryRepository;
 import com.ecommerce.Repository.UserProductRepository;
+import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.UserProductService;
+import com.ecommerce.jwt.TokenValidator;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -38,12 +44,34 @@ public class UserProductController {
     UserProductRepository userProductRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+   	TokenValidator token;
+    @Autowired
+    wishListRepository wishListRepository;
 
     /* Searching the product based on product id......................... */
 
     @GetMapping("/getProduct/{product_id}")
-    public Product getProduct(@PathVariable String product_id) {
-        return service.getProductById(product_id);
+    public List<Object> getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
+    	User user=token.validate(auth);
+
+    	
+    	List<Object> concat=new ArrayList<>();
+    	List<WishList> wish=null;
+    	 HashMap<String, String> map = new HashMap<>();
+    	if(user!=null) {
+    	wish = wishListRepository.findByuserIdAndProductId(user.getId(),product_id);
+    	if(!wish.isEmpty()) {	
+    	map.put("wishlisted","true");
+    	System.out.println(map);
+    	}else {
+    		map.put("wishlisted","false");
+    	}
+    	}
+ 
+        concat.add(service.getProductById(product_id));
+        concat.add(map);
+        return concat;
     }
 
     /* Getting all the trending products......................... */

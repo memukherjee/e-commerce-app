@@ -13,6 +13,8 @@ public interface wishListRepository extends MongoRepository<WishList,String> {
 	void deleteByUserIdAndProductId(String id, String productId);
 
 	List<WishList> findByuserIdAndProductId(String id, String productid);
+
+	List<WishList> findProductIdByuserId(String id);
 	
 
 }

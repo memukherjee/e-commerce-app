@@ -2,6 +2,7 @@ package com.ecommerce.Controller;
 
 
 
+import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.WishList;
@@ -12,6 +13,7 @@ import com.ecommerce.dto.TokenDTO;
 import com.ecommerce.jwt.JwtHelper;
 import com.ecommerce.jwt.TokenValidator;
 import com.ecommerce.Repository.RefreshTokenRepository;
+import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.ContactMail;
@@ -40,6 +42,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -72,6 +76,9 @@ public class AuthREST {
    @Autowired
    wishlistService wishlistService;
     WishList wishList;
+    
+    @Autowired
+    UserProductRepository userProductRepository;
 
 
     @PostMapping("/login")
@@ -258,6 +265,8 @@ public class AuthREST {
     			return userService.profile(str, auth);
     		}
     		
+    		//***********************WISHLIST*************************************
+    		
     		@PostMapping("/addwishlist")
     		public ResponseEntity<?> addwishList(@RequestBody objholder str,@RequestHeader(value="authorization",defaultValue="")String auth){
     			System.out.println("hi");
@@ -279,6 +288,27 @@ public class AuthREST {
     			System.out.println("hi");
     			return wishlistService.delete(user.getId(),str.productId);
     
+    			
+    		}
+    		@GetMapping("/getUserWishListByJWT")
+    		public ResponseEntity<?> getUserWishListByJWT(@RequestHeader(value="authorization",defaultValue="")String auth){
+    			User user=token.validate(auth);
+    			if(user==null)
+    				return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+    			List<WishList> wishlist = wishListRepository.findProductIdByuserId(user.getId());
+    			Optional<Product> product=Optional.empty();
+    			for(int i=0;i<wishlist.size();i++) {
+    				for(int j=i+1;j<wishlist.size();j++) {
+    					if(wishlist.get(i).getProductId().equals(wishlist.get(j).getProductId())) {
+    						wishlist.remove(j);
+    					}
+    				}
+    			}
+    			for(int i=0;i<wishlist.size();i++) {
+    				product = userProductRepository.findById(wishlist.get(i).getProductId());
+    			}
+    			
+				return new ResponseEntity<>(product,HttpStatus.OK);
     			
     		}
     			

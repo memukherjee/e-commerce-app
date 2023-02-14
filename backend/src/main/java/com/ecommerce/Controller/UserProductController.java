@@ -55,13 +55,13 @@ public class UserProductController {
     /* Searching the product based on product id......................... */
 
     @GetMapping("/getProduct/{product_id}")
-    public Object getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
+    public wishlistDTO getProduct(@PathVariable String product_id,@RequestHeader(value="authorization",defaultValue="")String auth) {
     	User user=new User();
     	if(!auth.isBlank()) {
     	user=token.validate(auth);
     	}else {
     		Product pro = service.getProductById(product_id);
-    		return pro;
+    		return new wishlistDTO(pro,false);
     	}
 
     	
@@ -82,8 +82,9 @@ public class UserProductController {
     		return wishlistDTO;
     	}
     	}
+		return wishlistdto;
  
-    	return pro;
+    	//return pro;
         
         
     }

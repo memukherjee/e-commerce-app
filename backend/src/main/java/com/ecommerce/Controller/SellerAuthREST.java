@@ -1,5 +1,10 @@
 package com.ecommerce.Controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
@@ -27,8 +33,10 @@ import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.SellerRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
+import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Service.SellerService;
 import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.SellerStatsDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
 import com.ecommerce.jwt.JwtHelper;
@@ -61,6 +69,11 @@ public class SellerAuthREST {
     
     @Autowired
     SellerService sellerService;
+    
+    @Autowired
+    UserProductRepository userProductRepository;
+   
+    
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto){
@@ -170,6 +183,53 @@ public class SellerAuthREST {
 	@PostMapping("/profile")
 	public  ResponseEntity<Object> profile(@RequestBody objholder str, @RequestHeader(value="authorization",defaultValue="")String auth) {
 		return sellerService.profile(str, auth);
+	}
+	
+	//********************STATISTICAL DATA OF SELLER********************
+	@PostMapping("/sellerStats")
+	public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
+		Seller seller=token.validate(auth);
+		if(seller==null)
+			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+		
+		List<Product> product;
+		SellerStatsDTO sellerStatsDTO = new SellerStatsDTO();
+		
+		product=userProductRepository.findBySellerId(seller.getId());
+		sellerStatsDTO.setTotalProduct(product.size());
+		
+		HashSet<String> cat = new HashSet<String>();
+		for(int i=0;i<product.size();i++) {
+			cat.add(product.get(i).getProduct_category());
+		}
+		System.out.println("cat-"+cat.size());
+//		for(int i=0;i<cat.size();i++) {
+//			for(int j=i+1;j<cat.size();j++) {
+//				if(cat.get(i).equals(cat.get(j))) {
+//					cat.remove(j);
+//				}
+//			}
+//		}
+		System.out.println("cat-"+cat.size());
+		sellerStatsDTO.setTotalCategory(cat.size());
+		
+		HashSet<String> comp=new HashSet<String>();
+		for(int i=0;i<product.size();i++) {
+			comp.add(product.get(i).getProduct_company());
+		}
+//		System.out.println("comp-"+comp.size());
+//		for(int i=0;i<comp.size();i++) {
+//			for(int j=i+1;j<comp.size();j++) {
+//				if(comp.get(i).equals(comp.get(j))) {
+//					comp.remove(j);
+//				}
+//			}
+//		}
+		System.out.println("comp-"+comp.size());
+		sellerStatsDTO.setTotalCompany(comp.size());
+		
+		return new ResponseEntity<>(sellerStatsDTO,HttpStatus.OK);
+		
 	}
     
 

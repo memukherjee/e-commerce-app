@@ -202,30 +202,16 @@ public class SellerAuthREST {
 		for(int i=0;i<product.size();i++) {
 			cat.add(product.get(i).getProduct_category());
 		}
-		System.out.println("cat-"+cat.size());
-//		for(int i=0;i<cat.size();i++) {
-//			for(int j=i+1;j<cat.size();j++) {
-//				if(cat.get(i).equals(cat.get(j))) {
-//					cat.remove(j);
-//				}
-//			}
-//		}
+
 		System.out.println("cat-"+cat.size());
 		sellerStatsDTO.setTotalCategory(cat.size());
 		
 		HashSet<String> comp=new HashSet<String>();
 		for(int i=0;i<product.size();i++) {
-			comp.add(product.get(i).getProduct_company());
+			comp.add(product.get(i).getProduct_company().toLowerCase());
 		}
-//		System.out.println("comp-"+comp.size());
-//		for(int i=0;i<comp.size();i++) {
-//			for(int j=i+1;j<comp.size();j++) {
-//				if(comp.get(i).equals(comp.get(j))) {
-//					comp.remove(j);
-//				}
-//			}
-//		}
-		System.out.println("comp-"+comp.size());
+		
+		System.out.println("comp-"+comp);
 		sellerStatsDTO.setTotalCompany(comp.size());
 		
 		return new ResponseEntity<>(sellerStatsDTO,HttpStatus.OK);

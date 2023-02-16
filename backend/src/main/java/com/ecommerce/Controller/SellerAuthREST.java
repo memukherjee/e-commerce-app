@@ -186,7 +186,7 @@ public class SellerAuthREST {
 	}
 	
 	//********************STATISTICAL DATA OF SELLER********************
-	@PostMapping("/sellerStats")
+	@GetMapping("/sellerStats")
 	public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
 		Seller seller=token.validate(auth);
 		if(seller==null)

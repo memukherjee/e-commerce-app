@@ -1,11 +1,12 @@
 package com.ecommerce.Entity;
 
+import com.ecommerce.dto.CartDTO;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Order")
 public class OrderDetails {
     private String user_id;
-    private CartDetails cartDetails;
+    private CartDTO cartDTO;
     private String method;
     private String t_id;
     private String date;
@@ -20,12 +21,12 @@ public class OrderDetails {
         this.user_id = user_id;
     }
 
-    public CartDetails getCartDetails() {
-        return cartDetails;
+    public CartDTO getCartDetails() {
+        return cartDTO;
     }
 
-    public void setCartDetails(CartDetails cartDetails) {
-        this.cartDetails = cartDetails;
+    public void setCartDetails(CartDTO cartDTO) {
+        this.cartDTO = cartDTO;
     }
 
     public String getMethod() {

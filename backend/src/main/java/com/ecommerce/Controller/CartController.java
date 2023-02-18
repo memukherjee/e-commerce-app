@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.Entity.CartDetails;
+import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.ShoppingCart;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.CartRepo;
@@ -23,7 +23,7 @@ import com.ecommerce.jwt.TokenValidator;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("api/addToCart")
+@RequestMapping("api/cart")
 public class CartController {
 
     @Autowired
@@ -43,11 +43,11 @@ public class CartController {
     	User user=token.validate(auth);
     	if(user==null)
 		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
-    	else
-    		shoppingCart.setUser(user);
-    	    shoppingCart.setUser_id(user.getEmail());
-		    cartRepo.save(shoppingCart);
-    		return new ResponseEntity(shoppingCart,HttpStatus.OK);
+    	else {
+			shoppingCart.setUser_id(user.getEmail());
+			cartRepo.save(shoppingCart);
+			return new ResponseEntity(shoppingCart, HttpStatus.OK);
+		}
     }
 
    
@@ -94,7 +94,7 @@ public class CartController {
     // Show all in cart of user_id *******************************
     
     @GetMapping("/showcart")
-    public CartDetails showItem(@RequestHeader(value="authorization",defaultValue="")String auth){
+    public CartDTO showItem(@RequestHeader(value="authorization",defaultValue="")String auth){
     	
     	User user=token.validate(auth);
     	if(user==null) {

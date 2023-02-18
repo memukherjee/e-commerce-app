@@ -7,7 +7,7 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.Entity.CartDetails;
+import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
@@ -58,8 +58,8 @@ public class OrderService {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setUser_id(user_id);
 
-        CartDetails cartDetails = cartService.displayAllCartService(user_id);
-        orderDetails.setCartDetails(cartDetails);
+        CartDTO cartDTO = cartService.displayAllCartService(user_id);
+        orderDetails.setCartDetails(cartDTO);
 
         if (t_id.equals("null")) {
             orderDetails.setMethod("COD");

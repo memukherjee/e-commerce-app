@@ -1,31 +1,20 @@
-package com.ecommerce.Entity;
+package com.ecommerce.dto;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import com.ecommerce.Entity.Product;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Cart")
-public class CartDetails {
-
-    private String user_id;
-    private ArrayList<List<Object>> list;
+public class CartDTO {
+    private ArrayList<Product> list;
     private double total;
     private int total_quantity;
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
-
-    public ArrayList<List<Object>> getList() {
+    public ArrayList<Product> getList() {
         return list;
     }
 
-    public void setList(ArrayList<List<Object>> list) {
+    public void setList(ArrayList<Product> list) {
         this.list = list;
     }
 

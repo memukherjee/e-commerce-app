@@ -1,7 +1,5 @@
 package com.ecommerce.Controller;
 
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.Entity.CartDetails;
+import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Service.CartService;
@@ -71,9 +69,9 @@ public class OrderController {
     	else 
     	{
     	 String user_id=user.getEmail();
-        CartDetails cartDetails = cartService.displayAllCartService(user_id);
+        CartDTO cartDTO = cartService.displayAllCartService(user_id);
 
-        int pay = (int) cartDetails.getTotal();
+        int pay = (int) cartDTO.getTotal();
         String receipt = RandomStringUtils.randomAlphanumeric(12);
 
         RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ", "sUQ3F3PoY3RK2ODu4N1tU6e1");

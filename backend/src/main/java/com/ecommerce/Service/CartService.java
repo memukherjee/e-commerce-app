@@ -1,13 +1,11 @@
 package com.ecommerce.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.Entity.CartDetails;
+import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
 import com.ecommerce.Repository.CartRepo;
@@ -40,48 +38,32 @@ public class CartService {
 //            return null;
 //    }
 
-    public CartDetails displayAllCartService(String user_id) {
-        double total = 0;
+    public CartDTO displayAllCartService(String user_id) {
+        double totalPrice = 0;
         int quantity = 0;
-        CartDetails cartDetails = new CartDetails();
-        cartDetails.setUser_id(user_id);
+        CartDTO cartDTO = new CartDTO();
 
         ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user_id);
-        ArrayList<List<Object>> productList = new ArrayList<List<Object>>();
+        ArrayList<Product> productList = new ArrayList<>();
         for (int i = 0; i < cartList.size(); i++) {
             Product product = productService.getProductById(cartList.get(i).getProduct_id());
-            // productList.add(product);
 
-            ShoppingCart shoppingCart = getCartById(cartList.get(i).getId());
+            ShoppingCart shoppingCart = cartList.get(i);
 
-            ArrayList<Object> prod = new ArrayList<Object>();
-            prod.add(product.getProduct_id());
-            prod.add(product.getProduct_name());
-            prod.add(product.getProduct_category());
-            prod.add(product.getProduct_description());
-//            prod.add(product.getProduct_colours());
-            prod.add(product.getProduct_company());
-            prod.add(product.getProduct_price());
-            prod.add(product.getProduct_discount());
-            prod.add(product.getDiscountPrice());
-            prod.add(shoppingCart.getCart_quantity());
-            prod.add(shoppingCart.getSize());
-            prod.add(product.getProduct_imageUrl());
-
-            productList.add(prod);
+            productList.add(product);
 
             double p = product.getDiscountPrice();
 
             int q = shoppingCart.getCart_quantity();
             quantity = quantity + q;
 
-            total = total + (q * p);
+            totalPrice = totalPrice + (q * p);
 
         }
-        cartDetails.setList(productList);
-        cartDetails.setTotal(total);
-        cartDetails.setTotal_quantity(quantity);
-        return cartDetails;
+        cartDTO.setList(productList);
+        cartDTO.setTotal(totalPrice);
+        cartDTO.setTotal_quantity(quantity);
+        return cartDTO;
     }
 
     public String increaseCartQuantity(ShoppingCart shoppingCart) {

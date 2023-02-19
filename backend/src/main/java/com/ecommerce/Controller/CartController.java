@@ -58,7 +58,8 @@ public class CartController {
     		System.out.print(OldshoppingCart);
     		if(OldshoppingCart !=null)
     		{
-    			OldshoppingCart.setCart_quantity(OldshoppingCart.getCart_quantity()+1);
+    			
+    			OldshoppingCart.setCart_quantity(OldshoppingCart.getCart_quantity()+shoppingCart.getCart_quantity());
  				cartRepo.save(OldshoppingCart);
  				System.out.print(false);
     		}

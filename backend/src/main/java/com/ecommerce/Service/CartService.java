@@ -53,6 +53,7 @@ public class CartService {
             ShoppingCart shoppingCart = cartList.get(i);
             String product_id=product.getProduct_id();
         	String seller_id=product.getSeller_id();
+        	String cart_id=shoppingCart.getId();
         	String product_name=product.getProduct_name();
         	String product_category=product.getProduct_category();
         	String product_description=product.getProduct_description();
@@ -64,7 +65,7 @@ public class CartService {
         	double Cartquantity=shoppingCart.getCart_quantity();
         	String product_imageUrl=product.getProduct_imageUrl();
 
-        	CartProductDTO cartProductDTO=new CartProductDTO(product_id, seller_id, product_name, product_category, product_description, size, product_company, product_price, product_discount, discountPrice, Cartquantity, product_imageUrl);
+        	CartProductDTO cartProductDTO=new CartProductDTO(product_id, seller_id,cart_id, product_name, product_category, product_description, size, product_company, product_price, product_discount, discountPrice, Cartquantity, product_imageUrl);
         	
             productList.add(cartProductDTO);
 

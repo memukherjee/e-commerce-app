@@ -1,5 +1,7 @@
 package com.ecommerce.Controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.CartRepo;
 import com.ecommerce.Service.CartService;
 import com.ecommerce.jwt.TokenValidator;
+
+import ch.qos.logback.core.joran.conditional.IfAction;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -44,8 +48,26 @@ public class CartController {
     	if(user==null)
 		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
     	else {
-			shoppingCart.setUser_id(user.getEmail());
-			cartRepo.save(shoppingCart);
+    			
+    		String NewProduct_id=shoppingCart.getProduct_id();
+    		String NewUser_id=user.getEmail();
+    		String NewSize=shoppingCart.getSize();  
+    		System.out.println(NewProduct_id+" "+NewUser_id+" "+NewSize);
+    		
+    		ShoppingCart OldshoppingCart=cartRepo.checkPresentInCart(NewUser_id,NewProduct_id,NewSize); 
+    		System.out.print(OldshoppingCart);
+    		if(OldshoppingCart !=null)
+    		{
+    			OldshoppingCart.setCart_quantity(OldshoppingCart.getCart_quantity()+1);
+ 				cartRepo.save(OldshoppingCart);
+ 				System.out.print(false);
+    		}
+    		else {
+    			
+ 				shoppingCart.setUser_id(user.getEmail());
+     			cartRepo.save(shoppingCart);
+     	        System.out.print(true);
+			}    		
 			return new ResponseEntity(shoppingCart, HttpStatus.OK);
 		}
     }

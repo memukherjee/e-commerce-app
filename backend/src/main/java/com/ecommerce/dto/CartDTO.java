@@ -6,19 +6,21 @@ import com.ecommerce.Entity.Product;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 public class CartDTO {
-    private ArrayList<Product> list;
+    private ArrayList<CartProductDTO> list;
     private double total;
     private int total_quantity;
 
-    public ArrayList<Product> getList() {
-        return list;
-    }
+   
 
-    public void setList(ArrayList<Product> list) {
-        this.list = list;
-    }
+    public ArrayList<CartProductDTO> getList() {
+		return list;
+	}
 
-    public double getTotal() {
+	public void setList(ArrayList<CartProductDTO> list) {
+		this.list = list;
+	}
+
+	public double getTotal() {
         return total;
     }
 

@@ -30,7 +30,7 @@ public class ProductReviewController {
 	@Autowired
 	ProductReviewRepository productReviewRepository;
 	
-	@PostMapping("/review")
+	@PostMapping("/addReview")
 	public ResponseEntity<?> review(@RequestBody ProductReviewDTO obj,@RequestHeader(value="authorization",defaultValue="")String auth){
 		User user=token.validate(auth);
 		if(user==null)
@@ -42,11 +42,8 @@ public class ProductReviewController {
 		return new ResponseEntity<>(productReviewRepository.save(productReview),HttpStatus.OK);
 		
 	}
-	@PostMapping("/productReview")
-	public ResponseEntity<?> productReview(@RequestBody ProductReviewDTO obj,@RequestHeader(value="authorization",defaultValue="")String auth){
-		User user=token.validate(auth);
-		if(user==null)
-			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+	@GetMapping("/getproductReview")
+	public ResponseEntity<?> productReview(@RequestBody ProductReviewDTO obj){
 		return new ResponseEntity<>(productReviewRepository.findAllByProductId(obj.getProductId()),HttpStatus.OK);
 	}
 	

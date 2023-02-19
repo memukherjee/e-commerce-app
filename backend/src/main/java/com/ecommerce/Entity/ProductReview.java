@@ -24,7 +24,14 @@ public class ProductReview {
 	private float star;
 	private LocalTime time;
 	private LocalDate date;
+	private String userName;
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -61,7 +68,7 @@ public class ProductReview {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public ProductReview(String userId, String productId, String message, float star) {
+	public ProductReview(String userId, String productId, String message, float star,String userName) {
 		super();
 		this.userId = userId;
 		this.productId = productId;
@@ -69,6 +76,7 @@ public class ProductReview {
 		this.star = star;
 		this.time = LocalTime.now();
 		this.date = LocalDate.now();
+		this.userName=userName;
 	}
 	public ProductReview() {
 		super();

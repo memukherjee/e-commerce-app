@@ -48,14 +48,12 @@ public class ProductReviewController {
 		return new ResponseEntity<>(productReviewRepository.findAllByProductId(productId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/averageStar")
-	public ResponseEntity<?> averageStar(@RequestBody ProductReviewDTO obj,@RequestHeader(value="authorization",defaultValue="")String auth){
-		User user=token.validate(auth);
-		if(user==null)
-			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+	@GetMapping("/averageStar/{productId}")
+	public ResponseEntity<?> averageStar(@PathVariable String productId){
+		
 		float star=0;
 		int count=0;
-		List<ProductReview> review = productReviewRepository.findAllByProductId(obj.getProductId());
+		List<ProductReview> review = productReviewRepository.findAllByProductId(productId);
 		for(ProductReview i:review) {
 			star+=i.getStar();
 			count++;

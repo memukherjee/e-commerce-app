@@ -47,14 +47,33 @@ public class UserProductService {
         return repository.findById(product_id).get();
     }
 
-    public List<Product> findTrending() {
+    public List<Product> findPopularityByProducts1() {
         PageRequest thirdPageRequest = PageRequest.of(0, 6, Sort.Direction.DESC, "product_sold");
+        return (List<Product>) repository.findAll(thirdPageRequest).getContent();
+    }
+    
+    public List<Product> findPopularityByProducts2() {
+        PageRequest thirdPageRequest = PageRequest.of(0, 6, Sort.Direction.ASC, "product_sold");
+        return (List<Product>) repository.findAll(thirdPageRequest).getContent();
+    }
+    
+    public List<Product> SortPriceByDesc() {
+        PageRequest thirdPageRequest = PageRequest.of(0, 6, Sort.Direction.DESC, "discountPrice");
+        return (List<Product>) repository.findAll(thirdPageRequest).getContent();
+    }
+    
+    public List<Product> SortPriceByAsc() {
+        PageRequest thirdPageRequest = PageRequest.of(0, 6, Sort.Direction.ASC, "discountPrice");
         return (List<Product>) repository.findAll(thirdPageRequest).getContent();
     }
 
     public List<Product> getProductByName(String product_name) {
         return repository.getProductByName(product_name);
 
+    }
+    
+    public List<Product> getProductByMaxMin(double max,double min){
+    	return repository.getProductByMaxMin(max, min);
     }
 
 }

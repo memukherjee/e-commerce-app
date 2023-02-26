@@ -3,16 +3,23 @@ package com.ecommerce.Controller;
 
 import java.awt.print.Pageable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.print.attribute.HashPrintServiceAttributeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +41,7 @@ import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.UserProductService;
 import com.ecommerce.dto.wishlistDTO;
 import com.ecommerce.jwt.TokenValidator;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -93,7 +101,7 @@ public class UserProductController {
 
     @GetMapping("/trending")
     public List<Product> TrendingProducts() {
-        return service.findTrending();
+        return service.findPopularityByProducts1();
     }
 
     /* Searching product by category.................... */
@@ -119,6 +127,8 @@ public class UserProductController {
         List<Product> list = service.getAllProduct(pageNo, pageSize);
         return new ResponseEntity<List<Product>>(list, new HttpHeaders(), HttpStatus.OK);
     }
+    
+    
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestParam("query") String query,@RequestParam("pageNo") int pageNo,@RequestParam("pageSize") int pageSize){
     	query.toLowerCase();
@@ -175,6 +185,96 @@ public class UserProductController {
     	
     }
     
+    @GetMapping("/filterProducts")
+    public ResponseEntity<List<Product>> getProductByFilter(@RequestParam (name="max",required = false) String max, @RequestParam (name="min",required = false) String min,@RequestParam (name="category",required = false) String product_category, @RequestParam(defaultValue = "0") Integer pageNo,
+          @RequestParam(defaultValue = "5") Integer pageSize,@RequestParam (name="popularity",required=false) String popularity,@RequestParam (name="price",required=false) String price)    {
+    	try {
+    		String s1="Descending";
+    		String s2="Ascending";
+    		String flag="0";
+    		
+    		List<Product> filter=new ArrayList<Product>();
+    		
+    		//------------------------------------------//
+    		if(max==null && min==null && product_category==null){
+    			filter=service.getAllProduct(pageNo, pageSize);
+    		}
+    		
+    		//--------------------------------------------//
+    		if(max!=null && min!=null && product_category==null) {
+    			filter=service.getProductByMaxMin(Double.parseDouble(max), Double.parseDouble(min));}
+    		
+    		//----------------------------------------------//
+    		if(product_category!=null && min==null && max==null && popularity==null) {
+    			System.out.println("NotDone");
+    			filter=service.getProductByCategory(product_category, pageNo, pageSize);}
+    		
+    		//----------------------------------------------//
+    		if (product_category!=null && max!=null && min!=null) {
+    			System.out.println("Done1");
+    			ArrayList<Product> proAll=new ArrayList<Product>();
+    			List<Product> pro1 = new ArrayList<>();
+    			 pro1=service.getProductByMaxMin(Double.parseDouble(max), Double.parseDouble(min));
+    			 List<Product> pro2 = new ArrayList<>();
+    			 pro2=service.getProductByCategory(product_category, pageNo, pageSize);
+    			 
+    			
+    			for(int i=0;i<pro1.size();i++) {
+    				for(int j=0;j<pro2.size();j++) {
+    				if(pro1.get(i).getProduct_category().equalsIgnoreCase(pro2.get(j).getProduct_category())) {
+    					proAll.add(pro1.get(i));
+    	    			
+    				}
+    			}
+    			
+    			}
+    			for(Product i:proAll) {
+    				if(!filter.contains(i)) {
+    					filter.add(i);
+    				}
+    			}	
+    		}
+    		
+    		//----------------------------------------------//
+    		if(popularity!=null) {
+    			System.out.println("1");
+    			if(popularity.equals(s1)){
+    				flag="1";
+    				if(flag=="1")
+    					filter=service.findPopularityByProducts1();
+    				}
+    			else {
+					if(popularity.equals(s2)) {
+						flag="0";
+						if(flag=="0")
+							filter=service.findPopularityByProducts2();
+					}
+				}
+    		}
+    		
+    		//----------------------------------------------//
+    		if(price!=null) {
+				System.out.println("AAa");
+    			if(price.equals(s1)){
+    				flag="1";
+    				if(flag=="1")
+    					filter=service.SortPriceByDesc();
+    				}
+    			else {
+					if(popularity.equals(s2)) {
+						flag="0";
+						if(flag=="0")
+							filter=service.SortPriceByAsc();
+					}
+				}
+			}
+    		
+    		
+    		return new ResponseEntity<List<Product>>(filter,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Product>>(HttpStatus.BAD_REQUEST);
+		}
+    }
     
     
 }

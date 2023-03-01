@@ -39,6 +39,9 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
     @Query("{discountPrice:{$lt:?0,$gt:?1}},{product_category:?0}")
     List<Product> getProductByMaxMin(double max,double min);
 
+    @Query("{'_id': ?0}")
+	List<Product> findByProductId(String productId);
+
    
 	
 

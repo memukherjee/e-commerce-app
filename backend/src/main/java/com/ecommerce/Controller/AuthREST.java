@@ -296,7 +296,7 @@ public class AuthREST {
     			if(user==null)
     				return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
     			List<WishList> wishlist = wishListRepository.findProductIdByuserId(user.getId());
-    			Optional<Product> product=Optional.empty();
+    			List<Product> product=new ArrayList<>();
     			for(int i=0;i<wishlist.size();i++) {
     				for(int j=i+1;j<wishlist.size();j++) {
     					if(wishlist.get(i).getProductId().equals(wishlist.get(j).getProductId())) {
@@ -305,7 +305,7 @@ public class AuthREST {
     				}
     			}
     			for(int i=0;i<wishlist.size();i++) {
-    				product = userProductRepository.findById(wishlist.get(i).getProductId());
+    				product.addAll(userProductRepository.findByProductId(wishlist.get(i).getProductId()));
     			}
     			
 				return new ResponseEntity<>(product,HttpStatus.OK);

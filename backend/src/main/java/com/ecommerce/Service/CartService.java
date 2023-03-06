@@ -62,7 +62,7 @@ public class CartService {
         	double product_price=product.getProduct_price();
         	double product_discount=product.getProduct_discount();
         	double discountPrice=product.getDiscountPrice();
-        	double Cartquantity=shoppingCart.getCart_quantity();
+        	int Cartquantity=shoppingCart.getCart_quantity();
         	String product_imageUrl=product.getProduct_imageUrl();
 
         	CartProductDTO cartProductDTO=new CartProductDTO(product_id, seller_id,cart_id, product_name, product_category, product_description, size, product_company, product_price, product_discount, discountPrice, Cartquantity, product_imageUrl);

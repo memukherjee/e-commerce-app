@@ -1,12 +1,17 @@
 package com.ecommerce.Controller;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.OrderDetails;
+import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Service.CartService;
 import com.ecommerce.Service.OrderService;
@@ -37,18 +43,18 @@ public class OrderController {
     private TokenValidator token;
     
     // check the quantities of products which are available or not ***********************************
-    @GetMapping("/checkQuantity")
-    public String checkQuantity(@RequestHeader(value="authorization",defaultValue="")String auth) {
-
-    	User user=token.validate(auth);    	
-    	if(user==null) {
-    		return "Not valid";
-    	}
-    	else {
-    		String user_id=user.getEmail();
-    		return orderService.checkQuantityService(user_id);
-    	} 
-    }
+//    @GetMapping("/checkQuantity")
+//    public String checkQuantity(@RequestHeader(value="authorization",defaultValue="")String auth) {
+//
+//    	User user=token.validate(auth);    	
+//    	if(user==null) {
+//    		return "Not valid";
+//    	}
+//    	else {
+//    		String user_id=user.getEmail();
+//    		return orderService.checkQuantityService(user_id);
+//    	} 
+//    }
     
 //    @GetMapping("/checkQuantity/{user_id}")
 //    public String checkQuantity(@PathVariable String user_id) {
@@ -60,30 +66,38 @@ public class OrderController {
 
     @PostMapping("/payment")
     @ResponseBody
-    public String paymentOrder(@RequestHeader(value="authorization",defaultValue="")String auth) throws RazorpayException {
+    public ResponseEntity<?> paymentOrder(@RequestHeader(value="authorization",defaultValue="")String auth,@RequestBody CartDTO cartDTO) throws RazorpayException {
 
     	User user=token.validate(auth); 
+    	System.out.println(user);
     	if(user==null) {
-    		return "Not valid";
+    		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
     	}
     	else 
     	{
-    	 String user_id=user.getEmail();
-        CartDTO cartDTO = cartService.displayAllCartService(user_id);
+    	   	ArrayList<Product> productsWithMoreQuantity= orderService.checkQuantityService(cartDTO);    	    
+            if(productsWithMoreQuantity.size()!=0)
+            {
+            	  return new ResponseEntity(productsWithMoreQuantity,HttpStatus.UNAUTHORIZED);
+            }
+        
+            else {
+            	
+                int pay = (int) cartDTO.getTotal();
+                String receipt = RandomStringUtils.randomAlphanumeric(12);
 
-        int pay = (int) cartDTO.getTotal();
-        String receipt = RandomStringUtils.randomAlphanumeric(12);
-
-        RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ", "sUQ3F3PoY3RK2ODu4N1tU6e1");
-        JSONObject ob = new JSONObject();
-        ob.put("amount", pay);
-        ob.put("currency", "INR");
-        ob.put("receipt", receipt);
+            RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ", "sUQ3F3PoY3RK2ODu4N1tU6e1");
+            JSONObject ob = new JSONObject();
+            ob.put("amount", pay);
+            ob.put("currency", "INR");
+            ob.put("receipt", receipt);
 
         // creating order
 
         Order order = client.Orders.create(ob);
-        return order.toString();
+       
+        return new ResponseEntity(order.toString(), HttpStatus.OK);
+        }
     	}
     }
     

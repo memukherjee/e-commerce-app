@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.CartDTO;
+import com.ecommerce.dto.CartProductDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
@@ -32,25 +33,28 @@ public class OrderService {
     @Autowired
     UserProductRepository productRepo;
 
-    public String checkQuantityService(String user_id) {
+    public ArrayList<Product> checkQuantityService(CartDTO cartDTO) {
         int flag = 0;
-        ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user_id);
+        //ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user_id);
+        ArrayList<CartProductDTO> cartList=cartDTO.getList();
+        ArrayList<Product> productsWithMoreQuantity=new ArrayList<>();
         for (int i = 0; i < cartList.size(); i++) {
             Product product = productService.getProductById(cartList.get(i).getProduct_id());
-            ShoppingCart shoppingCart = cartService.getCartById(cartList.get(i).getId());
-
-            int p = product.getProduct_quantity();
-            int c = shoppingCart.getCart_quantity();
-
-            if (p < c) {
+            //ShoppingCart shoppingCart = cartService.getCartById(cartList.get(i).getCart_id());
+            int cart_quantity=cartList.get(i).getQuantity();
+            int product_quentity = product.getProduct_quantity();
+            
+            if (product_quentity < cart_quantity) {
                 flag = 1;
+                productsWithMoreQuantity.add(product);
                 break;
             }
         }
-        if (flag == 0)
-            return "yes, You can process";
-        else
-            return "No, plz cleck your quantity, it may be out of our stock";
+        return productsWithMoreQuantity;
+//        if (flag == 0)
+//            return "yes, You can process";
+//        else
+//            return "No, plz cleck your quantity, it may be out of our stock";
 
     }
 

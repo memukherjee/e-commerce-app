@@ -13,12 +13,12 @@ public class CartProductDTO {
 	private double product_price;
 	private double product_discount;
 	private double discountPrice;
-	private double quantity;
+	private int quantity;
 	private String product_imageUrl;
 	
 	public CartProductDTO(String product_id, String seller_id, String cart_id, String product_name,
 			String product_category, String product_description, String size, String product_company,
-			double product_price, double product_discount, double discountPrice, double quantity,
+			double product_price, double product_discount, double discountPrice, int quantity,
 			String product_imageUrl) {
 		super();
 		this.product_id = product_id;
@@ -102,10 +102,11 @@ public class CartProductDTO {
 	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
 	}
-	public double getQuantity() {
+	
+	public int getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 	public String getProduct_imageUrl() {

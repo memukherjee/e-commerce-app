@@ -37,7 +37,7 @@ public class ProductReviewController {
 		if(user==null)
 			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
 		System.out.println(user.getId()+" "+ obj.getProductId()+" "+ obj.getMessage()+" "+obj.getStar());
-		ProductReview productReview=new ProductReview(user.getId(), obj.getProductId(), obj.getMessage(),obj.getStar(),user.getName());
+		ProductReview productReview=new ProductReview(user.getId(), obj.getProductId(), obj.getMessage(),obj.getStar(),user.getName(),user.getAvatar());
 		
 		
 		return new ResponseEntity<>(productReviewRepository.save(productReview),HttpStatus.OK);

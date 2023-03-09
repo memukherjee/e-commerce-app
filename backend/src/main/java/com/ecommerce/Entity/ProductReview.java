@@ -77,9 +77,9 @@ public class ProductReview {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public ProductReview(String userId, String productId, String message, float star,String name) {
+	public ProductReview(String userId, String productId, String message, float star,String name,String avatar) {
 		super();
-		this.setAvatar("https://avatars.dicebear.com/api/initials/"+name+".svg");
+		this.setAvatar(avatar);
 		this.userId = userId;
 		this.productId = productId;
 		this.message = message;

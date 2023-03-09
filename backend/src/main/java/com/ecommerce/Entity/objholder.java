@@ -11,6 +11,7 @@ public class objholder {
 		public String mobile=null;
 		public String id=null;
 		public String productId=null;
+		public String name=null;
 		
 		
 		

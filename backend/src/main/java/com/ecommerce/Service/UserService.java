@@ -151,8 +151,8 @@ public class UserService implements UserDetailsService {
 			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 		}
 		
-			if(str.username!=null) {
-				user.setUsername(str.username);
+			if(str.name!=null) {
+				user.setName(str.name);
 				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.username+".svg");
 			}
 			if(str.address!=null) {

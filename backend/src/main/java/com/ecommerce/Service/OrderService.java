@@ -12,6 +12,7 @@ import com.ecommerce.dto.CartProductDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
+import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.CartRepo;
 import com.ecommerce.Repository.OrderRepo;
 import com.ecommerce.Repository.UserProductRepository;
@@ -51,26 +52,30 @@ public class OrderService {
             }
         }
         return productsWithMoreQuantity;
-//        if (flag == 0)
-//            return "yes, You can process";
-//        else
-//            return "No, plz cleck your quantity, it may be out of our stock";
-
     }
 
-    public OrderDetails showAll(String user_id, String t_id) {
+    public OrderDetails showAll(User user,CartDTO cartDTO,String orderCreationId,String razorpayPaymentId,String razorPayOrderId,String razorpaypaySignature) {
         OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setUser_id(user_id);
-
-        CartDTO cartDTO = cartService.displayAllCartService(user_id);
-        orderDetails.setCartDetails(cartDTO);
-
-        if (t_id.equals("null")) {
+        orderDetails.setUser_id(user.getEmail());
+        orderDetails.setAddress(user.getAddress());
+        //CartDTO cartDTO = cartService.displayAllCartService(user_id);
+        orderDetails.setCartDTO(cartDTO);
+        orderDetails.setPaymentStatus("Paid");
+        
+        if (razorpayPaymentId.equals("null")) 
+        {
             orderDetails.setMethod("COD");
-            orderDetails.setT_id(null);
+            orderDetails.setOrderCreationId(null);
+            orderDetails.setRazorpayPaymentId(null);
+            orderDetails.setRazorPayOrderId(null);
+            orderDetails.setRazorpaypaySignature(null);
+            
         } else {
             orderDetails.setMethod("Online Pay");
-            orderDetails.setT_id(t_id);
+            orderDetails.setOrderCreationId(orderCreationId);;
+            orderDetails.setRazorpayPaymentId(razorpayPaymentId);
+            orderDetails.setRazorPayOrderId(razorPayOrderId);
+            orderDetails.setRazorpaypaySignature(razorpaypaySignature);
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -85,26 +90,43 @@ public class OrderService {
         orderDetails.setDate(date1);
         orderDetails.setExpDelivary(date2);
 
-        orderDetails.setStatus("PROCESSING");
+        orderDetails.setOrderStatus("PROCESSING");
 
         // subtract quantity from total product quantity
 
-        ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user_id);
-        for (int i = 0; i < cartList.size(); i++) {
-            Product product = productService.getProductById(cartList.get(i).getProduct_id());
-            ShoppingCart shoppingCart = cartService.getCartById(cartList.get(i).getId());
-
-            int p = product.getProduct_quantity();
-            int sold = product.getProduct_sold();
-            int c = shoppingCart.getCart_quantity();
-
-            product.setProduct_quantity(p - c);
-            product.setProduct_sold(sold + c);
-            productRepo.save(product);
+        ArrayList<CartProductDTO> cartProductDTOs=cartDTO.getList();
+        for(int i=0;i<cartProductDTOs.size();i++)
+        {
+        	Product product = productService.getProductById(cartProductDTOs.get(i).getProduct_id());
+        	int product_quantity=product.getProduct_quantity();
+        	int product_sold=product.getProduct_sold();
+        	int cart_quantity = cartProductDTOs.get(i).getQuantity();
+        	
+        	product.setProduct_quantity(product_quantity-cart_quantity);
+        	product.setProduct_sold(product_sold+cart_quantity);
+        	productRepo.save(product);
+        	if(cartProductDTOs.get(i).getCart_id() != null)
+        	{
+        		cartService.removeFromCartService(cartProductDTOs.get(i).getCart_id());
+        	}
+        	
         }
+//        ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user.getEmail());
+//        for (int i = 0; i < cartList.size(); i++) {
+//            Product product = productService.getProductById(cartList.get(i).getProduct_id());
+//            ShoppingCart shoppingCart = cartService.getCartById(cartList.get(i).getId());
+//
+//            int p = product.getProduct_quantity();
+//            int sold = product.getProduct_sold();
+//            int c = shoppingCart.getCart_quantity();
+//
+//            product.setProduct_quantity(p - c);
+//            product.setProduct_sold(sold + c);
+//            productRepo.save(product);
+//        }
 
         orderRepo.save(orderDetails);
-        cartService.removeFromCartAllService(user_id);
+        //cartService.removeFromCartAllService(user.getEmail());
         return orderDetails;
     }
 

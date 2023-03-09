@@ -5,15 +5,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Order")
 public class OrderDetails {
+	private String id;
     private String user_id;
+    private String address;
     private CartDTO cartDTO;
     private String method;
-    private String t_id;
+    private String paymentStatus;
+    private String orderCreationId;
+    private String razorpayPaymentId;
+    private String razorPayOrderId;
+    private String razorpaypaySignature;
     private String date;
     private String expDelivary;
-    private String status;
+    private String OrderStatus;
+    
+    
+    public String getId() {
+		return id;
+	}
 
-    public String getUser_id() {
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUser_id() {
         return user_id;
     }
 
@@ -21,15 +36,24 @@ public class OrderDetails {
         this.user_id = user_id;
     }
 
-    public CartDTO getCartDetails() {
-        return cartDTO;
-    }
+    
+    public String getAddress() {
+		return address;
+	}
 
-    public void setCartDetails(CartDTO cartDTO) {
-        this.cartDTO = cartDTO;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public String getMethod() {
+	public CartDTO getCartDTO() {
+		return cartDTO;
+	}
+
+	public void setCartDTO(CartDTO cartDTO) {
+		this.cartDTO = cartDTO;
+	}
+
+	public String getMethod() {
         return method;
     }
 
@@ -37,15 +61,56 @@ public class OrderDetails {
         this.method = method;
     }
 
-    public String getT_id() {
-        return t_id;
-    }
+    
+    public String getPaymentStatus() {
+		return paymentStatus;
+	}
 
-    public void setT_id(String t_id) {
-        this.t_id = t_id;
-    }
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
 
-    public String getDate() {
+	public String getOrderCreationId() {
+		return orderCreationId;
+	}
+
+	public void setOrderCreationId(String orderCreationId) {
+		this.orderCreationId = orderCreationId;
+	}
+
+	public String getRazorpayPaymentId() {
+		return razorpayPaymentId;
+	}
+
+	public void setRazorpayPaymentId(String razorpayPaymentId) {
+		this.razorpayPaymentId = razorpayPaymentId;
+	}
+
+	public String getRazorPayOrderId() {
+		return razorPayOrderId;
+	}
+
+	public void setRazorPayOrderId(String razorPayOrderId) {
+		this.razorPayOrderId = razorPayOrderId;
+	}
+
+	public String getRazorpaypaySignature() {
+		return razorpaypaySignature;
+	}
+
+	public void setRazorpaypaySignature(String razorpaypaySignature) {
+		this.razorpaypaySignature = razorpaypaySignature;
+	}
+
+	public String getOrderStatus() {
+		return OrderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		OrderStatus = orderStatus;
+	}
+
+	public String getDate() {
         return date;
     }
 
@@ -61,12 +126,6 @@ public class OrderDetails {
         this.expDelivary = expDelivary;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    
 
 }

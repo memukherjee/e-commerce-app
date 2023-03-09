@@ -11,5 +11,8 @@ public interface OrderRepo extends MongoRepository<OrderDetails, String> {
 
     @Query("{user_id: ?0}")
     OrderDetails findAllOrder(String user_id);
+    
+//    @Query("{user_id: ?0, paymentStatus: 'Due'}")
+//    OrderDetails dueExistOrNot(String user_id);
 
 }

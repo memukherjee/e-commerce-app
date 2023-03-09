@@ -21,6 +21,7 @@ import com.ecommerce.dto.CartDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.User;
+import com.ecommerce.Repository.OrderRepo;
 import com.ecommerce.Service.CartService;
 import com.ecommerce.Service.OrderService;
 import com.ecommerce.jwt.TokenValidator;
@@ -35,7 +36,10 @@ public class OrderController {
 
     @Autowired
     private CartService cartService;
-
+    
+    @Autowired
+    OrderRepo orderRepo;
+    
     @Autowired
     private OrderService orderService;
 
@@ -88,14 +92,25 @@ public class OrderController {
 
             RazorpayClient client = new RazorpayClient("rzp_test_8oTp65hXpWlqQZ", "sUQ3F3PoY3RK2ODu4N1tU6e1");
             JSONObject ob = new JSONObject();
-            ob.put("amount", pay);
+            ob.put("amount", pay*100);
             ob.put("currency", "INR");
             ob.put("receipt", receipt);
 
         // creating order
-
+                   
+//        OrderDetails Details=orderRepo.dueExistOrNot(user.getEmail());
+//        if(Details != null)
+//        {
+//           orderRepo.deleteById(Details.getId());
+//        }
+//        OrderDetails orderDetails = new OrderDetails();
+//        orderDetails.setUser_id(user.getEmail());
+//        orderDetails.setCartDTO(cartDTO);
+//        orderDetails.setMethod("Online Pay");
+//        orderDetails.setPaymentStatus("Due");
+//        orderRepo.save(orderDetails);
+        
         Order order = client.Orders.create(ob);
-       
         return new ResponseEntity(order.toString(), HttpStatus.OK);
         }
     	}
@@ -104,32 +119,33 @@ public class OrderController {
 
     // place order *************************************************
 
-    @GetMapping("/placeOrder/{t_id}")
-    public OrderDetails addOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth, @PathVariable String t_id) {
+    @GetMapping("/placeOrder")
+    public ResponseEntity<?> addOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth,@RequestBody CartDTO cartDTO, @RequestBody String orderCreationId,
+    		@RequestBody String razorpayPaymentId, @RequestBody String razorPayOrderId, @RequestBody String razorpaypaySignature) {
        
     	User user=token.validate(auth); 
     	if(user==null) {
-    		return null;
+    		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
     	}
     	else 
     	{
     	 String user_id=user.getEmail();
-    	 return orderService.showAll(user_id, t_id);
+    	 return new ResponseEntity(orderService.showAll(user,cartDTO,orderCreationId,razorpayPaymentId,razorPayOrderId,razorpaypaySignature),HttpStatus.OK);
     	}
     }
 
     // show all ordered products ******************************************
     @GetMapping("/showOrder")
-    public OrderDetails showOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth) {
+    public ResponseEntity<?> showOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth) {
     	
     	User user=token.validate(auth); 
     	if(user==null) {
-    		return null;
+    		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
     	}
     	else 
     	{
     	 String user_id=user.getEmail();
-         return orderService.getOrderDetails(user_id);
+    	 return new ResponseEntity(orderService.getOrderDetails(user_id),HttpStatus.OK);
     	}
     }
 }

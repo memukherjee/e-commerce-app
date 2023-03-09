@@ -36,11 +36,14 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
     @Query("{'product_category': ?0}")
 	List<Product> findByCategory(String product_category);
     
-    @Query("{discountPrice:{$lt:?0,$gt:?1}},{product_category:?0}")
+    @Query("{discountPrice:{$lt:?0,$gt:?1}}")
     List<Product> getProductByMaxMin(double max,double min);
 
     @Query("{'_id': ?0}")
 	List<Product> findByProductId(String productId);
+
+    @Query("{discountPrice:{$lt:?0,$gt:?1},product_category:?2}")
+	List<Product> getProductByMaxMinAndCategory(double parseDouble, double parseDouble2, String category);
 
    
 	

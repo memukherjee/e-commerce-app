@@ -1,6 +1,7 @@
 package com.ecommerce.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,5 +76,10 @@ public class UserProductService {
     public List<Product> getProductByMaxMin(double max,double min){
     	return repository.getProductByMaxMin(max, min);
     }
+
+	public List<Product> getProductByMaxMinAndCategory(double parseDouble, double parseDouble2,String category) {
+		// TODO Auto-generated method stub
+		return repository.getProductByMaxMinAndCategory(parseDouble,parseDouble2, category);
+	}
 
 }

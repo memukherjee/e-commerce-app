@@ -42,6 +42,7 @@ import com.ecommerce.Service.UserProductService;
 import com.ecommerce.dto.wishlistDTO;
 import com.ecommerce.jwt.TokenValidator;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import java.util.Comparator;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -186,94 +187,70 @@ public class UserProductController {
     }
     
     @GetMapping("/filterProducts")
-    public ResponseEntity<List<Product>> getProductByFilter(@RequestParam (name="max",required = false) String max, @RequestParam (name="min",required = false) String min,@RequestParam (name="category",required = false) String product_category, @RequestParam(defaultValue = "0") Integer pageNo,
-          @RequestParam(defaultValue = "5") Integer pageSize,@RequestParam (name="popularity",required=false) String popularity,@RequestParam (name="price",required=false) String price)    {
-    	try {
-    		String s1="Descending";
-    		String s2="Ascending";
-    		String flag="0";
+    public ResponseEntity<?> getProductByFilter(@RequestParam (defaultValue="10000000",name="maxPrice",required = false) String maxPrice, @RequestParam (defaultValue="0",name="minPrice",required = false) String minPrice,@RequestParam (name="category",required = false) String product_category,@RequestParam (defaultValue="",name="sort",required = false) String sort, @RequestParam(defaultValue = "0") Integer pageNo,
+          @RequestParam(defaultValue = "5") Integer pageSize)    {
+    	
     		
     		List<Product> filter=new ArrayList<Product>();
     		
-    		//------------------------------------------//
-    		if(max==null && min==null && product_category==null){
-    			filter=service.getAllProduct(pageNo, pageSize);
+    		System.out.println(minPrice+" "+maxPrice);
+    		if(product_category!=null) {
+    			filter.addAll(service.getProductByMaxMinAndCategory(Double.parseDouble(maxPrice), Double.parseDouble(minPrice),product_category));
+    		}else {
+    			filter.addAll(service.getProductByMaxMin(Double.parseDouble(maxPrice), Double.parseDouble(minPrice)));
     		}
-    		
-    		//--------------------------------------------//
-    		if(max!=null && min!=null && product_category==null) {
-    			filter=service.getProductByMaxMin(Double.parseDouble(max), Double.parseDouble(min));}
-    		
-    		//----------------------------------------------//
-    		if(product_category!=null && min==null && max==null && popularity==null) {
-    			System.out.println("NotDone");
-    			filter=service.getProductByCategory(product_category, pageNo, pageSize);}
-    		
-    		//----------------------------------------------//
-    		if (product_category!=null && max!=null && min!=null) {
-    			System.out.println("Done1");
-    			ArrayList<Product> proAll=new ArrayList<Product>();
-    			List<Product> pro1 = new ArrayList<>();
-    			 pro1=service.getProductByMaxMin(Double.parseDouble(max), Double.parseDouble(min));
-    			 List<Product> pro2 = new ArrayList<>();
-    			 pro2=service.getProductByCategory(product_category, pageNo, pageSize);
-    			 
-    			
-    			for(int i=0;i<pro1.size();i++) {
-    				for(int j=0;j<pro2.size();j++) {
-    				if(pro1.get(i).getProduct_category().equalsIgnoreCase(pro2.get(j).getProduct_category())) {
-    					proAll.add(pro1.get(i));
-    	    			
-    				}
-    			}
-    			
-    			}
-    			for(Product i:proAll) {
-    				if(!filter.contains(i)) {
-    					filter.add(i);
-    				}
-    			}	
-    		}
-    		
-    		//----------------------------------------------//
-    		if(popularity!=null) {
-    			System.out.println("1");
-    			if(popularity.equals(s1)){
-    				flag="1";
-    				if(flag=="1")
-    					filter=service.findPopularityByProducts1();
-    				}
-    			else {
-					if(popularity.equals(s2)) {
-						flag="0";
-						if(flag=="0")
-							filter=service.findPopularityByProducts2();
+
+   			
+   			if(sort.contains("price") && sort.contains("ascending")) {
+   				System.out.println("price a");
+   			Collections.sort(filter, new Comparator<Product>()
+   					{
+   						public int compare(Product p1,Product p2) {
+   							return Double.valueOf(p1.discountPrice).compareTo(p2.discountPrice);
+   						}
+   					});
+   			}
+   			if(sort.contains("price") && sort.contains("descending")) {
+   				System.out.println("price d");
+   				Collections.sort(filter, new Comparator<Product>()
+					{
+						public int compare(Product p1,Product p2) {
+							return Double.valueOf(p2.discountPrice).compareTo(p1.discountPrice);
+						}
+					});
+   			}
+   			if(sort.contains("trending") && sort.contains("ascending")) {
+   				System.out.println("trending a");
+   				Collections.sort(filter, new Comparator<Product>()
+					{
+						public int compare(Product p1,Product p2) {
+							return Integer.valueOf(p1.getProduct_sold()).compareTo(p2.getProduct_sold());
+						}
+					});
+   			}
+   			if(sort.contains("trending") && sort.contains("descending")) {
+   				System.out.println("trending d");
+   				Collections.sort(filter, new Comparator<Product>()
+				{
+					public int compare(Product p1,Product p2) {
+						return Integer.valueOf(p2.getProduct_sold()).compareTo(p1.getProduct_sold());
 					}
-				}
-    		}
-    		
-    		//----------------------------------------------//
-    		if(price!=null) {
-				System.out.println("AAa");
-    			if(price.equals(s1)){
-    				flag="1";
-    				if(flag=="1")
-    					filter=service.SortPriceByDesc();
-    				}
-    			else {
-					if(popularity.equals(s2)) {
-						flag="0";
-						if(flag=="0")
-							filter=service.SortPriceByAsc();
-					}
-				}
-			}
+				});
+   			}
+				//return new ResponseEntity<>(filter,HttpStatus.OK);
+   			PagedListHolder<Product> pagedListHolder=new PagedListHolder<Product>(filter);
+   	    	pagedListHolder.setPage(pageNo);
+   	    	pagedListHolder.setPageSize(pageSize);
+   	    	int size=pagedListHolder.getPageCount();
+   	    	System.out.println(size);
+   	    	ArrayList<Product> leo=new ArrayList<>(); 
+   	    	if(pageNo>=size)
+   	    		return new ResponseEntity<>(leo,HttpStatus.OK);
+   	    	
+   	    	
+   	    		return new ResponseEntity<>(pagedListHolder.getPageList(),HttpStatus.OK);
     		
     		
-    		return new ResponseEntity<List<Product>>(filter,HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<Product>>(HttpStatus.BAD_REQUEST);
-		}
     }
     
     

@@ -2,6 +2,8 @@ package com.ecommerce.Service;
 
 
 
+import java.io.IOException;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ecommerce.Controller.CloudinaryController;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.UserRepository;
@@ -27,6 +32,10 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 	@Autowired
 	TokenValidator token;
+	 @Autowired
+	    PasswordEncoder passwordEncoder;
+	 @Autowired
+		CloudinaryController cloudinaryController;
 	
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -153,6 +162,7 @@ public class UserService implements UserDetailsService {
 		
 			if(str.name!=null) {
 				user.setName(str.name);
+				if(!user.getAvatar().contains("cloudinary"))
 				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.name+".svg");
 			}
 			if(str.address!=null) {
@@ -161,19 +171,40 @@ public class UserService implements UserDetailsService {
 			if(str.mobile!=null) {
 				user.setMobile(str.mobile);
 			}
-			if(str.password!=null) {
-				this.PasswordEncoder=new BCryptPasswordEncoder();
-				String encodedPassword=this.PasswordEncoder.encode(str.password);
-				user.setPassword(encodedPassword);
-			}
+			
 			if(str.email!=null) {
 			user.setEmail(str.email);  //check
+			}
+			if(str.oldPassword!=null && str.newPassword!=null) {
+				System.out.println(str.oldPassword+" "+str.newPassword);
+				String old=passwordEncoder.encode(str.oldPassword);
+				System.out.println(old+" "+user.getPassword());
+				if(passwordEncoder.matches(str.oldPassword, user.getPassword())) {
+					System.out.println("1");
+					this.PasswordEncoder=new BCryptPasswordEncoder();
+					String encodedPassword=this.PasswordEncoder.encode(str.newPassword);
+					user.setPassword(encodedPassword);
+				}else {
+					userRepository.save(user);
+					return new ResponseEntity<>("Invalid old password", HttpStatus.OK);
+				}
 			}
 			
 			return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
 		
 		
 		
+	}
+
+	public ResponseEntity<?> avatar(MultipartFile file, String auth) throws IOException {
+		User user=token.validate(auth);
+		if(user==null) {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		}
+		 String image_url=cloudinaryController.upload(file);
+		 user.setAvatar(image_url);
+	    	
+		 return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
 	}
 
 }

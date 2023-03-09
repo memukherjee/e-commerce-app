@@ -12,6 +12,8 @@ public class objholder {
 		public String id=null;
 		public String productId=null;
 		public String name=null;
+		public String oldPassword=null;
+		public String newPassword=null;
 		
 		
 		

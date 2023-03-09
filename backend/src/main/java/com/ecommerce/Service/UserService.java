@@ -153,7 +153,7 @@ public class UserService implements UserDetailsService {
 		
 			if(str.name!=null) {
 				user.setName(str.name);
-				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.username+".svg");
+				user.setAvatar("https://avatars.dicebear.com/api/initials/"+str.name+".svg");
 			}
 			if(str.address!=null) {
 				user.setAddress(str.address);

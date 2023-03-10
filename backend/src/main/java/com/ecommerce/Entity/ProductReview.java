@@ -3,6 +3,7 @@ package com.ecommerce.Entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,10 @@ import java.time.LocalDate;
 @Data
 @Document(collection="reviews")
 public class ProductReview {
+
+	@Id
+    @GeneratedValue
+    private String id;
 
 	@Id
 	private String userId;

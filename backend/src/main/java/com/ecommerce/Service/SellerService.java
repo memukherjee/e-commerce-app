@@ -1,5 +1,6 @@
 package com.ecommerce.Service;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ecommerce.Controller.CloudinaryController;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
@@ -25,6 +29,10 @@ public class SellerService implements UserDetailsService {
     SellerRepository sellerRepository;
 	@Autowired
 	SellerTokenValidator token;
+	@Autowired
+    PasswordEncoder passwordEncoder;
+ @Autowired
+	CloudinaryController cloudinaryController;
 	
     @Override
     public Seller loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -115,6 +123,20 @@ public ResponseEntity<Object> profile(objholder str,String auth){       //profil
 			if(str.email!=null) {
 			seller.setEmail(str.email);  //check
 			}
+			if(str.oldPassword!=null && str.newPassword!=null) {
+				System.out.println(str.oldPassword+" "+str.newPassword);
+				String old=passwordEncoder.encode(str.oldPassword);
+				System.out.println(old+" "+seller.getPassword());
+				if(passwordEncoder.matches(str.oldPassword, seller.getPassword())) {
+					System.out.println("1");
+					this.PasswordEncoder=new BCryptPasswordEncoder();
+					String encodedPassword=this.PasswordEncoder.encode(str.newPassword);
+					seller.setPassword(encodedPassword);
+				}else {
+					
+					return new ResponseEntity<>("Invalid old password", HttpStatus.OK);
+				}
+			}
 			
 			return new ResponseEntity<>(sellerRepository.save(seller), HttpStatus.OK);
 		
@@ -122,4 +144,15 @@ public ResponseEntity<Object> profile(objholder str,String auth){       //profil
 		
 	}
 //	
+
+public ResponseEntity<?> avatar(MultipartFile file, String auth) throws IOException {
+	Seller seller=token.validate(auth);
+	if(seller==null) {
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+	 String image_url=cloudinaryController.upload(file);
+	 seller.setAvatar(image_url);
+    	
+	 return new ResponseEntity<>(sellerRepository.save(seller), HttpStatus.OK);
+}
 }

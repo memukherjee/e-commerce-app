@@ -186,7 +186,7 @@ public class UserService implements UserDetailsService {
 					user.setPassword(encodedPassword);
 				}else {
 					userRepository.save(user);
-					return new ResponseEntity<>("Invalid old password", HttpStatus.OK);
+					return new ResponseEntity<>("Invalid old password", HttpStatus.UNAUTHORIZED);
 				}
 			}
 			

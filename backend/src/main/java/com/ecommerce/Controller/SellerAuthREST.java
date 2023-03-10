@@ -1,5 +1,6 @@
 package com.ecommerce.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.RefreshToken;
@@ -183,6 +186,11 @@ public class SellerAuthREST {
 	@PostMapping("/profile")
 	public  ResponseEntity<Object> profile(@RequestBody objholder str, @RequestHeader(value="authorization",defaultValue="")String auth) {
 		return sellerService.profile(str, auth);
+	}
+	@PostMapping("/avatar")
+	public ResponseEntity<?> avatar(@RequestParam("file")MultipartFile file, @RequestHeader(value="authorization",defaultValue="")String auth) throws IOException{
+		return sellerService.avatar(file,auth);
+		
 	}
 	
 	//********************STATISTICAL DATA OF SELLER********************

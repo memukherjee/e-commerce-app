@@ -3,6 +3,7 @@ package com.ecommerce.Entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +18,10 @@ import java.time.LocalDate;
 public class ProductReview {
 
 	@Id
+    @GeneratedValue
+    private String id;
+
+	@Id
 	private String userId;
 	@Id
 	private String productId;
@@ -24,23 +29,23 @@ public class ProductReview {
 	private float star;
 	private LocalTime time;
 	private LocalDate date;
-	private String name;
-	private String avatar;
+//	private String name;
+//	private String avatar;
+//	
 	
 	
-	
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+//	public String getAvatar() {
+//		return avatar;
+//	}
+//	public void setAvatar(String avatar) {
+//		this.avatar = avatar;
+//	}
+//	public String getName() {
+//		return name;
+//	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 	public String getUserId() {
 		return userId;
 	}
@@ -77,16 +82,16 @@ public class ProductReview {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public ProductReview(String userId, String productId, String message, float star,String name,String avatar) {
+	public ProductReview(String userId, String productId, String message, float star) {
 		super();
-		this.setAvatar(avatar);
+		//this.setAvatar(avatar);
 		this.userId = userId;
 		this.productId = productId;
 		this.message = message;
 		this.star = star;
 		this.time = LocalTime.now();
 		this.date = LocalDate.now();
-		this.name=name;
+		//this.name=name;
 	}
 	public ProductReview() {
 		super();

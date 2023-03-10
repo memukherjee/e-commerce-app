@@ -55,18 +55,25 @@ public class OrderService {
         return productsWithMoreQuantity;
     }
 
-    public OrderDetails showAll(User user,PlaceOrderDTO placeOrderDTO) {
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setUser_id(user.getEmail());
-        orderDetails.setAddress(placeOrderDTO.getAddress());
-        //CartDTO cartDTO = cartService.displayAllCartService(user_id);
-        orderDetails.setCartDTO(placeOrderDTO.getCartDTO());
-        orderDetails.setPaymentStatus("Paid");
-        String p_id = placeOrderDTO.getRazorpayPaymentId();
+    public String showAll(User user,PlaceOrderDTO placeOrderDTO) {
+    	
+    	CartDTO cartDTO = placeOrderDTO.getCartDTO();
+        ArrayList<CartProductDTO> cartProductDTOs= cartDTO.getList();
+    	
+        for(int i=0;i<cartProductDTOs.size();i++)
+        {
+           OrderDetails orderDetails = new OrderDetails();
+           orderDetails.setUser_id(user.getEmail());
+           orderDetails.setSeller_id(cartProductDTOs.get(i).getSeller_id());
+           orderDetails.setAddress(placeOrderDTO.getAddress());
+        //CartDTO cartDTO = cartService.displayAllCartService(user_id);;
+           orderDetails.setCartProductDTO(cartProductDTOs.get(i));
+           String p_id = placeOrderDTO.getRazorpayPaymentId();
         
         if (p_id==null) 
         {
             orderDetails.setMethod("COD");
+            orderDetails.setPaymentStatus(null);
             orderDetails.setOrderCreationId(null);
             orderDetails.setRazorpayPaymentId(null);
             orderDetails.setRazorPayOrderId(null);
@@ -74,6 +81,7 @@ public class OrderService {
             
         } else {
             orderDetails.setMethod("Online Pay");
+            orderDetails.setPaymentStatus("Paid");
             orderDetails.setOrderCreationId(placeOrderDTO.getOrderCreationId());;
             orderDetails.setRazorpayPaymentId(placeOrderDTO.getRazorpayPaymentId());
             orderDetails.setRazorPayOrderId(placeOrderDTO.getRazorPayOrderId());
@@ -81,7 +89,6 @@ public class OrderService {
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
         // LocalDate.now().plusDays(7);
         Calendar calendar = Calendar.getInstance();
         // calendar.setTime(new Date());
@@ -93,11 +100,10 @@ public class OrderService {
         orderDetails.setExpDelivary(date2);
 
         orderDetails.setOrderStatus("PROCESSING");
-
+        orderRepo.save(orderDetails);
+        }
         // subtract quantity from total product quantity
-
-        CartDTO cartDTO = placeOrderDTO.getCartDTO();
-        ArrayList<CartProductDTO> cartProductDTOs= cartDTO.getList();
+        
         for(int i=0;i<cartProductDTOs.size();i++)
         {
         	Product product = productService.getProductById(cartProductDTOs.get(i).getProduct_id());
@@ -114,26 +120,12 @@ public class OrderService {
         	}
         	
         }
-//        ArrayList<ShoppingCart> cartList = cartRepo.findByuser_id(user.getEmail());
-//        for (int i = 0; i < cartList.size(); i++) {
-//            Product product = productService.getProductById(cartList.get(i).getProduct_id());
-//            ShoppingCart shoppingCart = cartService.getCartById(cartList.get(i).getId());
-//
-//            int p = product.getProduct_quantity();
-//            int sold = product.getProduct_sold();
-//            int c = shoppingCart.getCart_quantity();
-//
-//            product.setProduct_quantity(p - c);
-//            product.setProduct_sold(sold + c);
-//            productRepo.save(product);
-//        }
-
-        orderRepo.save(orderDetails);
+      
         //cartService.removeFromCartAllService(user.getEmail());
-        return orderDetails;
+        return "Order is Placed";
     }
 
-    public OrderDetails getOrderDetails(String user_id) {
+    public ArrayList<OrderDetails> getOrderDetails(String user_id) {
         return orderRepo.findAllOrder(user_id);
 
     }

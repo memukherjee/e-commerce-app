@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/cloudinary/**").permitAll()
                 .antMatchers("/api/order/**").permitAll()
                 .antMatchers("/api/cart/**").permitAll()
+                .antMatchers("/api/sellerOrder/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class)
         

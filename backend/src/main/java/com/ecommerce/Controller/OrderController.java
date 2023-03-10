@@ -83,7 +83,7 @@ public class OrderController {
     	   	ArrayList<Product> productsWithMoreQuantity= orderService.checkQuantityService(cartDTO);    	    
             if(productsWithMoreQuantity.size()!=0)
             {
-            	  return new ResponseEntity(productsWithMoreQuantity,HttpStatus.UNAUTHORIZED);
+            	  return new ResponseEntity("Product Out Of Stock",HttpStatus.BAD_REQUEST);
             }
         
             else {
@@ -129,8 +129,16 @@ public class OrderController {
     	}
     	else 
     	{
-    	 String user_id=user.getEmail();
-    	 return new ResponseEntity(orderService.showAll(user,placeOrderDTO),HttpStatus.OK);
+    	    CartDTO cartDTO = placeOrderDTO.getCartDTO();
+    	    ArrayList<Product> productsWithMoreQuantity= orderService.checkQuantityService(cartDTO);    	    
+            if(productsWithMoreQuantity.size()!=0)
+           {
+         	    return new ResponseEntity("Product Out Of Stock",HttpStatus.BAD_REQUEST);
+           }
+           else {
+    	       String user_id=user.getEmail();
+    	       return new ResponseEntity(orderService.showAll(user,placeOrderDTO),HttpStatus.OK);
+           }
     	}
     }
 
@@ -144,7 +152,7 @@ public class OrderController {
     	}
     	else 
     	{
-    	 String user_id=user.getEmail();
+       	 String user_id=user.getEmail();
     	 return new ResponseEntity(orderService.getOrderDetails(user_id),HttpStatus.OK);
     	}
     }

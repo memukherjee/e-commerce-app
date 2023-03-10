@@ -114,8 +114,6 @@ public class CartProductDTO {
 	}
 	public void setProduct_imageUrl(String product_imageUrl) {
 		this.product_imageUrl = product_imageUrl;
-	}
-	
-	
+	}	
 	
 }

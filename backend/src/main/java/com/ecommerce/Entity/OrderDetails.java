@@ -1,14 +1,17 @@
 package com.ecommerce.Entity;
 
 import com.ecommerce.dto.CartDTO;
+import com.ecommerce.dto.CartProductDTO;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Order")
 public class OrderDetails {
 	private String id;
     private String user_id;
+    private String seller_id;
     private String address;
-    private CartDTO cartDTO;
+    private CartProductDTO cartProductDTO;
     private String method;
     private String paymentStatus;
     private String orderCreationId;
@@ -37,7 +40,15 @@ public class OrderDetails {
     }
 
     
-    public String getAddress() {
+    public String getSeller_id() {
+		return seller_id;
+	}
+
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
+	}
+
+	public String getAddress() {
 		return address;
 	}
 
@@ -45,12 +56,13 @@ public class OrderDetails {
 		this.address = address;
 	}
 
-	public CartDTO getCartDTO() {
-		return cartDTO;
+	
+	public CartProductDTO getCartProductDTO() {
+		return cartProductDTO;
 	}
 
-	public void setCartDTO(CartDTO cartDTO) {
-		this.cartDTO = cartDTO;
+	public void setCartProductDTO(CartProductDTO cartProductDTO) {
+		this.cartProductDTO = cartProductDTO;
 	}
 
 	public String getMethod() {

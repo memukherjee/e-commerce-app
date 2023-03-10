@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartProductDTO;
+import com.ecommerce.dto.PlaceOrderDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
@@ -54,15 +55,16 @@ public class OrderService {
         return productsWithMoreQuantity;
     }
 
-    public OrderDetails showAll(User user,CartDTO cartDTO,String orderCreationId,String razorpayPaymentId,String razorPayOrderId,String razorpaypaySignature) {
+    public OrderDetails showAll(User user,PlaceOrderDTO placeOrderDTO) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setUser_id(user.getEmail());
-        orderDetails.setAddress(user.getAddress());
+        orderDetails.setAddress(placeOrderDTO.getAddress());
         //CartDTO cartDTO = cartService.displayAllCartService(user_id);
-        orderDetails.setCartDTO(cartDTO);
+        orderDetails.setCartDTO(placeOrderDTO.getCartDTO());
         orderDetails.setPaymentStatus("Paid");
+        String p_id = placeOrderDTO.getRazorpayPaymentId();
         
-        if (razorpayPaymentId.equals("null")) 
+        if (p_id.equals("null")) 
         {
             orderDetails.setMethod("COD");
             orderDetails.setOrderCreationId(null);
@@ -72,10 +74,10 @@ public class OrderService {
             
         } else {
             orderDetails.setMethod("Online Pay");
-            orderDetails.setOrderCreationId(orderCreationId);;
-            orderDetails.setRazorpayPaymentId(razorpayPaymentId);
-            orderDetails.setRazorPayOrderId(razorPayOrderId);
-            orderDetails.setRazorpaypaySignature(razorpaypaySignature);
+            orderDetails.setOrderCreationId(placeOrderDTO.getOrderCreationId());;
+            orderDetails.setRazorpayPaymentId(placeOrderDTO.getRazorpayPaymentId());
+            orderDetails.setRazorPayOrderId(placeOrderDTO.getRazorPayOrderId());
+            orderDetails.setRazorpaypaySignature(placeOrderDTO.getRazorpaypaySignature());
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -94,7 +96,8 @@ public class OrderService {
 
         // subtract quantity from total product quantity
 
-        ArrayList<CartProductDTO> cartProductDTOs=cartDTO.getList();
+        CartDTO cartDTO = placeOrderDTO.getCartDTO();
+        ArrayList<CartProductDTO> cartProductDTOs= cartDTO.getList();
         for(int i=0;i<cartProductDTOs.size();i++)
         {
         	Product product = productService.getProductById(cartProductDTOs.get(i).getProduct_id());

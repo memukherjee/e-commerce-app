@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.CartDTO;
+import com.ecommerce.dto.PlaceOrderDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.User;
@@ -119,9 +120,8 @@ public class OrderController {
 
     // place order *************************************************
 
-    @GetMapping("/placeOrder")
-    public ResponseEntity<?> addOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth,@RequestBody CartDTO cartDTO, @RequestBody String orderCreationId,
-    		@RequestBody String razorpayPaymentId, @RequestBody String razorPayOrderId, @RequestBody String razorpaypaySignature) {
+    @PostMapping("/placeOrder")
+    public ResponseEntity<?> addOrderDetails(@RequestHeader(value="authorization",defaultValue="")String auth,@RequestBody PlaceOrderDTO placeOrderDTO) {
        
     	User user=token.validate(auth); 
     	if(user==null) {
@@ -130,7 +130,7 @@ public class OrderController {
     	else 
     	{
     	 String user_id=user.getEmail();
-    	 return new ResponseEntity(orderService.showAll(user,cartDTO,orderCreationId,razorpayPaymentId,razorPayOrderId,razorpaypaySignature),HttpStatus.OK);
+    	 return new ResponseEntity(orderService.showAll(user,placeOrderDTO),HttpStatus.OK);
     	}
     }
 

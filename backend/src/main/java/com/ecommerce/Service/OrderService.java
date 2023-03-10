@@ -64,7 +64,7 @@ public class OrderService {
         orderDetails.setPaymentStatus("Paid");
         String p_id = placeOrderDTO.getRazorpayPaymentId();
         
-        if (p_id.equals("null")) 
+        if (p_id==null) 
         {
             orderDetails.setMethod("COD");
             orderDetails.setOrderCreationId(null);

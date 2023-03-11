@@ -29,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.ProductReview;
 import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
+import com.ecommerce.Repository.ProductReviewRepository;
 import com.ecommerce.Repository.SellerRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserProductRepository;
@@ -75,6 +77,9 @@ public class SellerAuthREST {
     
     @Autowired
     UserProductRepository userProductRepository;
+    
+    @Autowired
+    ProductReviewRepository productReviewRepository;
    
     
     
@@ -194,7 +199,7 @@ public class SellerAuthREST {
 	}
 	
 	//********************STATISTICAL DATA OF SELLER********************
-	@GetMapping("/sellerStats")
+	@PostMapping("/sellerStats")
 	public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
 		Seller seller=token.validate(auth);
 		if(seller==null)
@@ -221,6 +226,17 @@ public class SellerAuthREST {
 		
 		System.out.println("comp-"+comp);
 		sellerStatsDTO.setTotalCompany(comp.size());
+		
+		List<Product> products = userProductRepository.findBySellerId(seller.getId());
+		
+		int count=0;
+		List<ProductReview> pro1 =new ArrayList<>();
+		
+		for(Product i:products) {
+		pro1.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
+			
+		}
+		sellerStatsDTO.setTotalReviews(pro1.size());
 		
 		return new ResponseEntity<>(sellerStatsDTO,HttpStatus.OK);
 		

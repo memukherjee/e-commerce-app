@@ -222,7 +222,13 @@ public class AdminAuthREST {
 	    	AdminStatsDTO obj=new AdminStatsDTO();
 	    	obj.setTotalUser(userRepository.findAll().size());
 	    	obj.setTotalSeller(sellerRepository.findAll().size());
-	    	
+	    	int count=0;
+	    	List<Seller> seller = sellerRepository.findAll();
+	    	for(Seller i:seller) {
+	    		if(i.getAccountStatus()==false)
+	    			count++;
+	    	}
+	    	obj.setTotalPendingReq(count);
 	    	return new ResponseEntity<>(obj,HttpStatus.OK);
 	    }
 	    

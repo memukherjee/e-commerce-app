@@ -37,6 +37,7 @@ import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Service.AdminAuthService;
 import com.ecommerce.Service.SellerService;
+import com.ecommerce.dto.AdminStatsDTO;
 import com.ecommerce.dto.LoginDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
@@ -212,6 +213,17 @@ public class AdminAuthREST {
 	    	return new ResponseEntity<>("Seller Removed",HttpStatus.OK);
 			
 	    	
+	    }
+	    @GetMapping("/adminStats")
+	    public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
+	    	Admin admin=token.validate(auth);
+	    	if(admin==null)
+	    		return new ResponseEntity<>("INVALID TOKEN",HttpStatus.NOT_FOUND);
+	    	AdminStatsDTO obj=new AdminStatsDTO();
+	    	obj.setTotalUser(userRepository.findAll().size());
+	    	obj.setTotalSeller(sellerRepository.findAll().size());
+	    	
+	    	return new ResponseEntity<>(obj,HttpStatus.OK);
 	    }
 	    
 	    

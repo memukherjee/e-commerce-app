@@ -5,9 +5,23 @@ private int totalProduct=0;
 private int totalCategory=0;
 private int totalCompany=0;
 private int totalReviews=0;
+private int totalOrderCount=0;
+private int totalSoldItems=0;
 
 
 
+public int getTotalOrderCount() {
+	return totalOrderCount;
+}
+public void setTotalOrderCount(int totalOrderCount) {
+	this.totalOrderCount = totalOrderCount;
+}
+public int getTotalSoldItems() {
+	return totalSoldItems;
+}
+public void setTotalSoldItems(int totalSoldItems) {
+	this.totalSoldItems = totalSoldItems;
+}
 public int getTotalReviews() {
 	return totalReviews;
 }

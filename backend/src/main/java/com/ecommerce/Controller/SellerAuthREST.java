@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ProductReview;
 import com.ecommerce.Entity.RefreshToken;
@@ -35,6 +36,7 @@ import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
+import com.ecommerce.Repository.OrderRepo;
 import com.ecommerce.Repository.ProductReviewRepository;
 import com.ecommerce.Repository.SellerRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
@@ -80,6 +82,9 @@ public class SellerAuthREST {
     
     @Autowired
     ProductReviewRepository productReviewRepository;
+    
+    @Autowired
+    OrderRepo orderRepo;
    
     
     
@@ -237,6 +242,15 @@ public class SellerAuthREST {
 			
 		}
 		sellerStatsDTO.setTotalReviews(pro1.size());
+		
+		List<OrderDetails> totalOrder = orderRepo.findBySellerId(seller.getId());
+		sellerStatsDTO.setTotalOrderCount(totalOrder.size());
+		
+		int totalSold=0;
+		for(OrderDetails i:totalOrder) {
+			totalSold+=i.getCartProductDTO().getDiscountPrice();
+		}
+		sellerStatsDTO.setTotalSoldItems(totalSold);
 		
 		return new ResponseEntity<>(sellerStatsDTO,HttpStatus.OK);
 		

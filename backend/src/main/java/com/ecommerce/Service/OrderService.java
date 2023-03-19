@@ -1,6 +1,8 @@
 package com.ecommerce.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -88,16 +90,16 @@ public class OrderService {
             orderDetails.setRazorpaypaySignature(placeOrderDTO.getRazorpaypaySignature());
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        // LocalDate.now().plusDays(7);
-        Calendar calendar = Calendar.getInstance();
-        // calendar.setTime(new Date());
-        String date1 = dateFormat.format(calendar.getTime());
-        calendar.add(Calendar.DATE, 7);
-        String date2 = dateFormat.format(calendar.getTime());
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        // LocalDate.now().plusDays(7);
+//        Calendar calendar = Calendar.getInstance();
+//        // calendar.setTime(new Date());
+//        String date1 = dateFormat.format(calendar.getTime());
+//        calendar.add(Calendar.DATE, 7);
+//        String date2 = dateFormat.format(calendar.getTime());
 
-        orderDetails.setDate(date1);
-        orderDetails.setExpDelivary(date2);
+        orderDetails.setDate(LocalDate.now()+" "+LocalTime.now());
+        orderDetails.setExpDelivary(LocalDate.now().plusDays(7)+" "+LocalTime.now());
 
         orderDetails.setOrderStatus("PROCESSING");
         orderRepo.save(orderDetails);

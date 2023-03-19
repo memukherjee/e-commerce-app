@@ -2,16 +2,24 @@ package com.ecommerce.Controller;
 
 
 
+import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.ProductReview;
 import com.ecommerce.Entity.RefreshToken;
+import com.ecommerce.Entity.Seller;
+import com.ecommerce.Entity.ShoppingCart;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.WishList;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.SellerStatsDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
+import com.ecommerce.dto.UserStatsDTO;
 import com.ecommerce.jwt.JwtHelper;
 import com.ecommerce.jwt.TokenValidator;
+import com.ecommerce.Repository.CartRepo;
+import com.ecommerce.Repository.OrderRepo;
 import com.ecommerce.Repository.RefreshTokenRepository;
 import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Repository.UserRepository;
@@ -44,6 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +90,12 @@ public class AuthREST {
     
     @Autowired
     UserProductRepository userProductRepository;
+    
+    @Autowired
+    OrderRepo orderRepo;
+    
+    @Autowired
+    CartRepo cartRepo;
 
 
     @PostMapping("/login")
@@ -316,6 +331,27 @@ public class AuthREST {
     			}
     			
 				return new ResponseEntity<>(product,HttpStatus.OK);
+    			
+    		}
+    		
+    		//********************STATISTICAL DATA OF USER********************
+    		@PostMapping("/userStats")
+    		public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
+    			User user=token.validate(auth);
+    			if(user==null)
+    				return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+    			
+    			ArrayList<OrderDetails> totalOrder = orderRepo.findAllOrder(user.getEmail());
+    			UserStatsDTO obj=new UserStatsDTO();
+    			obj.setTotalOrder(totalOrder.size());
+    			
+    			ArrayList<ShoppingCart> totalCart = cartRepo.findByuser_id(user.getEmail());
+    			obj.setTotalCartItems(totalCart.size());
+    			
+    			List<WishList> totalWishList = wishListRepository.findProductIdByuserId(user.getId());
+    			obj.setTotalWishListItems(totalWishList.size());
+    			
+    			return new ResponseEntity<>(obj,HttpStatus.OK);
     			
     		}
     			

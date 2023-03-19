@@ -29,9 +29,15 @@ public class SimilarProductController {
 	UserProductRepository userProductRepository;
 	
 	@GetMapping("/similarProduct")
-	public ResponseEntity<?> similarProduct(@RequestParam("category") String catId,@RequestParam("pageNo") int pageNo,@RequestParam("pageSize") int pageSize){
-		List<Product> product = userProductRepository.findByCategory(catId);
-		PagedListHolder<Product> pagedListHolder=new PagedListHolder<Product>(product);
+	public ResponseEntity<?> similarProduct(@RequestParam("productId") String proId,@RequestParam("pageNo") int pageNo,@RequestParam("pageSize") int pageSize){
+		Product product = userProductRepository.findProduct(proId);
+		String catId=product.getProduct_category();
+		List<Product> category = userProductRepository.findByCategory(catId);
+		for(int i=0;i<category.size();i++) {
+			if(category.get(i).getProduct_id().equals(proId))
+				category.remove(i);
+		}
+		PagedListHolder<Product> pagedListHolder=new PagedListHolder<Product>(category);
     	pagedListHolder.setPage(pageNo);
     	pagedListHolder.setPageSize(pageSize);
     	int size=pagedListHolder.getPageCount();

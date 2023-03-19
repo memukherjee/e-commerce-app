@@ -4,6 +4,30 @@ public class SellerStatsDTO {
 private int totalProduct=0;
 private int totalCategory=0;
 private int totalCompany=0;
+private int totalReviews=0;
+private int totalOrderCount=0;
+private int totalSoldItems=0;
+
+
+
+public int getTotalOrderCount() {
+	return totalOrderCount;
+}
+public void setTotalOrderCount(int totalOrderCount) {
+	this.totalOrderCount = totalOrderCount;
+}
+public int getTotalSoldItems() {
+	return totalSoldItems;
+}
+public void setTotalSoldItems(int totalSoldItems) {
+	this.totalSoldItems = totalSoldItems;
+}
+public int getTotalReviews() {
+	return totalReviews;
+}
+public void setTotalReviews(int totalReviews) {
+	this.totalReviews = totalReviews;
+}
 public int getTotalCompany() {
 	return totalCompany;
 }
@@ -22,11 +46,12 @@ public int getTotalCategory() {
 public void setTotalCategory(int totalCategory) {
 	this.totalCategory = totalCategory;
 }
-public SellerStatsDTO(int totalProduct, int totalCategory, int totalCompany) {
+public SellerStatsDTO(int totalProduct, int totalCategory, int totalCompany,int totalReviews) {
 	super();
 	this.totalProduct = totalProduct;
 	this.totalCategory = totalCategory;
 	this.totalCompany=totalCompany;
+	this.totalReviews=totalReviews;
 }
 public SellerStatsDTO() {
 	super();

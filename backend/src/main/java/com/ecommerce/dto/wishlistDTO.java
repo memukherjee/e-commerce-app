@@ -6,13 +6,13 @@ import com.ecommerce.Entity.Product;
 
 public class wishlistDTO {
 	
-	public Product product;
+	public ProductAverageRatingDTO productAverageRatingDTO;
 	boolean wishlisted=false;
-	public Product getProduct() {
-		return product;
+	public ProductAverageRatingDTO getProductAverageRatingDTO() {
+		return productAverageRatingDTO;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductAverageRatingDTO(ProductAverageRatingDTO productAverageRatingDTO) {
+		this.productAverageRatingDTO = productAverageRatingDTO;
 	}
 	public boolean isWishlisted() {
 		return wishlisted;
@@ -20,15 +20,17 @@ public class wishlistDTO {
 	public void setWishlisted(boolean wishlisted) {
 		this.wishlisted = wishlisted;
 	}
+	public wishlistDTO(ProductAverageRatingDTO productAverageRatingDTO, boolean wishlisted) {
+		super();
+		this.productAverageRatingDTO = productAverageRatingDTO;
+		this.wishlisted = wishlisted;
+	}
 	public wishlistDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public wishlistDTO(Product product, boolean wishlisted) {
-		super();
-		this.product = product;
-		this.wishlisted = wishlisted;
-	}
+
+	
 	
 	
 

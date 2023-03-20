@@ -65,18 +65,21 @@ public class ProductReviewController {
 	}
 
 	@GetMapping("/averageStar/{productId}")
-	public ResponseEntity<?> averageStar(@PathVariable String productId) {
+	public float averageStar(@PathVariable String productId) {
 
 		float star = 0;
-		int count = 0;
+		float count = 0;
 		List<ProductReview> review = productReviewRepository.findAllByProductId(productId);
 		for (ProductReview i : review) {
 			star += i.getStar();
 			count++;
 		}
+		if(star==0&&count==0)
+			return 0;
+		System.out.println(star+":"+count);
 		averageStarDTO DTO = new averageStarDTO(star / count);
-
-		return new ResponseEntity<>(DTO, HttpStatus.OK);
+System.out.println("rating is:"+(star/count));
+		return (star/count);
 	}
 
 }

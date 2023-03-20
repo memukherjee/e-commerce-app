@@ -26,6 +26,7 @@ import com.ecommerce.Repository.CategoryRepository;
 import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.UserProductService;
+import com.ecommerce.dto.ProductAverageRatingDTO;
 import com.ecommerce.dto.wishlistDTO;
 import com.ecommerce.jwt.TokenValidator;
 
@@ -43,6 +44,9 @@ public class UserProductController {
     TokenValidator token;
     @Autowired
     wishListRepository wishListRepository;
+    
+    @Autowired
+    ProductReviewController productReviewController;
 
     wishlistDTO wishlistdto = null;
 
@@ -55,22 +59,31 @@ public class UserProductController {
             user = token.validate(auth);
         } else {
             Product pro = service.getProductById(product_id);
-            return new wishlistDTO(pro, false);
+            float averageStar = productReviewController.averageStar(pro.getProduct_id());
+            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar);
+
+            return new wishlistDTO(obj, false);
         }
 
+        
         List<WishList> wish = new ArrayList<WishList>();
 
         Product pro = service.getProductById(product_id);
+        
+        float averageStar = productReviewController.averageStar(pro.getProduct_id());
+        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar);
+        
+        
         System.out.println(pro.discountPrice);
 
         if (user != null) {
             wish = wishListRepository.findByuserIdAndProductId(user.getId(), product_id);
             if (!wish.isEmpty()) {
 
-                wishlistDTO wishlistDTO = new wishlistDTO(pro, true);
+                wishlistDTO wishlistDTO = new wishlistDTO(obj, true);
                 return wishlistDTO;
             } else {
-                wishlistDTO wishlistDTO = new wishlistDTO(pro, false);
+                wishlistDTO wishlistDTO = new wishlistDTO(obj, false);
                 return wishlistDTO;
             }
         }
@@ -154,8 +167,16 @@ public class UserProductController {
             filteredProducts = newList;
         }
 
+        List<ProductAverageRatingDTO> obj= new ArrayList<>();
+        for(int i=0;i<filteredProducts.size();i++) {
+        	float averageStar = productReviewController.averageStar(filteredProducts.get(i).getProduct_id());
+            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar);
+            obj.add(ob);
+        }
+        
+        
         // Pagination of Products
-        PagedListHolder<Product> pagedListHolder = new PagedListHolder<Product>(filteredProducts);
+        PagedListHolder<ProductAverageRatingDTO> pagedListHolder = new PagedListHolder<ProductAverageRatingDTO>(obj);
         pagedListHolder.setPage(pageNo);
         pagedListHolder.setPageSize(pageSize);
         int size = pagedListHolder.getPageCount();

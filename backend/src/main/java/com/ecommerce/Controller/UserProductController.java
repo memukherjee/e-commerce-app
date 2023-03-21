@@ -60,18 +60,17 @@ public class UserProductController {
         } else {
             Product pro = service.getProductById(product_id);
             float averageStar = productReviewController.averageStar(pro.getProduct_id());
-            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar);
+            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType());
 
             return new wishlistDTO(obj, false);
         }
-
         
         List<WishList> wish = new ArrayList<WishList>();
 
         Product pro = service.getProductById(product_id);
         
         float averageStar = productReviewController.averageStar(pro.getProduct_id());
-        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar);
+        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType());
         
         
         System.out.println(pro.discountPrice);
@@ -170,7 +169,7 @@ public class UserProductController {
         List<ProductAverageRatingDTO> obj= new ArrayList<>();
         for(int i=0;i<filteredProducts.size();i++) {
         	float averageStar = productReviewController.averageStar(filteredProducts.get(i).getProduct_id());
-            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar);
+            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar,filteredProducts.get(i).getClothingType());
             obj.add(ob);
         }
         

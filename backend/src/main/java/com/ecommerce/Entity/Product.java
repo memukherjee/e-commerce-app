@@ -4,12 +4,18 @@ package com.ecommerce.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 
 @Document(collection = "products")
 public class Product {
@@ -43,12 +49,27 @@ public class Product {
     private int product_quantity;
     private int product_sold;
     private String product_imageUrl;
+    private String clothingType="unisex";
+    
+    
 
         
-    public Product(String product_id, String seller_id,@NotEmpty String product_name, @NotEmpty String product_category,
+    public String getClothingType() {
+		return clothingType;
+	}
+
+
+
+	public void setClothingType(String clothingType) {
+		this.clothingType = clothingType;
+	}
+
+
+
+	public Product(String product_id, String seller_id,@NotEmpty String product_name, @NotEmpty String product_category,
 			@NotEmpty String product_description,ArrayList<String> size, String product_company,
 			@NotEmpty double product_price, @NotEmpty double product_discount, double discountPrice,
-			int product_quantity, int product_sold, String product_imageUrl) {
+			int product_quantity, int product_sold, String product_imageUrl,String clothingType) {
 		super();
 		this.product_id = product_id;
 		this.seller_id=seller_id;
@@ -64,6 +85,7 @@ public class Product {
 		this.product_quantity = product_quantity;
 		this.product_sold = product_sold;
 		this.product_imageUrl = product_imageUrl;
+		this.clothingType=clothingType;
 	}
     
     
@@ -187,6 +209,7 @@ public class Product {
 	public void setProduct_imageUrl(String product_imageUrl) {
 		this.product_imageUrl = product_imageUrl;
 	}
+	
 	
 }
     

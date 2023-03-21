@@ -19,8 +19,15 @@ public class ProductAverageRatingDTO {
     private int product_sold;
     private String product_imageUrl;
     private float averageRating=0;
+    private String clothingType;
     
     
+	public String getClothingType() {
+		return clothingType;
+	}
+	public void setClothingType(String clothingType) {
+		this.clothingType = clothingType;
+	}
 	public ProductAverageRatingDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -28,7 +35,7 @@ public class ProductAverageRatingDTO {
 	public ProductAverageRatingDTO(String product_id, String seller_id, String product_name, String product_category,
 			String product_description, ArrayList<String> size, String product_company, double product_price,
 			double product_discount, double discountPrice, int product_quantity, int product_sold,
-			String product_imageUrl, float averageRating) {
+			String product_imageUrl, float averageRating,String clothingType) {
 		super();
 		this.product_id = product_id;
 		this.seller_id = seller_id;
@@ -44,6 +51,7 @@ public class ProductAverageRatingDTO {
 		this.product_sold = product_sold;
 		this.product_imageUrl = product_imageUrl;
 		this.averageRating = averageRating;
+		this.clothingType=clothingType;
 	}
 	public float getAverageRating() {
 		return averageRating;

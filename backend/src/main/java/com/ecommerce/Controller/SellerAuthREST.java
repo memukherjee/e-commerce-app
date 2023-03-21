@@ -43,6 +43,7 @@ import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Service.SellerService;
 import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.ProductAverageRatingDTO;
 import com.ecommerce.dto.SellerStatsDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
@@ -85,6 +86,9 @@ public class SellerAuthREST {
     
     @Autowired
     OrderRepo orderRepo;
+    
+    @Autowired
+    ProductReviewController productReviewController;
    
     
     
@@ -256,5 +260,22 @@ public class SellerAuthREST {
 		
 	}
     
+	//***********************SELLER PRODUCT REVIEWS DETAILS**********************
+	@PostMapping("/sellerReviewDetails")
+	public ResponseEntity<?> reviewDetails(@RequestHeader(value="authorization",defaultValue="")String auth){
+		Seller seller=token.validate(auth);
+		if(seller==null)
+			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+		
+		List<Product> products = userProductRepository.findBySellerId(seller.getId());
+
+		List<ProductReview> reviews=new ArrayList<>();
+		for(Product i:products) {
+			reviews.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
+			
+		}
+		return new ResponseEntity<>(reviews,HttpStatus.OK);
+		
+	}
 
 }

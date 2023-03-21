@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartProductDTO;
@@ -131,5 +132,12 @@ public class OrderService {
         return orderRepo.findAllOrder(user_id);
 
     }
+
+	public String cancelledOrder(OrderDetails orderDetails) {
+		orderDetails.setOrderStatus("Cancelled");
+		orderRepo.save(orderDetails);
+		
+		return "Cancelled";
+	}
 
 }

@@ -35,7 +35,7 @@ public class SellerOrderService {
 	}
 
 	public String cancelledOrder(OrderDetails orderDetails) {
-		orderDetails.setOrderStatus("Cancelled");
+		orderDetails.setOrderStatus("Cancelled by Seller");
 		sellerOrderRepository.save(orderDetails);
 		
 		return "Cancelled";

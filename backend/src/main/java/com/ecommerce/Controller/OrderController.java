@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.PlaceOrderDTO;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.OrderRepo;
 import com.ecommerce.Service.CartService;
@@ -156,4 +158,17 @@ public class OrderController {
     	 return new ResponseEntity(orderService.getOrderDetails(user_id),HttpStatus.OK);
     	}
     }
+    
+    @PutMapping("/cancel")
+	public ResponseEntity<?> cancelOrderController(@RequestHeader(value="authorization",defaultValue="")String auth,@RequestBody OrderDetails orderDetails)throws Exception{
+		
+    	User user=token.validate(auth); 
+		//System.out.println(seller.getEmail());
+		if(user==null)
+		     return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
+		else {
+			
+			return new ResponseEntity(orderService.cancelledOrder(orderDetails),HttpStatus.OK);
+		}
+	}
 }

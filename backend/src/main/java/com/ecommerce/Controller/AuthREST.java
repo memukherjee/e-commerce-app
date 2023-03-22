@@ -346,7 +346,11 @@ public class AuthREST {
     			obj.setTotalOrder(totalOrder.size());
     			
     			ArrayList<ShoppingCart> totalCart = cartRepo.findByuser_id(user.getEmail());
-    			obj.setTotalCartItems(totalCart.size());
+				int totalQuantity = 0;
+				for(ShoppingCart cart:totalCart) {
+					totalQuantity+=cart.getCart_quantity();
+				}
+    			obj.setTotalCartItems(totalQuantity);
     			
     			List<WishList> totalWishList = wishListRepository.findProductIdByuserId(user.getId());
     			obj.setTotalWishListItems(totalWishList.size());

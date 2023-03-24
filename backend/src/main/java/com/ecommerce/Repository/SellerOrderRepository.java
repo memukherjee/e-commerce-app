@@ -14,6 +14,9 @@ public interface SellerOrderRepository extends MongoRepository<OrderDetails, Str
 	@Query("{seller_id : ?0}")
 	List<OrderDetails> getOrderDetails(String seller_id);
 	
+	@Query("{user_id : ?0}")
+	List<OrderDetails> findByUserId(String user_id);
+	
 //	@Query("{id : ?0}")
 //	OrderDetails getOrder(String id);
 	

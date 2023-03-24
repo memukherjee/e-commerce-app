@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.Entity.Category;
+import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.WishList;
 import com.ecommerce.Repository.CategoryRepository;
+import com.ecommerce.Repository.SellerOrderRepository;
 import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.Repository.wishListRepository;
 import com.ecommerce.Service.UserProductService;
@@ -47,6 +49,11 @@ public class UserProductController {
     
     @Autowired
     ProductReviewController productReviewController;
+    
+    @Autowired
+    SellerOrderRepository sellerOrderRepository;
+    
+  
 
     wishlistDTO wishlistdto = null;
 
@@ -54,23 +61,27 @@ public class UserProductController {
     @GetMapping("/getProduct/{product_id}")
     public wishlistDTO getProduct(@PathVariable String product_id,
             @RequestHeader(value = "authorization", defaultValue = "") String auth) {
+    	 boolean checkUserPurchased=false;
         User user = new User();
         if (!auth.isBlank()) {
             user = token.validate(auth);
         } else {
             Product pro = service.getProductById(product_id);
             float averageStar = productReviewController.averageStar(pro.getProduct_id());
-            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType());
+            checkUserPurchased = checkUserPurchased(user, product_id);
+            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType(),checkUserPurchased);
 
             return new wishlistDTO(obj, false);
         }
+
         
         List<WishList> wish = new ArrayList<WishList>();
 
         Product pro = service.getProductById(product_id);
         
         float averageStar = productReviewController.averageStar(pro.getProduct_id());
-        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType());
+        checkUserPurchased = checkUserPurchased(user, product_id);
+        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType(),checkUserPurchased);
         
         
         System.out.println(pro.discountPrice);
@@ -89,6 +100,31 @@ public class UserProductController {
         return wishlistdto;
 
     }
+    
+public boolean checkUserPurchased(User user, String productId) {
+		
+		int flag=0;
+		List<OrderDetails> orderUser = sellerOrderRepository.findByUserId(user.getEmail());
+		
+		for(int i=0;i<orderUser.size();i++) {
+			if(!orderUser.get(i).getCartProductDTO().getProduct_id().equals(productId)) {
+				orderUser.remove(i);
+			}
+		}
+		
+		for(OrderDetails i:orderUser) {
+			if(i.getOrderStatus().equals("Delivered")) {
+				flag=1;
+				break;
+				}
+		}
+		if(flag==1)
+			return true;
+		
+		return false;
+
+	}
+
 
     @GetMapping("/filterProducts")
     public ResponseEntity<?> getProductByFilter(
@@ -99,6 +135,8 @@ public class UserProductController {
             @RequestParam(defaultValue = "", name = "sort", required = false) String sort,
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "5") Integer pageSize) {
+    	
+    	boolean checkUserPurchased=false;
 
         System.out.println("query: " + query);
         System.out.println("max: " + maxPrice);
@@ -169,7 +207,7 @@ public class UserProductController {
         List<ProductAverageRatingDTO> obj= new ArrayList<>();
         for(int i=0;i<filteredProducts.size();i++) {
         	float averageStar = productReviewController.averageStar(filteredProducts.get(i).getProduct_id());
-            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar,filteredProducts.get(i).getClothingType());
+            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar,filteredProducts.get(i).getClothingType(),checkUserPurchased);
             obj.add(ob);
         }
         

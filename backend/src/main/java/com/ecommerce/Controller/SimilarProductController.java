@@ -51,7 +51,7 @@ public class SimilarProductController {
 					category.get(i).getSize(), category.get(i).getProduct_company(), category.get(i).getProduct_price(),
 					category.get(i).getProduct_discount(), category.get(i).getDiscountPrice(),
 					category.get(i).getProduct_quantity(), category.get(i).getProduct_sold(),
-					category.get(i).getProduct_imageUrl(), averageStar, category.get(i).getClothingType());
+					category.get(i).getProduct_imageUrl(), averageStar, category.get(i).getClothingType(), false);
 			obj.add(ob);
 		}
 

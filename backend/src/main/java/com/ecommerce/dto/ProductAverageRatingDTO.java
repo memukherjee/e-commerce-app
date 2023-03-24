@@ -20,8 +20,17 @@ public class ProductAverageRatingDTO {
     private String product_imageUrl;
     private float averageRating=0;
     private String clothingType;
+    private boolean userPurchased;
     
     
+    
+    
+	public boolean isUserPurchased() {
+		return userPurchased;
+	}
+	public void setUserPurchased(boolean userPurchased) {
+		this.userPurchased = userPurchased;
+	}
 	public String getClothingType() {
 		return clothingType;
 	}
@@ -35,7 +44,7 @@ public class ProductAverageRatingDTO {
 	public ProductAverageRatingDTO(String product_id, String seller_id, String product_name, String product_category,
 			String product_description, ArrayList<String> size, String product_company, double product_price,
 			double product_discount, double discountPrice, int product_quantity, int product_sold,
-			String product_imageUrl, float averageRating,String clothingType) {
+			String product_imageUrl, float averageRating,String clothingType,boolean userPurchased) {
 		super();
 		this.product_id = product_id;
 		this.seller_id = seller_id;
@@ -52,6 +61,7 @@ public class ProductAverageRatingDTO {
 		this.product_imageUrl = product_imageUrl;
 		this.averageRating = averageRating;
 		this.clothingType=clothingType;
+		this.userPurchased=userPurchased;
 	}
 	public float getAverageRating() {
 		return averageRating;

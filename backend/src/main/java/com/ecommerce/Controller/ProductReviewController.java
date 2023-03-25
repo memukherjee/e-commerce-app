@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ProductReview;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.ProductReviewRepository;
 import com.ecommerce.Repository.UserRepository;
+import com.ecommerce.dto.ProductAverageRatingDTO;
 import com.ecommerce.dto.ProductReviewDTO;
 import com.ecommerce.dto.averageStarDTO;
 import com.ecommerce.jwt.TokenValidator;
@@ -49,8 +52,8 @@ public class ProductReviewController {
 
 	}
 
-	@GetMapping("/getproductReview/{productId}")
-	public ResponseEntity<?> productReview(@PathVariable String productId) {
+	@GetMapping("/getproductReview/{productId}/{pageNo}/{pageSize}")
+	public ResponseEntity<?> productReview(@PathVariable String productId,@PathVariable int pageNo,@PathVariable int pageSize) {
 		List<ProductReview> reviews = productReviewRepository.findAllByProductId(productId);
 		List<ProductReviewDTO> li = new ArrayList<ProductReviewDTO>();
 		for (int i = 0; i < reviews.size(); i++) {
@@ -60,8 +63,17 @@ public class ProductReviewController {
 					user.getId(), reviews.get(i).getDate(), reviews.get(i).getTime());
 			li.add(obj);
 		}
+		PagedListHolder<ProductReviewDTO> pagedListHolder = new PagedListHolder<ProductReviewDTO>(li);
+        pagedListHolder.setPage(pageNo);
+        pagedListHolder.setPageSize(pageSize);
+        int size = pagedListHolder.getPageCount();
+        System.out.println(size);
+        ArrayList<Product> leo = new ArrayList<>();
+        if (pageNo >= size)
+            return new ResponseEntity<>(leo, HttpStatus.OK);
 
-		return new ResponseEntity<>(li, HttpStatus.OK);
+        return new ResponseEntity<>(pagedListHolder.getPageList(), HttpStatus.OK);
+
 	}
 
 	@GetMapping("/averageStar/{productId}")

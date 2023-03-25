@@ -1,8 +1,8 @@
 package com.ecommerce.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,12 +74,69 @@ public class ProductReviewController {
 			star += i.getStar();
 			count++;
 		}
-		if(star==0&&count==0)
+		if (star == 0 && count == 0)
 			return 0;
-		System.out.println(star+":"+count);
+		System.out.println(star + ":" + count);
 		averageStarDTO DTO = new averageStarDTO(star / count);
-System.out.println("rating is:"+(star/count));
-		return (star/count);
+		System.out.println("rating is:" + (star / count));
+		return (star / count);
+	}
+
+	@GetMapping("/individualStar/{productId}")
+	public ResponseEntity<?> individualStar(@PathVariable String productId) {
+
+		List<ProductReview> review = productReviewRepository.findAllByProductId(productId);
+		HashMap<String, Integer> map = new HashMap<>();
+		int size=review.size();
+		
+		for (ProductReview i : review) {
+			if (i.getStar() >= 5) {
+				if (map.containsKey("5")) {
+					int temp = map.get("5");
+					map.put("5", temp += 1);
+				} else {
+					map.put("5", 1);
+				}
+			}
+			if (i.getStar() >= 4 && i.getStar() < 5) {
+				if (map.containsKey("4")) {
+					int temp = map.get("4");
+					map.put("4", temp += 1);
+				} else {
+					map.put("4", 1);
+				}
+			}
+			if(i.getStar()>=3 && i.getStar()<4) {
+				if (map.containsKey("3")) {
+					int temp = map.get("3");
+					map.put("3", temp += 1);
+				} else {
+					map.put("3", 1);
+				}
+			}
+			if(i.getStar()>=2 && i.getStar()<3) {
+				if (map.containsKey("2")) {
+					int temp = map.get("2");
+					map.put("2", temp += 1);
+				} else {
+					map.put("2", 1);
+				}
+			}
+			if(i.getStar()>=1 && i.getStar()<2) {
+				if (map.containsKey("1")) {
+					int temp = map.get("1");
+					map.put("1", temp += 1);
+				} else {
+					map.put("1", 1);
+				}
+			}
+		}
+		
+		map.put("Total Reviews", size);
+
+		return new ResponseEntity<>(map,HttpStatus.OK);
+
 	}
 
 }
+

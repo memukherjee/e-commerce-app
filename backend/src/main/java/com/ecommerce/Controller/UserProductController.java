@@ -36,194 +36,236 @@ import com.ecommerce.jwt.TokenValidator;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/products")
 public class UserProductController {
-    @Autowired
-    UserProductService service;
-    @Autowired
-    UserProductRepository userProductRepository;
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    TokenValidator token;
-    @Autowired
-    wishListRepository wishListRepository;
-    
-    @Autowired
-    ProductReviewController productReviewController;
-    
-    @Autowired
-    SellerOrderRepository sellerOrderRepository;
-    
-  
+	@Autowired
+	UserProductService service;
+	@Autowired
+	UserProductRepository userProductRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
+	@Autowired
+	TokenValidator token;
+	@Autowired
+	wishListRepository wishListRepository;
 
-    wishlistDTO wishlistdto = null;
+	@Autowired
+	ProductReviewController productReviewController;
 
-    /* Searching the product based on product id......................... */
-    @GetMapping("/getProduct/{product_id}")
-    public wishlistDTO getProduct(@PathVariable String product_id,
-            @RequestHeader(value = "authorization", defaultValue = "") String auth) {
-    	 boolean checkUserPurchased=false;
-        User user = new User();
-        if (!auth.isBlank()) {
-            user = token.validate(auth);
-        } else {
-            Product pro = service.getProductById(product_id);
-            float averageStar = productReviewController.averageStar(pro.getProduct_id());
-            checkUserPurchased = checkUserPurchased(user, product_id);
-            ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType(),checkUserPurchased);
+	@Autowired
+	SellerOrderRepository sellerOrderRepository;
 
-            return new wishlistDTO(obj, false);
-        }
+	wishlistDTO wishlistdto = null;
 
-        
-        List<WishList> wish = new ArrayList<WishList>();
+	/* Searching the product based on product id......................... */
+	@GetMapping("/getProduct/{product_id}")
+	public wishlistDTO getProduct(@PathVariable String product_id,
+			@RequestHeader(value = "authorization", defaultValue = "") String auth) {
+		boolean checkUserPurchased = false;
+		User user = new User();
+		if (!auth.isBlank()) {
+			user = token.validate(auth);
+		} else {
+			Product pro = service.getProductById(product_id);
+			float averageStar = productReviewController.averageStar(pro.getProduct_id());
+			checkUserPurchased = checkUserPurchased(user, product_id);
+			ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(), pro.getSeller_id(),
+					pro.getProduct_name(), pro.getProduct_category(), pro.getProduct_description(), pro.getSize(),
+					pro.getProduct_company(), pro.getProduct_price(), pro.getProduct_discount(), pro.getDiscountPrice(),
+					pro.getProduct_quantity(), pro.getProduct_sold(), pro.getProduct_imageUrl(), averageStar,
+					pro.getClothingType(), checkUserPurchased);
 
-        Product pro = service.getProductById(product_id);
-        
-        float averageStar = productReviewController.averageStar(pro.getProduct_id());
-        checkUserPurchased = checkUserPurchased(user, product_id);
-        ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(),pro.getSeller_id(),pro.getProduct_name(),pro.getProduct_category(),pro.getProduct_description(),pro.getSize(),pro.getProduct_company(),pro.getProduct_price(),pro.getProduct_discount(),pro.getDiscountPrice(),pro.getProduct_quantity(),pro.getProduct_sold(),pro.getProduct_imageUrl(),averageStar,pro.getClothingType(),checkUserPurchased);
-        
-        
-        System.out.println(pro.discountPrice);
+			return new wishlistDTO(obj, false);
+		}
 
-        if (user != null) {
-            wish = wishListRepository.findByuserIdAndProductId(user.getId(), product_id);
-            if (!wish.isEmpty()) {
+		List<WishList> wish = new ArrayList<WishList>();
 
-                wishlistDTO wishlistDTO = new wishlistDTO(obj, true);
-                return wishlistDTO;
-            } else {
-                wishlistDTO wishlistDTO = new wishlistDTO(obj, false);
-                return wishlistDTO;
-            }
-        }
-        return wishlistdto;
+		Product pro = service.getProductById(product_id);
 
-    }
-    
-public boolean checkUserPurchased(User user, String productId) {
-		
-		int flag=0;
+		float averageStar = productReviewController.averageStar(pro.getProduct_id());
+		checkUserPurchased = checkUserPurchased(user, product_id);
+		ProductAverageRatingDTO obj = new ProductAverageRatingDTO(pro.getProduct_id(), pro.getSeller_id(),
+				pro.getProduct_name(), pro.getProduct_category(), pro.getProduct_description(), pro.getSize(),
+				pro.getProduct_company(), pro.getProduct_price(), pro.getProduct_discount(), pro.getDiscountPrice(),
+				pro.getProduct_quantity(), pro.getProduct_sold(), pro.getProduct_imageUrl(), averageStar,
+				pro.getClothingType(), checkUserPurchased);
+
+		System.out.println(pro.discountPrice);
+
+		if (user != null) {
+			wish = wishListRepository.findByuserIdAndProductId(user.getId(), product_id);
+			if (!wish.isEmpty()) {
+
+				wishlistDTO wishlistDTO = new wishlistDTO(obj, true);
+				return wishlistDTO;
+			} else {
+				wishlistDTO wishlistDTO = new wishlistDTO(obj, false);
+				return wishlistDTO;
+			}
+		}
+		return wishlistdto;
+
+	}
+
+	public boolean checkUserPurchased(User user, String productId) {
+
+		int flag = 0;
 		List<OrderDetails> orderUser = sellerOrderRepository.findByUserId(user.getEmail());
-		
-		for(int i=0;i<orderUser.size();i++) {
-			if(!orderUser.get(i).getCartProductDTO().getProduct_id().equals(productId)) {
+
+		for (int i = 0; i < orderUser.size(); i++) {
+			if (!orderUser.get(i).getCartProductDTO().getProduct_id().equals(productId)) {
 				orderUser.remove(i);
 			}
 		}
-		
-		for(OrderDetails i:orderUser) {
-			if(i.getOrderStatus().equals("Delivered")) {
-				flag=1;
+
+		for (OrderDetails i : orderUser) {
+			if (i.getOrderStatus().equals("Delivered")) {
+				flag = 1;
 				break;
-				}
+			}
 		}
-		if(flag==1)
+		if (flag == 1)
 			return true;
-		
+
 		return false;
 
 	}
 
+	@GetMapping("/filterProducts")
+	public ResponseEntity<?> getProductByFilter(@RequestParam(defaultValue = "", name = "query") String query,
+			@RequestParam(defaultValue = "10000000", name = "maxPrice", required = false) String maxPrice,
+			@RequestParam(defaultValue = "0", name = "minPrice", required = false) String minPrice,
+			@RequestParam(name = "category", required = false) String product_category,
+			@RequestParam(name = "clothingType", required = false) String clothingType,
+			@RequestParam(defaultValue = "", name = "sort", required = false) String sort,
+			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "5") Integer pageSize) {
 
-    @GetMapping("/filterProducts")
-    public ResponseEntity<?> getProductByFilter(
-            @RequestParam(defaultValue = "", name = "query") String query,
-            @RequestParam(defaultValue = "10000000", name = "maxPrice", required = false) String maxPrice,
-            @RequestParam(defaultValue = "0", name = "minPrice", required = false) String minPrice,
-            @RequestParam(name = "category", required = false) String product_category,
-            @RequestParam(defaultValue = "", name = "sort", required = false) String sort,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "5") Integer pageSize) {
-    	
-    	boolean checkUserPurchased=false;
+		boolean checkUserPurchased = false;
 
-        System.out.println("query: " + query);
-        System.out.println("max: " + maxPrice);
-        System.out.println("min: " + minPrice);
-        System.out.println("category: " + product_category);
-        System.out.println("sort: " + sort);
-        List<Product> filteredProducts = new ArrayList<Product>();
+		System.out.println("query: " + query);
+		System.out.println("max: " + maxPrice);
+		System.out.println("min: " + minPrice);
+		System.out.println("category: " + product_category);
+		System.out.println("sort: " + sort);
+		System.out.println("clothingType:" + clothingType);
+		List<Product> filteredProducts = new ArrayList<Product>();
 
-        // Filtering Products by Min and Max Price
-        if (product_category != null && !product_category.equals("null")) {
-            System.out.println(product_category);
-            for (String category : product_category.split(",")) {
-                filteredProducts.addAll(service.filterProducts(Double.parseDouble(maxPrice),
-                        Double.parseDouble(minPrice), category));
-            }
-        }
-        // Filtering Products by Min, Max Price and Category
-        else {
-            filteredProducts.addAll(service.filterProducts(Double.parseDouble(maxPrice), Double.parseDouble(minPrice)));
-        }
+		// Filtering Products by Min and Max Price
+		if ((clothingType != null && !clothingType.equals("null"))
+				&& (product_category == null || product_category.equals("null"))) {
+			System.out.println(clothingType);
+			for (String clothString : clothingType.split(",")) {
 
-        // Sorting Products by Price and Popularity
-        if (sort.contains("price") && sort.contains("ascending")) {
-            System.out.println("price a");
-            Collections.sort(filteredProducts, new Comparator<Product>() {
-                public int compare(Product p1, Product p2) {
-                    return Double.valueOf(p1.discountPrice).compareTo(p2.discountPrice);
-                }
-            });
-        } else if (sort.contains("price") && sort.contains("descending")) {
-            System.out.println("price d");
-            Collections.sort(filteredProducts, new Comparator<Product>() {
-                public int compare(Product p1, Product p2) {
-                    return Double.valueOf(p2.discountPrice).compareTo(p1.discountPrice);
-                }
-            });
-        } else if (sort.contains("popularity") && sort.contains("ascending")) {
-            System.out.println("popularity a");
-            Collections.sort(filteredProducts, new Comparator<Product>() {
-                public int compare(Product p1, Product p2) {
-                    return Integer.valueOf(p1.getProduct_sold()).compareTo(p2.getProduct_sold());
-                }
-            });
-        } else if (sort.contains("popularity") && sort.contains("descending")) {
-            System.out.println("popularity d");
-            Collections.sort(filteredProducts, new Comparator<Product>() {
-                public int compare(Product p1, Product p2) {
-                    return Integer.valueOf(p2.getProduct_sold()).compareTo(p1.getProduct_sold());
-                }
-            });
-        }
+				filteredProducts.addAll(userProductRepository.filterProductsByClothingType(Double.parseDouble(maxPrice),
+						Double.parseDouble(minPrice), clothString));
+			}
+		} else if ((clothingType != null && !clothingType.equals("null"))
+				&& (product_category != null && !product_category.equals("null"))) {
+			System.out.println(clothingType + ":" + product_category);
+			List<Product> newCategory = new ArrayList<Product>();
+			List<Product> newClothingType = new ArrayList<Product>();
+			for (String category : product_category.split(",")) {
+				newCategory.addAll(
+						service.filterProducts(Double.parseDouble(maxPrice), Double.parseDouble(minPrice), category));
+			}
+			for (String clothString : clothingType.split(",")) {
 
-        // Filtering products based on the search query
-        if (query != null && !query.equals("")) {
-            query = query.toLowerCase();
-            List<Product> newList = new ArrayList<Product>();
-            for (Product product : filteredProducts) {
-                Category category = categoryRepository.findById(product.getProduct_category()).get();
-                if (product.getProduct_name().toLowerCase().contains(query)
-                        || product.getProduct_company().toLowerCase().contains(query)
-                        || category.getCategory_name().toLowerCase().contains(query)) {
-                    newList.add(product);
-                }
-            }
-            filteredProducts = newList;
-        }
+				newClothingType.addAll(userProductRepository.filterProductsByClothingType(Double.parseDouble(maxPrice),
+						Double.parseDouble(minPrice), clothString));
+			}
 
-        List<ProductAverageRatingDTO> obj= new ArrayList<>();
-        for(int i=0;i<filteredProducts.size();i++) {
-        	float averageStar = productReviewController.averageStar(filteredProducts.get(i).getProduct_id());
-            ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),filteredProducts.get(i).getSeller_id(),filteredProducts.get(i).getProduct_name(),filteredProducts.get(i).getProduct_category(),filteredProducts.get(i).getProduct_description(),filteredProducts.get(i).getSize(),filteredProducts.get(i).getProduct_company(),filteredProducts.get(i).getProduct_price(),filteredProducts.get(i).getProduct_discount(),filteredProducts.get(i).getDiscountPrice(),filteredProducts.get(i).getProduct_quantity(),filteredProducts.get(i).getProduct_sold(),filteredProducts.get(i).getProduct_imageUrl(),averageStar,filteredProducts.get(i).getClothingType(),checkUserPurchased);
-            obj.add(ob);
-        }
-        
-        
-        // Pagination of Products
-        PagedListHolder<ProductAverageRatingDTO> pagedListHolder = new PagedListHolder<ProductAverageRatingDTO>(obj);
-        pagedListHolder.setPage(pageNo);
-        pagedListHolder.setPageSize(pageSize);
-        int size = pagedListHolder.getPageCount();
-        System.out.println(size);
-        ArrayList<Product> leo = new ArrayList<>();
-        if (pageNo >= size)
-            return new ResponseEntity<>(leo, HttpStatus.OK);
+			for (int i = 0; i < newCategory.size(); i++) {
+				for (Product j : newClothingType) {
+					if (newCategory.get(i).getProduct_id().equals(j.getProduct_id())) {
+						filteredProducts.add(j);
+					}
+				}
+			}
 
-        return new ResponseEntity<>(pagedListHolder.getPageList(), HttpStatus.OK);
+		}
 
-    }
+		else if (product_category != null && !product_category.equals("null")) {
+			System.out.println(product_category);
+			for (String category : product_category.split(",")) {
+				filteredProducts.addAll(
+						service.filterProducts(Double.parseDouble(maxPrice), Double.parseDouble(minPrice), category));
+			}
+		}
+		// Filtering Products by Min, Max Price and Category
+		else {
+			filteredProducts.addAll(service.filterProducts(Double.parseDouble(maxPrice), Double.parseDouble(minPrice)));
+		}
+
+		// Sorting Products by Price and Popularity
+		if (sort.contains("price") && sort.contains("ascending")) {
+			System.out.println("price a");
+			Collections.sort(filteredProducts, new Comparator<Product>() {
+				public int compare(Product p1, Product p2) {
+					return Double.valueOf(p1.discountPrice).compareTo(p2.discountPrice);
+				}
+			});
+		} else if (sort.contains("price") && sort.contains("descending")) {
+			System.out.println("price d");
+			Collections.sort(filteredProducts, new Comparator<Product>() {
+				public int compare(Product p1, Product p2) {
+					return Double.valueOf(p2.discountPrice).compareTo(p1.discountPrice);
+				}
+			});
+		} else if (sort.contains("popularity") && sort.contains("ascending")) {
+			System.out.println("popularity a");
+			Collections.sort(filteredProducts, new Comparator<Product>() {
+				public int compare(Product p1, Product p2) {
+					return Integer.valueOf(p1.getProduct_sold()).compareTo(p2.getProduct_sold());
+				}
+			});
+		} else if (sort.contains("popularity") && sort.contains("descending")) {
+			System.out.println("popularity d");
+			Collections.sort(filteredProducts, new Comparator<Product>() {
+				public int compare(Product p1, Product p2) {
+					return Integer.valueOf(p2.getProduct_sold()).compareTo(p1.getProduct_sold());
+				}
+			});
+		}
+
+		// Filtering products based on the search query
+		if (query != null && !query.equals("")) {
+			query = query.toLowerCase();
+			List<Product> newList = new ArrayList<Product>();
+			for (Product product : filteredProducts) {
+				Category category = categoryRepository.findById(product.getProduct_category()).get();
+				if (product.getProduct_name().toLowerCase().contains(query)
+						|| product.getProduct_company().toLowerCase().contains(query)
+						|| category.getCategory_name().toLowerCase().contains(query)) {
+					newList.add(product);
+				}
+			}
+			filteredProducts = newList;
+		}
+
+		List<ProductAverageRatingDTO> obj = new ArrayList<>();
+		for (int i = 0; i < filteredProducts.size(); i++) {
+			float averageStar = productReviewController.averageStar(filteredProducts.get(i).getProduct_id());
+			ProductAverageRatingDTO ob = new ProductAverageRatingDTO(filteredProducts.get(i).getProduct_id(),
+					filteredProducts.get(i).getSeller_id(), filteredProducts.get(i).getProduct_name(),
+					filteredProducts.get(i).getProduct_category(), filteredProducts.get(i).getProduct_description(),
+					filteredProducts.get(i).getSize(), filteredProducts.get(i).getProduct_company(),
+					filteredProducts.get(i).getProduct_price(), filteredProducts.get(i).getProduct_discount(),
+					filteredProducts.get(i).getDiscountPrice(), filteredProducts.get(i).getProduct_quantity(),
+					filteredProducts.get(i).getProduct_sold(), filteredProducts.get(i).getProduct_imageUrl(),
+					averageStar, filteredProducts.get(i).getClothingType(), checkUserPurchased);
+			obj.add(ob);
+		}
+
+		// Pagination of Products
+		PagedListHolder<ProductAverageRatingDTO> pagedListHolder = new PagedListHolder<ProductAverageRatingDTO>(obj);
+		pagedListHolder.setPage(pageNo);
+		pagedListHolder.setPageSize(pageSize);
+		int size = pagedListHolder.getPageCount();
+		System.out.println(size);
+		ArrayList<Product> leo = new ArrayList<>();
+		if (pageNo >= size)
+			return new ResponseEntity<>(leo, HttpStatus.OK);
+
+		return new ResponseEntity<>(pagedListHolder.getPageList(), HttpStatus.OK);
+
+	}
 
 }

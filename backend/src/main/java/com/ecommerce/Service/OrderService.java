@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.util.MultiValueMap;
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartProductDTO;
 import com.ecommerce.dto.PlaceOrderDTO;
+import com.mongodb.client.model.Collation;
+import com.mongodb.client.model.CollationStrength;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ShoppingCart;
@@ -129,7 +132,9 @@ public class OrderService {
     }
 
     public ArrayList<OrderDetails> getOrderDetails(String user_id) {
-        return orderRepo.findAllOrder(user_id);
+    	ArrayList<OrderDetails> myOrder = orderRepo.findAllOrder(user_id);
+        Collections.reverse(myOrder);
+    	return myOrder;
 
     }
 

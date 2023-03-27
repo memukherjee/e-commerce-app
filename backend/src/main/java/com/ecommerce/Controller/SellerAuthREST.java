@@ -55,114 +55,115 @@ import com.ecommerce.jwt.TokenValidator;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/seller/auth")
 public class SellerAuthREST {
-	
+
 	String email; // forgotpass_link
 	String otp;
-    @Autowired
-    AuthenticationManager authenticationManager;
-   
-   
-    @Autowired
-    JwtHelper jwtHelper;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    
-    @Autowired
-    SellerRepository sellerRepository;
-    @Autowired
-    SellerRefreshTokenRepository sellerRefreshTokenRepository;
-    
-    @Autowired
+	@Autowired
+	AuthenticationManager authenticationManager;
+
+	@Autowired
+	JwtHelper jwtHelper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	SellerRepository sellerRepository;
+	@Autowired
+	SellerRefreshTokenRepository sellerRefreshTokenRepository;
+
+	@Autowired
 	SellerTokenValidator token;
-    
-    @Autowired
-    SellerService sellerService;
-    
-    @Autowired
-    UserProductRepository userProductRepository;
-    
-    @Autowired
-    ProductReviewRepository productReviewRepository;
-    
-    @Autowired
-    OrderRepo orderRepo;
-    
-    @Autowired
-    ProductReviewController productReviewController;
-   
-    
-    
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto){
-    	System.out.println("seller login-email-"+dto.getEmail()+" password-"+dto.getPassword());
-    	Seller logSeller=sellerRepository.findByEmail(dto.getEmail());
-    	if(logSeller==null) {
-    		return new ResponseEntity("email not matched",HttpStatus.UNAUTHORIZED);
-    	}
-    	if(logSeller.getAccountStatus()==false) {
-    		return new ResponseEntity("Your account is yet to be verified by Elegant Apparels.",HttpStatus.NOT_FOUND);
-    	}
-    	System.out.println("hi seller"+logSeller.getUsername());
-    	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getUsername(), dto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Seller seller = (Seller) authentication.getPrincipal();
-        
-        System.out.println("seller="+seller);
-        SellerRefreshToken sellerRefreshToken = new SellerRefreshToken();
-        sellerRefreshToken.setOwner(seller);
-        sellerRefreshTokenRepository.save(sellerRefreshToken);
-        
-        String accessToken = jwtHelper.generateAccessToken(seller);
-        System.out.println("login--"+accessToken);
-        String refreshTokenString = jwtHelper.generateRefreshToken(seller, sellerRefreshToken);
-        System.out.println("refreshToken="+refreshTokenString);
 
-        return ResponseEntity.ok(new TokenDTO(seller.getId(),accessToken,refreshTokenString));
-    	
-    }
-    
-    @PostMapping("signup")
-    @Transactional
-    public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
-    	System.out.println(dto.getName()+" ---"+dto.getEmail()+"---"+dto.getPassword());
-    	
-    	Seller check=sellerRepository.findByEmail(dto.getEmail());
-    	if(check!=null)
-    		return new ResponseEntity("Email id incorrect or already exist",HttpStatus.UNAUTHORIZED);
+	@Autowired
+	SellerService sellerService;
 
-    	
-        Seller seller = new Seller(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),dto.getMobile(),dto.getAddress());
-        sellerRepository.save(seller);
+	@Autowired
+	UserProductRepository userProductRepository;
 
-        return new ResponseEntity<>("Your account is created but yet to be verified by Elegant Apparels.",HttpStatus.OK);
-    }
-    
-    @PostMapping("logout")
-    public ResponseEntity<?> logout(@RequestBody TokenDTO dto) {
-        String refreshTokenString = dto.getRefreshToken();
-        System.out.println(refreshTokenString);
-        if (jwtHelper.validateRefreshToken(refreshTokenString) && sellerRefreshTokenRepository.existsById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString))) {
-            // valid and exists in db
-            sellerRefreshTokenRepository.deleteById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString));
-            return ResponseEntity.ok().build();
-        }
+	@Autowired
+	ProductReviewRepository productReviewRepository;
 
-        throw new BadCredentialsException("invalid token");
-    }
-    
-    @GetMapping("/getSellerDetailsByJWT")
-    public ResponseEntity<?> getUserDetailsByJWT(@RequestHeader(value="authorization",defaultValue="")String auth) throws Exception{
-    	
-    	System.out.println("getUserDetailsByJWT");
-    	Seller seller=token.validate(auth);
-    	if(seller==null)
-		return new ResponseEntity("Not verified",HttpStatus.UNAUTHORIZED);
-    	else
-    		return new ResponseEntity(seller,HttpStatus.OK);
-    }
-    
-    // ************************** Forgot password module **************
-    
+	@Autowired
+	OrderRepo orderRepo;
+
+	@Autowired
+	ProductReviewController productReviewController;
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto) {
+		System.out.println("seller login-email-" + dto.getEmail() + " password-" + dto.getPassword());
+		Seller logSeller = sellerRepository.findByEmail(dto.getEmail());
+		if (logSeller == null) {
+			return new ResponseEntity("email not matched", HttpStatus.UNAUTHORIZED);
+		}
+		if (logSeller.getAccountStatus() == false) {
+			return new ResponseEntity("Your account is yet to be verified by Elegant Apparels.", HttpStatus.NOT_FOUND);
+		}
+		System.out.println("hi seller" + logSeller.getUsername());
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getUsername(), dto.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Seller seller = (Seller) authentication.getPrincipal();
+
+		System.out.println("seller=" + seller);
+		SellerRefreshToken sellerRefreshToken = new SellerRefreshToken();
+		sellerRefreshToken.setOwner(seller);
+		sellerRefreshTokenRepository.save(sellerRefreshToken);
+
+		String accessToken = jwtHelper.generateAccessToken(seller);
+		System.out.println("login--" + accessToken);
+		String refreshTokenString = jwtHelper.generateRefreshToken(seller, sellerRefreshToken);
+		System.out.println("refreshToken=" + refreshTokenString);
+
+		return ResponseEntity.ok(new TokenDTO(seller.getId(), accessToken, refreshTokenString));
+
+	}
+
+	@PostMapping("signup")
+	@Transactional
+	public ResponseEntity<?> signup(@Valid @RequestBody SignupDTO dto) {
+		System.out.println(dto.getName() + " ---" + dto.getEmail() + "---" + dto.getPassword());
+
+		Seller check = sellerRepository.findByEmail(dto.getEmail());
+		if (check != null)
+			return new ResponseEntity("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
+
+		Seller seller = new Seller(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),
+				dto.getMobile(), dto.getAddress());
+		sellerRepository.save(seller);
+
+		return new ResponseEntity<>("Your account is created but yet to be verified by Elegant Apparels.",
+				HttpStatus.OK);
+	}
+
+	@PostMapping("logout")
+	public ResponseEntity<?> logout(@RequestBody TokenDTO dto) {
+		String refreshTokenString = dto.getRefreshToken();
+		System.out.println(refreshTokenString);
+		if (jwtHelper.validateRefreshToken(refreshTokenString)
+				&& sellerRefreshTokenRepository.existsById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString))) {
+			// valid and exists in db
+			sellerRefreshTokenRepository.deleteById(jwtHelper.getTokenIdFromRefreshToken(refreshTokenString));
+			return ResponseEntity.ok().build();
+		}
+
+		throw new BadCredentialsException("invalid token");
+	}
+
+	@GetMapping("/getSellerDetailsByJWT")
+	public ResponseEntity<?> getUserDetailsByJWT(@RequestHeader(value = "authorization", defaultValue = "") String auth)
+			throws Exception {
+
+		System.out.println("getUserDetailsByJWT");
+		Seller seller = token.validate(auth);
+		if (seller == null)
+			return new ResponseEntity("Not verified", HttpStatus.UNAUTHORIZED);
+		else
+			return new ResponseEntity(seller, HttpStatus.OK);
+	}
+
+	// ************************** Forgot password module **************
+
 	@PostMapping("/forgotpass")
 	public ResponseEntity<String> ForgotPass(@RequestBody objholder str) {
 		this.email = str.email;
@@ -186,7 +187,7 @@ public class SellerAuthREST {
 	public ResponseEntity<String> reset(@RequestBody objholder str) {
 		System.out.println("reset speaking");
 		System.out.println(str.password);
-		//System.out.println(email);
+		// System.out.println(email);
 		if (email != null && otp != null && otp.equals(sellerService.random)) {
 			return sellerService.findByEmailreset(email, str.password);
 		} else {
@@ -194,88 +195,96 @@ public class SellerAuthREST {
 		}
 
 	}
-	
-	//************************PROFILE*************************************
-	
+
+	// ************************PROFILE*************************************
+
 	@PostMapping("/profile")
-	public  ResponseEntity<Object> profile(@RequestBody objholder str, @RequestHeader(value="authorization",defaultValue="")String auth) {
+	public ResponseEntity<Object> profile(@RequestBody objholder str,
+			@RequestHeader(value = "authorization", defaultValue = "") String auth) {
 		return sellerService.profile(str, auth);
 	}
+
 	@PostMapping("/avatar")
-	public ResponseEntity<?> avatar(@RequestParam("file")MultipartFile file, @RequestHeader(value="authorization",defaultValue="")String auth) throws IOException{
-		return sellerService.avatar(file,auth);
-		
+	public ResponseEntity<?> avatar(@RequestParam("file") MultipartFile file,
+			@RequestHeader(value = "authorization", defaultValue = "") String auth) throws IOException {
+		return sellerService.avatar(file, auth);
+
 	}
-	
-	//********************STATISTICAL DATA OF SELLER********************
+
+	// ********************STATISTICAL DATA OF SELLER********************
 	@PostMapping("/sellerStats")
-	public ResponseEntity<?> stats(@RequestHeader(value="authorization",defaultValue="")String auth){
-		Seller seller=token.validate(auth);
-		if(seller==null)
-			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
-		
+	public ResponseEntity<?> stats(@RequestHeader(value = "authorization", defaultValue = "") String auth) {
+		Seller seller = token.validate(auth);
+		if (seller == null)
+			return new ResponseEntity<>("Invalid JWT token", HttpStatus.UNAUTHORIZED);
+
 		List<Product> product;
 		SellerStatsDTO sellerStatsDTO = new SellerStatsDTO();
-		
-		product=userProductRepository.findBySellerId(seller.getId());
+
+		product = userProductRepository.findBySellerId(seller.getId());
 		sellerStatsDTO.setTotalProduct(product.size());
-		
+
 		HashSet<String> cat = new HashSet<String>();
-		for(int i=0;i<product.size();i++) {
+		for (int i = 0; i < product.size(); i++) {
 			cat.add(product.get(i).getProduct_category());
 		}
 
-		System.out.println("cat-"+cat.size());
+		System.out.println("cat-" + cat.size());
 		sellerStatsDTO.setTotalCategory(cat.size());
-		
-		HashSet<String> comp=new HashSet<String>();
-		for(int i=0;i<product.size();i++) {
+
+		HashSet<String> comp = new HashSet<String>();
+		for (int i = 0; i < product.size(); i++) {
 			comp.add(product.get(i).getProduct_company().toLowerCase());
 		}
-		
-		System.out.println("comp-"+comp);
+
+		System.out.println("comp-" + comp);
 		sellerStatsDTO.setTotalCompany(comp.size());
-		
-		List<Product> products = userProductRepository.findBySellerId(seller.getId());
-		
-		int count=0;
-		List<ProductReview> pro1 =new ArrayList<>();
-		
-		for(Product i:products) {
-		pro1.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
-			
-		}
-		sellerStatsDTO.setTotalReviews(pro1.size());
-		
-		List<OrderDetails> totalOrder = orderRepo.findBySellerId(seller.getId());
-		sellerStatsDTO.setTotalOrderCount(totalOrder.size());
-		
-		int totalSold=0;
-		for(OrderDetails i:totalOrder) {
-			totalSold+=i.getCartProductDTO().getDiscountPrice();
-		}
-		sellerStatsDTO.setTotalSoldItems(totalSold);
-		
-		return new ResponseEntity<>(sellerStatsDTO,HttpStatus.OK);
-		
-	}
-    
-	//***********************SELLER PRODUCT REVIEWS DETAILS**********************
-	@PostMapping("/sellerReviewDetails")
-	public ResponseEntity<?> reviewDetails(@RequestHeader(value="authorization",defaultValue="")String auth){
-		Seller seller=token.validate(auth);
-		if(seller==null)
-			return new ResponseEntity<>("Invalid JWT token",HttpStatus.UNAUTHORIZED);
-		
+
 		List<Product> products = userProductRepository.findBySellerId(seller.getId());
 
-		List<ProductReview> reviews=new ArrayList<>();
-		for(Product i:products) {
-			reviews.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
-			
+		List<ProductReview> pro1 = new ArrayList<>();
+
+		for (Product i : products) {
+			pro1.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
+
 		}
-		return new ResponseEntity<>(reviews,HttpStatus.OK);
-		
+		sellerStatsDTO.setTotalReviews(pro1.size());
+
+		int orderCount = 0;
+		List<OrderDetails> totalOrder = orderRepo.findBySellerId(seller.getId());
+		for (OrderDetails order : totalOrder) {
+			if (order.getOrderStatus().equals("PROCESSING"))
+				orderCount++;
+		}
+		sellerStatsDTO.setTotalOrderCount(orderCount);
+
+		int totalSold = 0;
+		for (OrderDetails i : totalOrder) {
+			if (i.getOrderStatus().equals("Delivered"))
+				totalSold += (i.getCartProductDTO().getDiscountPrice() * i.getCartProductDTO().getQuantity());
+		}
+		sellerStatsDTO.setTotalSoldItems(totalSold);
+
+		return new ResponseEntity<>(sellerStatsDTO, HttpStatus.OK);
+
+	}
+
+	// ***********************SELLER PRODUCT REVIEWS DETAILS**********************
+	@PostMapping("/sellerReviewDetails")
+	public ResponseEntity<?> reviewDetails(@RequestHeader(value = "authorization", defaultValue = "") String auth) {
+		Seller seller = token.validate(auth);
+		if (seller == null)
+			return new ResponseEntity<>("Invalid JWT token", HttpStatus.UNAUTHORIZED);
+
+		List<Product> products = userProductRepository.findBySellerId(seller.getId());
+
+		List<ProductReview> reviews = new ArrayList<>();
+		for (Product i : products) {
+			reviews.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
+
+		}
+		return new ResponseEntity<>(reviews, HttpStatus.OK);
+
 	}
 
 }

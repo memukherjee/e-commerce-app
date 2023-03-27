@@ -1,5 +1,7 @@
 package com.ecommerce.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +22,9 @@ public class SellerOrderService {
 	
 	public List<OrderDetails> getOrderProductService(String seller_id) {
 		
-		return sellerOrderRepository.getOrderDetails(seller_id);
-		
+		List<OrderDetails> allOrder = sellerOrderRepository.getOrderDetails(seller_id);
+        Collections.reverse(allOrder);		
+		return allOrder;		
 	}
 
 	public String deliveredOrder(OrderDetails orderDetails) {

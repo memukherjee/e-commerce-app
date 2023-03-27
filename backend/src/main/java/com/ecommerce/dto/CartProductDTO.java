@@ -10,15 +10,17 @@ public class CartProductDTO {
 	private String product_description;
 	private String size;
 	private String product_company;
+	private String clothingType="unisex"; 
 	private double product_price;
 	private double product_discount;
 	private double discountPrice;
 	private int quantity;
 	private String product_imageUrl;
 	
+	
 	public CartProductDTO(String product_id, String seller_id, String cart_id, String product_name,
 			String product_category, String product_description, String size, String product_company,
-			double product_price, double product_discount, double discountPrice, int quantity,
+			String clothingType, double product_price, double product_discount, double discountPrice, int quantity,
 			String product_imageUrl) {
 		super();
 		this.product_id = product_id;
@@ -29,6 +31,7 @@ public class CartProductDTO {
 		this.product_description = product_description;
 		this.size = size;
 		this.product_company = product_company;
+		this.clothingType = clothingType;
 		this.product_price = product_price;
 		this.product_discount = product_discount;
 		this.discountPrice = discountPrice;
@@ -101,8 +104,13 @@ public class CartProductDTO {
 	}
 	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
+	}		
+	public String getClothingType() {
+		return clothingType;
 	}
-	
+	public void setClothingType(String clothingType) {
+		this.clothingType = clothingType;
+	}
 	public int getQuantity() {
 		return quantity;
 	}

@@ -51,20 +51,7 @@ public class Product {
     private String product_imageUrl;
     private String clothingType="unisex";
     
-    
-
-        
-    public String getClothingType() {
-		return clothingType;
-	}
-
-
-
-	public void setClothingType(String clothingType) {
-		this.clothingType = clothingType;
-	}
-
-
+   
 
 	public Product(String product_id, String seller_id,@NotEmpty String product_name, @NotEmpty String product_category,
 			@NotEmpty String product_description,ArrayList<String> size, String product_company,
@@ -209,7 +196,13 @@ public class Product {
 	public void setProduct_imageUrl(String product_imageUrl) {
 		this.product_imageUrl = product_imageUrl;
 	}
-	
+	 public String getClothingType() {
+			return clothingType;
+		}
+
+	 public void setClothingType(String clothingType) {
+			this.clothingType = clothingType;
+		}
 	
 }
     

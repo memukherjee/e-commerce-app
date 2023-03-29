@@ -83,8 +83,14 @@ public class SellerProductController {
 	    	{
 	    		System.out.printf("Error",err.toString());
 	    	}
-        String image_url=cloudinaryController.upload(file);
+	    	
+	    	try {
+            String image_url=cloudinaryController.upload(file);
 	    	product.setProduct_imageUrl(image_url);
+	    	}
+	    	catch (Exception e) {
+				return new ResponseEntity("Image uploading Failed,Image size should be within 1MB",HttpStatus.BAD_REQUEST);
+			}
 	    	repo.save(product);
     	    return new ResponseEntity<Product>(product,  new HttpHeaders(), HttpStatus.OK);
 	 }	

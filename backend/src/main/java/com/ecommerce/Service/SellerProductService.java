@@ -65,6 +65,7 @@ public class SellerProductService {
          existingProduct.setDiscountPrice(product.getDiscountPrice());
          existingProduct.setProduct_quantity(product.getProduct_quantity());
          existingProduct.setProduct_imageUrl(product.getProduct_imageUrl());
+         existingProduct.setClothingType(product.getClothingType());
 
         repository.save(existingProduct);
         return new ResponseEntity<Product>(product,  new HttpHeaders(), HttpStatus.OK);

@@ -146,8 +146,14 @@ public class SellerProductController {
 		        double productPrice = product.getProduct_price();
 			    double discountedRate = product.getDiscountPrice();
 			    product.setProduct_discount((productPrice - discountedRate)/productPrice*100);
-		    	String image_url=cloudinaryController.upload(file);
-		    	product.setProduct_imageUrl(image_url);
+			    
+			    try {
+			    	String image_url=cloudinaryController.upload(file);
+			    	product.setProduct_imageUrl(image_url);
+			    	}
+			    	catch (Exception e) {
+						return new ResponseEntity("Image uploading Failed,Image size should be within 1MB",HttpStatus.BAD_REQUEST);
+					}
 		     return service.updateProduct(id,product);}
 		 }
 

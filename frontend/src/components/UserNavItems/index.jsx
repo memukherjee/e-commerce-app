@@ -16,7 +16,7 @@ export default function UserNavItems({ setNavOpen }) {
         <NavItem to="/auth" title="Sign Up" setNavOpen={setNavOpen} />
       )}
       {user ? (
-        <NavItem to="/cart" title="My Cart" setNavOpen={setNavOpen} />
+        <NavItem to="/cart" title="My Cart" user={user} setNavOpen={setNavOpen} />
       ) : (
         <NavItem to="/contact-us" title="Contact Us" setNavOpen={setNavOpen} />
       )}

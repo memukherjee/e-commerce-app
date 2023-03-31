@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { MouseOverLinkContext } from "../../contexts/mouseOverLinkContext";
-import { UserContext } from "../../contexts/userContext";
 import InputBox from "../InputBox";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,20 +10,21 @@ import { isValidEmail } from "../../utils/validateCredentials";
 import useTitle from "../../hooks/useTitle";
 import useForm from "../../hooks/useForm";
 import getAdminAuthInputDetails from "../../assets/adminAuthInputDetails";
+import { AdminContext } from "../../contexts/adminContext";
 
 export default function SellerAuth() {
   const [processing, setProcessing] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { fetchAdmin, fetchAdminStat } = useContext(AdminContext);
   const navigate = useNavigate();
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
 
   useTitle("Admin Login || Elegant Apparels");
 
-  const handelAuthForm = (userData) => {
-    const { email, password } = userData;
-    console.log(userData);
-    const route = "/admin/login";
-    const authData = { email, pass: password };
+  const handelAuthForm = (adminData) => {
+    const { email, password } = adminData;
+    // console.log(adminData);
+    const route = "/admin/auth/login";
+    const authData = { email, password };
 
     if (isValidEmail(email)) {
       setProcessing(true);
@@ -33,10 +33,12 @@ export default function SellerAuth() {
         .then((res) => {
           setProcessing(false);
           if (res.status === 200) {
-            setUser(res.data);
-            setCookie("user", res.data.email, 1);
+            setCookie("admin-accessToken", res.data.accessToken, 7);
+            setCookie("admin-refreshToken", res.data.refreshToken, 7);
+            fetchAdmin(res.data.refreshToken);
+            fetchAdminStat(res.data.refreshToken);
             clearForm();
-            navigate("/");
+            navigate("/admin");
           }
         })
         .catch((err) => {

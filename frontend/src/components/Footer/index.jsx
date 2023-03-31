@@ -21,13 +21,16 @@ export default function Footer() {
             <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-2">
               Quick Links
             </h3>
+            <Link to="/account/wishlist" className="hover:text-gray-700">
+              Your Favourites
+            </Link>
             <Link to="/contact-us" className="hover:text-gray-700">
               Contact Us
             </Link>
             <Link to="/seller" className="hover:text-gray-700">
               Are you a Seller?
             </Link>
-            <Link to="/product/men" className="hover:text-gray-700">
+            {/* <Link to="/product/men" className="hover:text-gray-700">
               Men's Clothing
             </Link>
             <Link to="/product/women" className="hover:text-gray-700">
@@ -35,7 +38,7 @@ export default function Footer() {
             </Link>
             <Link href="/product/kid" className="hover:text-gray-700">
               Kid's Clothing
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="footer-bottom text-center text-base font-light mt-4">

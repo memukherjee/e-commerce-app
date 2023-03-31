@@ -18,16 +18,16 @@ export default function SellerAuthForm() {
   const [isNewSeller, setNewSeller] = useState(true);
   const [processing, setProcessing] = useState(false);
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
-  const { fetchSeller } = useContext(SellerContext);
+  const { fetchSeller, fetchSellerStat } = useContext(SellerContext);
   const navigate = useNavigate();
 
   useTitle("Sign Up or Log In for Sellers || Elegant Apparels");
 
-  const handelAuthForm = (userData) => {
+  const handelAuthForm = (sellerData) => {
     const route = `/seller/auth/${isNewSeller ? "signup" : "login"}`;
-    // console.log(userData);
+    // console.log(sellerData);
 
-    const { name, email, mobileNo, password, confirmPassword } = userData;
+    const { name, email, mobileNo, password, confirmPassword } = sellerData;
 
     const authData = isNewSeller
       ? { name, email, mobile: mobileNo, password }
@@ -47,7 +47,7 @@ export default function SellerAuthForm() {
         .post(process.env.REACT_APP_API + route, authData)
         .then((res) => {
           setProcessing(false);
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             if(isNewSeller){
               toast.success(res.data);
@@ -56,6 +56,7 @@ export default function SellerAuthForm() {
               setCookie("seller-accessToken", res.data.accessToken, 7);  
               setCookie("seller-refreshToken", res.data.refreshToken, 7);
               fetchSeller(res.data.refreshToken);
+              fetchSellerStat(res.data.refreshToken);
               navigate("/seller");
             }
             clearForm();

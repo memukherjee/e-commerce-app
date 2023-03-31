@@ -1,23 +1,41 @@
-import React from "react";
-
-export default function InputBox({ value, onChange, name, label, type, align, autoComplete, order }) {
+export default function InputBox({
+  value,
+  onChange,
+  name,
+  label,
+  type,
+  align,
+  autoComplete,
+  order,
+  required,
+}) {
   const elementId = label.toLowerCase().replace(" ", "-");
   return (
-    <div style={{order:order}} className="w-full flex justify-between mb-6 md:mb-8 relative">
+    <div
+      style={{ order: order }}
+      className="w-full flex justify-between mb-6 md:mb-8 relative"
+    >
       <input
-        className={"w-full bg-transparent px-0.5 py-1 text-xl text-cyan-900 placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"+ (typeof align!== 'undefined' ? " text-"+align: "")}
+        className={
+          "w-full bg-transparent px-0.5 py-1 text-xl text-cyan-900 placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900" +
+          (typeof align !== "undefined" ? " text-" + align : "")
+        }
         placeholder={label}
         name={name}
         type={type}
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         onWheel={(e) => e.target.blur()}
         id={"input-" + elementId}
         autoComplete={autoComplete}
+        required={required}
       />
       <label
         htmlFor={"input-" + elementId}
-        className={"absolute text-lg -top-5 text-cyan-900 transition-all duration-200 peer-placeholder-shown:text-xl peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-cyan-900 peer-focus:text-lg"+ (typeof align!== 'undefined' ? " "+align+"-0": " left-0")}
+        className={
+          "absolute text-lg -top-5 text-cyan-900 transition-all duration-200 peer-placeholder-shown:text-xl peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-cyan-900 peer-focus:text-lg" +
+          (typeof align !== "undefined" ? " " + align + "-0" : " left-0")
+        }
       >
         {label}
       </label>

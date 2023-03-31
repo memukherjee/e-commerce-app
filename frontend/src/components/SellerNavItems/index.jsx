@@ -16,8 +16,9 @@ export default function SellerNavItems({ setNavOpen }) {
       )}
       {seller && (
         <NavItem
-          to="/seller/products"
-          title="Products"
+          to="/seller/orders"
+          title="Orders"
+          seller={seller}
           setNavOpen={setNavOpen}
         />
       )}

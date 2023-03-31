@@ -37,8 +37,18 @@ export default function AccountOptionCard({ option }) {
           <i className={option.icon}></i>
         </m.div>
         <div className="option-name">
-          <h3 className="font-medium text-lg">
+          <h3 className="font-medium text-lg flex items-center justify-start gap-x-2">
             <AnimatedText text={option.name} direction="y" />
+            {(option?.count > 0) && (
+              <span
+                style={{
+                  backgroundColor: option.color,
+                }}
+                className="text-center text-white w-6 h-6 rounded-full"
+              >
+                {option?.count}
+              </span>
+            )}
           </h3>
           <span className="text-base text-gray-400">
             <AnimatedText text={option.description} direction="x" />

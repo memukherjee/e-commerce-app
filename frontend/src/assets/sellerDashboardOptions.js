@@ -8,15 +8,15 @@ const getSellerDashboardOptions = (sellerData) => [
         subOptions: [
             {
                 title: 'Total Products',
-                value: sellerData.totalProducts ?? 0,
+                value: sellerData?.totalProduct ?? 0,
             },
             {
                 title: 'Total Categories',
-                value: sellerData.totalCategories ?? 0,
+                value: sellerData?.totalCategory ?? 0,
             },
             {
                 title: 'Total Brands',
-                value: sellerData.totalBrands ?? 0,
+                value: sellerData?.totalCompany ?? 0,
             },
         ],
     },
@@ -29,15 +29,11 @@ const getSellerDashboardOptions = (sellerData) => [
         subOptions: [
             {
                 title: 'Total Orders',
-                value: sellerData.totalOrders ?? 0,
+                value: sellerData.totalOrderCount ?? 0,
             },
             {
                 title: 'Total Sales',
-                value: sellerData.totalSales ?? 0,
-            },
-            {
-                title: 'Total Earnings',
-                value: sellerData.totalEarnings ?? 0,
+                value: "₹"+(sellerData.totalSoldItems ?? 0),
             },
         ],
     },
@@ -51,10 +47,6 @@ const getSellerDashboardOptions = (sellerData) => [
             {
                 title: 'Total Reviews',
                 value: sellerData.totalReviews ?? 0,
-            },
-            {
-                title: 'Total Ratings',
-                value: sellerData.totalRatings ?? 0,
             },
         ],
     },

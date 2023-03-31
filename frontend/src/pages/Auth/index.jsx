@@ -7,7 +7,7 @@ export default function Auth({ Form, formBg }) {
   useTitle("Sign Up or Log In || Elegant Apparels");
 
   return (
-    <PageFadeTransitionContainer>
+    <PageFadeTransitionContainer className="min-h-100vh">
       <AuthPageBackground formBg={formBg ?? defaultFormBg}>
         <Form />
       </AuthPageBackground>

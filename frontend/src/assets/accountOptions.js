@@ -1,4 +1,4 @@
-const accountOptions = [
+const getAccountOptions = (userData) => [
   {
     name: "Profile",
     description: "Edit name, email, mobile no. and other profile informations",
@@ -12,12 +12,15 @@ const accountOptions = [
     icon: "fas fa-shopping-bag",
     link: "/account/orders",
     color: "#86efac",
-  },{
-    name:"Cart",
-    description:"Checkout your cart",
-    icon:"fas fa-shopping-cart",
-    link:"/cart",
-    color:"#fcc135"
+    count: userData?.totalOrder ?? 0,
+  },
+  {
+    name: "Cart",
+    description: "Checkout your cart",
+    icon: "fas fa-shopping-cart",
+    link: "/cart",
+    color: "#fcc135",
+    count: userData?.totalCartItems ?? 0,
   },
   {
     name: "Wishlist",
@@ -25,6 +28,7 @@ const accountOptions = [
     icon: "fas fa-heart",
     link: "/account/wishlist",
     color: "#fca5a5",
+    count: userData?.totalWishListItems ?? 0,
   },
   {
     name: "Contact Us",
@@ -40,6 +44,13 @@ const accountOptions = [
     link: "/logout",
     color: "#aaa69d",
   },
+  {
+    name: "Logout All",
+    description: "Logout from all devices",
+    icon: "fa-solid fa-person-walking-arrow-right",
+    link: "/logout?all=true",
+    color: "#ccc",
+  },
 ];
 
-export default accountOptions;
+export default getAccountOptions;

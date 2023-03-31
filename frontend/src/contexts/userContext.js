@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { moduleBasedOnPath } from "../utils/checkModule";
@@ -9,48 +9,73 @@ export const UserContext = createContext({
   user: null,
   setUser: () => {},
   fetchUser: () => {},
+  fetchUserStat: () => {},
 });
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const userFetched = useRef(false);
 
-  const fetchUser = (userCookie)=>{
+  const fetchUser = (userCookie) => {
     axios
-        .get(process.env.REACT_APP_API + "/auth/getUserDetailsByJWT", {
+      .get(process.env.REACT_APP_API + "/auth/getUserDetailsByJWT", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userCookie,
+        },
+      })
+      .then((res) => {
+        setUser((prev) => {
+          return { ...prev, ...res.data };
+        });
+        toast("Welcome " + res.data.name, {
+          position: "top-center",
+        });
+
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchUserStat = (userCookie) => {
+    axios
+      .post(
+        process.env.REACT_APP_API + "/auth/userStats",
+        {},
+        {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": userCookie,
+            Authorization: userCookie,
           },
-        })
-        .then((res) => {
-          setUser(res.data);
-          toast("Welcome " + res.data.name,{
-            position: "top-center"
-          })
-          // console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
+        }
+      )
+      .then((res) => {
+        setUser((prev) => {
+          return { ...prev, ...res.data };
         });
-  }
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-
-  const isUser = moduleBasedOnPath(useLocation().pathname,true,false,false);
-
+  const isUser = moduleBasedOnPath(useLocation().pathname, true, false, false);
 
   useEffect(() => {
     // User Cookie setting
     const userCookie = getCookie("refreshToken");
-    if (isUser && userCookie) {
+    if (!userFetched.current && isUser && userCookie) {
       fetchUser(userCookie);
+      fetchUserStat(userCookie);
+      userFetched.current = true;
     }
-    return () => {
-      setUser(null);
-    };
   }, [isUser]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchUser, fetchUserStat }}>
       {children}
     </UserContext.Provider>
   );

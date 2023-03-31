@@ -16,7 +16,7 @@ import InputBox from "../InputBox";
 export default function UserAuthForm() {
   const [isNewUser, setNewUser] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const { fetchUser } = useContext(UserContext);
+  const { fetchUser, fetchUserStat } = useContext(UserContext);
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
   const navigate = useNavigate();
 
@@ -57,6 +57,7 @@ export default function UserAuthForm() {
             setCookie("accessToken", res.data.accessToken, 7);
             setCookie("refreshToken", res.data.refreshToken, 7);
             fetchUser(res.data.refreshToken);
+            fetchUserStat(res.data.refreshToken);
             clearForm();
             navigate("/");
           }

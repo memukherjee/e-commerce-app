@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.Assets.SearchQuery;
 import com.ecommerce.Entity.Category;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
@@ -228,13 +229,40 @@ public class UserProductController {
 		// Filtering products based on the search query
 		if (query != null && !query.equals("")) {
 			query = query.toLowerCase();
+			String genderSpecificQuery = "";
+			if (query.contains("female") || query.contains("woman") || query.contains("women") || query.contains("girl")
+					|| query.contains("lady")) {
+				genderSpecificQuery = "women";
+
+			} else if (query.contains("male") || query.contains("man") || query.contains("men") || query.contains("boy")
+					|| query.contains("guy")) {
+				genderSpecificQuery = "men";
+			} else if (query.contains("kid") || query.contains("child") || query.contains("baby")
+					|| query.contains("infant")) {
+				genderSpecificQuery = "kids";
+			} else if (query.contains("unisex")) {
+				genderSpecificQuery = "unisex";
+			}
+
+			String[] queryWords = query.split(" ");
+
+			System.out.println("genderSpecificQuery: " + genderSpecificQuery);
+
 			List<Product> newList = new ArrayList<Product>();
 			for (Product product : filteredProducts) {
 				Category category = categoryRepository.findById(product.getProduct_category()).get();
-				if (product.getProduct_name().toLowerCase().contains(query)
-						|| product.getProduct_company().toLowerCase().contains(query)
-						|| category.getCategory_name().toLowerCase().contains(query)) {
-					newList.add(product);
+				for (String word : queryWords) {
+					if (SearchQuery.ignoreWords.contains(word)) {
+						continue;
+					}
+					if ((product.getProduct_name().toLowerCase().contains(word)
+							|| product.getProduct_company().toLowerCase().contains(word)
+							|| category.getCategory_name().toLowerCase().contains(word)) &&
+							(genderSpecificQuery.equals("")
+									|| product.getClothingType().equals(genderSpecificQuery))) {
+						newList.add(product);
+						break;
+					}
 				}
 			}
 			filteredProducts = newList;
@@ -260,9 +288,8 @@ public class UserProductController {
 		pagedListHolder.setPageSize(pageSize);
 		int size = pagedListHolder.getPageCount();
 		System.out.println(size);
-		ArrayList<Product> leo = new ArrayList<>();
 		if (pageNo >= size)
-			return new ResponseEntity<>(leo, HttpStatus.OK);
+			return new ResponseEntity<>(new ArrayList<Product>(), HttpStatus.OK);
 
 		return new ResponseEntity<>(pagedListHolder.getPageList(), HttpStatus.OK);
 

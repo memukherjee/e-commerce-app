@@ -1,13 +1,13 @@
 import { motion as m } from "framer-motion";
 
-export default function AnimatedText({ text, align, direction, size, className }) {
+export default function AnimatedText({ text, align, direction, size, className, delay = 0.04 }) {
   const words = text.split(" ");
 
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
+      transition: { staggerChildren: 0.12, delayChildren: delay * i },
     }),
     transition: { delay: 0.5 },
   };

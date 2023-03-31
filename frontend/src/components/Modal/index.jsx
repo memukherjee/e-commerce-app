@@ -22,7 +22,7 @@ const dropIn = {
 };
 
 
-export default function Modal({ modalOpen, close, ModalChild }) {
+export default function Modal({ modalOpen, close, ModalChild, customStyles }) {
   return (
     <AnimatePresence initial={false} mode="wait">
       {modalOpen && (
@@ -35,11 +35,12 @@ export default function Modal({ modalOpen, close, ModalChild }) {
         >
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="modal overflow-hidden bg-white w-full max-w-500 rounded h-auto max-h-90vh p-4 pt-12"
+            className="modal overflow-hidden bg-white w-full max-w-500 rounded h-auto max-h-90vh m-2 md:m-0 p-4 pt-12"
             variants={dropIn}
             initial="hidden"
             animate="visible"
             exit="exit"
+            style={customStyles}
           >
             <motion.button
               className="modal-button absolute top-0 right-0 text-xl text-red-700 m-4"

@@ -9,6 +9,9 @@ import { getCookie } from "../../utils/cookie";
 import formatProductData from "../../utils/formatProductData";
 import { PulseLoader } from "react-spinners";
 import InputBox from "../InputBox";
+import { useContext } from "react";
+import { SellerContext } from "../../contexts/sellerContext";
+import clothingTypes from "../../assets/clothingTypes";
 
 export default function ProductDetailsForm({
   productDetails,
@@ -18,6 +21,7 @@ export default function ProductDetailsForm({
 }) {
   const productData = productDetails ? formatProductData(productDetails) : {};
 
+  const { fetchSellerStat } = useContext(SellerContext);
   const [processing, setProcessing] = useState(false);
 
   const { file, ImageInput } = useImage(productData?.imageUrl);
@@ -29,6 +33,7 @@ export default function ProductDetailsForm({
       name: product_name,
       company: product_company,
       category: product_category,
+      clothingType,
       description: product_description,
       mrp: product_price,
       discountPrice,
@@ -39,6 +44,7 @@ export default function ProductDetailsForm({
       product_name,
       product_company,
       product_category,
+      clothingType,
       product_description,
       product_price,
       discountPrice,
@@ -48,19 +54,24 @@ export default function ProductDetailsForm({
     const formData = new FormData();
     formData.append("file", file);
     formData.append("productData", JSON.stringify(data));
+    const sellerToken = getCookie("seller-refreshToken");
+
     axios
       .post(process.env.REACT_APP_API + "/seller/addProduct", formData, {
         headers: {
-          Authorization: getCookie("seller-refreshToken"),
+          Authorization: sellerToken,
         },
       })
       .then((res) => {
         // console.log(res);
-        setProcessing(false);
-        setProducts((prevProducts) => {
-          return [...prevProducts, res.data];
-        });
-        close();
+        if (res.status === 200) {
+          setProcessing(false);
+          setProducts((prevProducts) => {
+            return [...prevProducts, res.data];
+          });
+          close();
+          fetchSellerStat(sellerToken);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -73,6 +84,7 @@ export default function ProductDetailsForm({
       name: product_name,
       company: product_company,
       category: product_category,
+      clothingType,
       description: product_description,
       mrp: product_price,
       discountPrice,
@@ -84,6 +96,7 @@ export default function ProductDetailsForm({
       product_name,
       product_company,
       product_category,
+      clothingType,
       product_description,
       product_price,
       discountPrice,
@@ -96,7 +109,7 @@ export default function ProductDetailsForm({
     const formData = new FormData();
     formData.append("file", file);
     formData.append("productData", JSON.stringify(data));
-
+    console.log(formData);
     axios
       .put(process.env.REACT_APP_API + "/seller/updateProducts", formData, {
         headers: {
@@ -104,7 +117,7 @@ export default function ProductDetailsForm({
         },
       })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
 
         setProducts((prevProducts) => {
           const updatedProducts = prevProducts.map((product) => {
@@ -138,7 +151,11 @@ export default function ProductDetailsForm({
 
   const categories = useCategories();
 
-  const { description = "", category = "defaultCategory" } = values;
+  const {
+    description = "",
+    category = "defaultCategory",
+    clothingType = "defaultClothingType",
+  } = values;
 
   const inputFields = getAddNewProductInputDetails(values);
   return (
@@ -179,6 +196,28 @@ export default function ProductDetailsForm({
             {categories.map((category) => (
               <option key={category.category_id} value={category.category_id}>
                 {category.category_name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="order-0">
+          <select
+            className="w-full py-2 mb-4 outline-none bg-transparent md:text-left resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
+            name="clothingType"
+            value={clothingType}
+            onChange={handleInputChange}
+            style={
+              clothingType === "defaultClothingType"
+                ? { color: "#9CA3AF" }
+                : { color: "#164e63" }
+            }
+          >
+            <option value="defaultClothingType" disabled>
+              Select Clothing Type
+            </option>
+            {clothingTypes.map((type) => (
+              <option key={type.id} value={type.value}>
+                {type.name}
               </option>
             ))}
           </select>

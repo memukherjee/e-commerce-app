@@ -50,3 +50,10 @@ export default function isValidAuthCredentials(
     (isNewUser ? password === confirmPassword : true)
   );
 };
+
+
+//String Validation
+
+export const isPng = (str) => {
+  return /\.png$/.test(str);
+};

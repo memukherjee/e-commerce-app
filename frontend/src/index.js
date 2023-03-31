@@ -11,6 +11,8 @@ import MouseTransparentProvider from "./contexts/mouseTransparentContext";
 import MouseOverNavItemProvider from "./contexts/mouseOverNavItemContext";
 import SellerProvider from "./contexts/sellerContext";
 import ModalProvider from "./contexts/modalContext";
+import AdminProvider from "./contexts/adminContext";
+import GeoLocationProvider from "./contexts/geoLocationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,19 +20,23 @@ root.render(
     <Router>
       <ScrollProvider>
         <ScreenProvider>
+        <GeoLocationProvider>
           <ModalProvider>
-            <SellerProvider>
-              <UserProvider>
-                <MouseOverLinkProvider>
-                  <MouseOverNavItemProvider>
-                    <MouseTransparentProvider>
-                      <App />
-                    </MouseTransparentProvider>
-                  </MouseOverNavItemProvider>
-                </MouseOverLinkProvider>
-              </UserProvider>
-            </SellerProvider>
+            <AdminProvider>
+              <SellerProvider>
+                <UserProvider>
+                  <MouseOverLinkProvider>
+                    <MouseOverNavItemProvider>
+                      <MouseTransparentProvider>
+                        <App />
+                      </MouseTransparentProvider>
+                    </MouseOverNavItemProvider>
+                  </MouseOverLinkProvider>
+                </UserProvider>
+              </SellerProvider>
+            </AdminProvider>
           </ModalProvider>
+          </GeoLocationProvider>
         </ScreenProvider>
       </ScrollProvider>
     </Router>

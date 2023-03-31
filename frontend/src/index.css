@@ -11,6 +11,9 @@ cd body {
   background: transparent;
 }
 ::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar {
   width: 12px;
 }
 .modal-form::-webkit-scrollbar,

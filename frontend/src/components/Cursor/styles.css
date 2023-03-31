@@ -14,5 +14,12 @@
     pointer-events: none;
     transition: all 0.3s ease;
     transition-property: background-color, transform, backdrop-filter;
+
+    /* 
+    -------------ARROW CURSOR-------------
+    boder-radius: 0;
+    transform: translate(0,0);
+    clip-path: polygon(44% 65%, 30% 100%, 0 0, 100% 30%, 65% 44%, 100% 80%, 80% 100%); 
+    */
   }
 }

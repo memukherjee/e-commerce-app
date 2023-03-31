@@ -10,18 +10,19 @@ export default function useObserver(options){
     };
 
     useEffect(() => {
+        let observerRefValue = null;
         const observer = new IntersectionObserver(callback, options);
         if(containerRef.current){
             observer.observe(containerRef.current);
+            observerRefValue = containerRef.current;
         }
         return () => {
-            if(containerRef.current){
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-                observer.unobserve(containerRef.current);
+            if(observerRefValue){
+                observer.unobserve(observerRefValue);
             }
         };
     }, [containerRef, options]);
 
-    return [containerRef, isVisble];
+    return [containerRef, isVisble, setIsVisible];
 
 }

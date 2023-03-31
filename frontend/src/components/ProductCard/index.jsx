@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import StarRating from "../StarRating";
 
 export default function ProductCard({
   product,
@@ -21,15 +23,25 @@ export default function ProductCard({
             {index + 1}
           </span>
         )}
-        <div className="product-image bg-gray-200 flex justify-center items-center w-full h-3/4">
-          <img
+        <div className="product-image bg-gray-200 flex justify-center items-center w-full h-3/4 overflow-hidden">
+          <motion.img
             className="object-contain w-full h-full mx-auto"
             loading="lazy"
             src={product.product_imageUrl}
             alt={product.product_name}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = `http://via.placeholder.com/640?text=Placeholder Image`;
+            }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           />
         </div>
-        <div className="product-details text-black my-4">
+        <div className="product-details text-black">
+          <StarRating
+            stars={product.averageRating}
+            className="mt-1 mb-2 block text-[.9rem]"
+          />
           <span
             className="product-name block text-xl whitespace-nowrap text-ellipsis overflow-hidden"
             title={product.product_name}

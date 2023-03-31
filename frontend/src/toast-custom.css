@@ -55,12 +55,14 @@
 .Toastify__toast-container--top-left {
 }
 .Toastify__toast-container--top-center {
+  top: 3em;
 }
 .Toastify__toast-container--top-right {
 }
 .Toastify__toast-container--bottom-left {
 }
 .Toastify__toast-container--bottom-center {
+  bottom: 1em;
 }
 .Toastify__toast-container--bottom-right {
 }

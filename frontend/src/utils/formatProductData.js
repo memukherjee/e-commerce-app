@@ -9,6 +9,7 @@ export default function formatProductData(product) {
     product_price: mrp,
     product_quantity: quantity,
     product_imageUrl:imageUrl,
+    clothingType,
     size,
   } = product;
 
@@ -23,6 +24,7 @@ export default function formatProductData(product) {
     product_id,
     discountPrice,
     category,
+    clothingType,
     company,
     description,
     name,

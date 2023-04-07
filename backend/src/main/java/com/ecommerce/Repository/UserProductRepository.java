@@ -1,11 +1,13 @@
 package com.ecommerce.Repository;
 
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import com.ecommerce.Entity.Product;
 
 @Repository
@@ -42,5 +44,8 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
     
     @Query("{discountPrice:{$lt:?0,$gt:?1},clothingType:?2}")
     List<Product> filterProductsByClothingType(double parseDouble, double parseDouble2, String clothingType);
+
+	@Query("{'_id': ?0}")
+	Product findByProductsId(String productId);
 
 }

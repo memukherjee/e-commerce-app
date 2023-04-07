@@ -1,10 +1,10 @@
 package com.ecommerce.Repository;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import com.ecommerce.Entity.User;
 
@@ -18,6 +18,8 @@ public interface UserRepository extends MongoRepository<User,String> {
 	Optional<User> findByUsername(String username);
 	public List<User> findByNameContainingIgnoreCase(String search);
 
+	@Query("{'_id': ?0}")
+	User findByUserId(String userId);
 	
 		
 	

@@ -1,10 +1,11 @@
 package com.ecommerce.Controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -31,7 +32,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecommerce.Entity.OrderDetails;
 import com.ecommerce.Entity.Product;
 import com.ecommerce.Entity.ProductReview;
-import com.ecommerce.Entity.RefreshToken;
 import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
 import com.ecommerce.Entity.User;
@@ -41,15 +41,14 @@ import com.ecommerce.Repository.ProductReviewRepository;
 import com.ecommerce.Repository.SellerRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserProductRepository;
+import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Service.SellerService;
 import com.ecommerce.dto.LoginDTO;
-import com.ecommerce.dto.ProductAverageRatingDTO;
 import com.ecommerce.dto.SellerStatsDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
 import com.ecommerce.jwt.JwtHelper;
 import com.ecommerce.jwt.SellerTokenValidator;
-import com.ecommerce.jwt.TokenValidator;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -88,6 +87,9 @@ public class SellerAuthREST {
 
 	@Autowired
 	ProductReviewController productReviewController;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto) {
@@ -283,8 +285,104 @@ public class SellerAuthREST {
 			reviews.addAll(productReviewRepository.findAllByProductId(i.getProduct_id()));
 
 		}
-		return new ResponseEntity<>(reviews, HttpStatus.OK);
+		for (ProductReview i : reviews) {
+			System.out.println("roducts id: " + i.getProductId() + " " + i.getUserId() + " " + i.getId());
+		}
+		System.out.println(reviews.size());
+		review[] obj = new review[reviews.size()];
 
+		int c = 0;
+		for (ProductReview i : reviews) {
+			obj[c] = new review(i.getId(), userRepository.findByUserId(i.getUserId()),
+					userProductRepository.findByProductsId(i.getProductId()), i.getMessage(), i.getStar(), i.getDate(),
+					i.getTime());
+			c++;
+		}
+
+		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+
+}
+
+class review {
+	private String id;
+	private User user;
+	private Product product;
+	private String message;
+	private float star;
+	private LocalDate date;
+	private LocalTime time;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product optional) {
+		this.product = optional;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public float getStar() {
+		return star;
+	}
+
+	public void setStar(float star) {
+		this.star = star;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalTime time) {
+		this.time = time;
+	}
+
+	public review(String id, User user, Product product, String message, float star, LocalDate date, LocalTime time) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.product = product;
+		this.message = message;
+		this.star = star;
+		this.date = date;
+		this.time = time;
+	}
+
+	public review() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 }

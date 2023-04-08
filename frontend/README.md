@@ -3,7 +3,7 @@
 
 
 ## Name:
-- Oracle Couture
+- Elegant Apparels
 
 ## FONTS:
 - [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat)

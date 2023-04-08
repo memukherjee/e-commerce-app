@@ -27,6 +27,7 @@ import com.ecommerce.Service.UserService;
 import com.ecommerce.Service.wishlistService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -57,7 +58,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+
+// @CrossOrigin(origins = @Value("${clientURL}") String clientUrl)
 @RequestMapping("/api/auth")
 public class AuthREST {
 

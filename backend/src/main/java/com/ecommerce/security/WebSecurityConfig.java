@@ -1,6 +1,7 @@
 package com.ecommerce.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ecommerce.Service.*;
 
@@ -21,11 +24,11 @@ import com.ecommerce.Service.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService=null;
+    private UserService userService = null;
     @Autowired
-    private SellerService sellerService=null;
+    private SellerService sellerService = null;
     @Autowired
-    private AdminAuthService adminAuthService=null;
+    private AdminAuthService adminAuthService = null;
     @Autowired
     private AccessTokenEntryPoint accessTokenEntryPoint;
 
@@ -47,12 +50,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	if(userService!=null) {
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder());
-    	}
+        if (userService != null) {
+            auth.userDetailsService(userService)
+                    .passwordEncoder(passwordEncoder());
+        }
         auth.userDetailsService(sellerService).passwordEncoder(passwordEncoder());
         auth.userDetailsService(adminAuthService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Value("${clientUrl}")
+            String clientUrl;
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(clientUrl)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                        .allowCredentials(true);
+            }
+        };
     }
 
     @Override
@@ -74,9 +93,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/sellerOrder/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-        
-        .logout()
-        	.clearAuthentication(true);
+
+                .logout()
+                .clearAuthentication(true);
     }
-    
+
 }

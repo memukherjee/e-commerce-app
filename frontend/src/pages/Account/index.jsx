@@ -14,7 +14,7 @@ export default function Account() {
 
   return (
     <PageFadeTransitionContainer>
-      <div className="min-h-100vh py-16 md:py-8 w-11/12 max-w-1000 mx-auto">
+      <div className="min-h-100vh py-16 w-11/12 max-w-1000 mx-auto">
         <Link to="/account/profile">
           <m.div
             initial={{ opacity: 0, scale: 0.8 }}

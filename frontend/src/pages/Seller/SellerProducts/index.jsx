@@ -3,18 +3,19 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AnimatePresence, motion } from "framer-motion";
-import ProductDetailsForm from "../../components/ProductDetailsForm";
-import Modal from "../../components/Modal";
-import ModalButton from "../../components/ModalButton";
-import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import useModal from "../../hooks/useModal";
-import useSellerProducts from "../../hooks/useSellerProducts";
-import emptyStoreIcon from "../../assets/images/empty-store-icon.png";
-import ConfirmationForm from "../../components/ConfirmationForm";
-import { getCookie } from "../../utils/cookie";
-import useTitle from "../../hooks/useTitle";
-import { ScreenContext } from "../../contexts/screenContext";
-import { SellerContext } from "../../contexts/sellerContext";
+import ProductDetailsForm from "../../../components/ProductDetailsForm";
+import Modal from "../../../components/Modal";
+import ModalButton from "../../../components/ModalButton";
+import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
+import useModal from "../../../hooks/useModal";
+import useSellerProducts from "../../../hooks/useSellerProducts";
+import emptyStoreIcon from "../../../assets/images/empty-store-icon.png";
+import ConfirmationForm from "../../../components/ConfirmationForm";
+import { getCookie } from "../../../utils/cookie";
+import useTitle from "../../../hooks/useTitle";
+import { ScreenContext } from "../../../contexts/screenContext";
+import { SellerContext } from "../../../contexts/sellerContext";
+import AnimatedText from "../../../components/AnimatedText";
 
 export default function SellerProducts() {
   const { modalOpen, close, open } = useModal();
@@ -62,7 +63,7 @@ export default function SellerProducts() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-12">
+    <PageFadeTransitionContainer className="min-h-100vh relative pt-16">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -88,9 +89,14 @@ export default function SellerProducts() {
           ) : null
         }
       />
-      <h1 className="text-center text-2xl font-semibold text-cyan-900 underline underline-offset-8 mb-12">
-        Your Products ({products.length})
-      </h1>
+      <AnimatedText
+          className="text-2xl font-pen md:text-4xl font-bold text-cyan-900 mt-4 mb-8"
+          text={`Your Products (${products.length})`}
+          direction="y"
+          size="large"
+          align="center"
+          delay={0.5}
+        />
       <div className="flex flex-wrap justify-between items-center mx-auto px-2 w-full max-w-1200">
         <ModalButton
           onClick={() => {

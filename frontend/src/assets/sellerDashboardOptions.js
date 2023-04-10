@@ -33,7 +33,7 @@ const getSellerDashboardOptions = (sellerData) => [
             },
             {
                 title: 'Total Sales',
-                value: "₹"+(sellerData.totalSoldItems ?? 0),
+                value: (sellerData.totalSoldItems ?? 0),
             },
         ],
     },

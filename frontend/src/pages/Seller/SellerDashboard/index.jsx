@@ -1,13 +1,14 @@
 import React from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import getSellerDashboardOptions from "../../assets/sellerDashboardOptions";
-import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import { SellerContext } from "../../contexts/sellerContext";
-import useTitle from "../../hooks/useTitle";
+import getSellerDashboardOptions from "../../../assets/sellerDashboardOptions";
+import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
+import { SellerContext } from "../../../contexts/sellerContext";
+import useTitle from "../../../hooks/useTitle";
+import NumberCounter from "../../../components/NumberCounter";
 
 export default function SellerDashboard() {
-  const {seller} = useContext(SellerContext);
+  const { seller } = useContext(SellerContext);
   const dashboardData = getSellerDashboardOptions(seller);
 
   useTitle("Seller Dashboard | Elegant Apparels");
@@ -46,8 +47,18 @@ export default function SellerDashboard() {
                         <span className="dashboard-option-content-item-title">
                           {subOption.title}
                         </span>
-                        <span className="dashboard-option-content-item-value">
-                          {subOption.value}
+                        <span>
+                          {subOption.title === "Total Sales" && (
+                            <span className="dashboard-option-content-item-value">
+                              &#8377;
+                            </span>
+                          )}
+                          <NumberCounter
+                            className="dashboard-option-content-item-value"
+                            to={parseInt(subOption.value)}
+                            from={0}
+                            duration={2}
+                          />
                         </span>
                       </div>
                     ))}

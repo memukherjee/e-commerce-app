@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion as m } from "framer-motion";
 import AnimatedText from "../AnimatedText";
+import NumberCounter from "../NumberCounter";
 
 export default function AccountOptionCard({ option }) {
   const [hover, setHover] = useState(false);
@@ -39,14 +40,14 @@ export default function AccountOptionCard({ option }) {
         <div className="option-name">
           <h3 className="font-medium text-lg flex items-center justify-start gap-x-2">
             <AnimatedText text={option.name} direction="y" />
-            {(option?.count > 0) && (
+            {option?.count > 0 && (
               <span
                 style={{
                   backgroundColor: option.color,
                 }}
                 className="text-center text-white w-6 h-6 rounded-full"
               >
-                {option?.count}
+                <NumberCounter from={0} to={option?.count} duration={2} />
               </span>
             )}
           </h3>

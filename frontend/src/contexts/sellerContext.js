@@ -27,7 +27,7 @@ const SellerProvider = ({ children }) => {
         },
       })
       .then((res) => {
-        setSeller(prev=>({ ...seller, ...res.data }));
+        setSeller((prev) => ({ ...seller, ...res.data }));
         toast("Welcome " + res.data.name, {
           position: "top-center",
         });
@@ -40,14 +40,18 @@ const SellerProvider = ({ children }) => {
   const fetchSellerStat = (sellerCookie) => {
     // Seller Cookie setting
     axios
-      .post(process.env.REACT_APP_API + "/seller/auth/sellerStats",{}, {
-        headers: {
-          Authorization: sellerCookie,
-        },
-      })
+      .post(
+        process.env.REACT_APP_API + "/seller/auth/sellerStats",
+        {},
+        {
+          headers: {
+            Authorization: sellerCookie,
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
-          setSeller(prev=>({ ...prev, ...res.data }));
+          setSeller((prev) => ({ ...prev, ...res.data }));
           // console.log(res.data);
         }
       })
@@ -69,11 +73,8 @@ const SellerProvider = ({ children }) => {
     if (!sellerFetched.current && isSeller && sellerCookie) {
       fetchSeller(sellerCookie);
       fetchSellerStat(sellerCookie);
-    }
-
-    return () => {
       sellerFetched.current = true;
-    };
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSeller]);

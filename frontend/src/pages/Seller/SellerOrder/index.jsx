@@ -1,16 +1,17 @@
 import { useContext, useRef, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import Modal from "../../components/Modal";
-import ModalButton from "../../components/ModalButton";
-import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import useModal from "../../hooks/useModal";
-import useSellerOrders from "../../hooks/useSellerOrders";
-import emptyStoreIcon from "../../assets/images/empty-store-icon.png";
-import { ScreenContext } from "../../contexts/screenContext";
-import { timeSince } from "../../utils/timeFormater";
-import ConfirmationForm from "../../components/ConfirmationForm";
 import { AnimatePresence, motion } from "framer-motion";
-import useTitle from "../../hooks/useTitle";
+import Modal from "../../../components/Modal";
+import ModalButton from "../../../components/ModalButton";
+import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
+import useModal from "../../../hooks/useModal";
+import useSellerOrders from "../../../hooks/useSellerOrders";
+import emptyStoreIcon from "../../../assets/images/empty-store-icon.png";
+import { ScreenContext } from "../../../contexts/screenContext";
+import { timeSince } from "../../../utils/timeFormater";
+import ConfirmationForm from "../../../components/ConfirmationForm";
+import useTitle from "../../../hooks/useTitle";
+import AnimatedText from "../../../components/AnimatedText";
 
 export default function SellerOrder() {
   useTitle("Your Orders | Elegant Apparels");
@@ -33,7 +34,7 @@ export default function SellerOrder() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-12">
+    <PageFadeTransitionContainer className="min-h-100vh relative pt-16">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -56,9 +57,14 @@ export default function SellerOrder() {
           ) : null
         }
       />
-      <h1 className="text-center text-2xl font-semibold text-cyan-900 underline underline-offset-8">
-        Your Orders
-      </h1>
+      <AnimatedText
+          className="text-2xl font-pen md:text-4xl font-bold text-cyan-900 my-4"
+          text={"Your Orders"}
+          direction="y"
+          size="large"
+          align="center"
+          delay={0.5}
+        />
       <div className="max-w-1200 mx-auto mt-8">
         <div className="w-full max-w-500 text-cyan-900 px-4 flex justify-between items-center gap-x-4">
           <span

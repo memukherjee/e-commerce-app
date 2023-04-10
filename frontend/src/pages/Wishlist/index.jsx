@@ -66,7 +66,7 @@ export default function Wishlist() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh pt-16 md:pt-0">
+    <PageFadeTransitionContainer className="min-h-100vh pt-16">
       <Modal
         modalOpen={modalOpen}
         close={close}

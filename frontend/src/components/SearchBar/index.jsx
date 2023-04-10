@@ -65,6 +65,7 @@ export default function SearchBar() {
       .finally(() => {
         setFetching(false);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchValue]);
 
   useEffect(() => {
@@ -133,7 +134,9 @@ export default function SearchBar() {
           autoComplete="off"
           value={globalSearchValue}
           onChange={(e) => {
-            if (e.target.value.trim() === "") setNoSuggestions(false);
+            if (e.target.value.trim() === "") {
+              setNoSuggestions(false);
+            }
             setGlobalSearchValue(e.target.value);
             setCurrentSelectedSuggestion(-1);
           }}

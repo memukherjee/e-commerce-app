@@ -3,15 +3,15 @@ import axios from "axios";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import ConfirmationForm from "../../components/ConfirmationForm";
-import DetailsCard from "../../components/DetailsCard";
-import Modal from "../../components/Modal";
-import ModalButton from "../../components/ModalButton";
-import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import useCustomers from "../../hooks/useCustomers";
-import useModal from "../../hooks/useModal";
-import useObserver from "../../hooks/useObserver";
-import { getCookie } from "../../utils/cookie";
+import ConfirmationForm from "../../../components/ConfirmationForm";
+import DetailsCard from "../../../components/DetailsCard";
+import Modal from "../../../components/Modal";
+import ModalButton from "../../../components/ModalButton";
+import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
+import useCustomers from "../../../hooks/useCustomers";
+import useModal from "../../../hooks/useModal";
+import useObserver from "../../../hooks/useObserver";
+import { getCookie } from "../../../utils/cookie";
 
 export default function CustomerManagementPage() {
   const [containerRef, isVisible] = useObserver({
@@ -124,23 +124,23 @@ export default function CustomerManagementPage() {
                     <div className="customer-details text-left text-lg">
                       <div className="customer-id flex gap-1 justify-start items-center">
                         <span className="text-cyan-900 font-medium">ID:</span>
-                        <span>{customer?.id}</span>
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.id}</span>
                       </div>
                       <div className="customer-name flex gap-1 justify-start items-center">
                         <span className="text-cyan-900 font-medium">Name:</span>
-                        <span>{customer?.name}</span>
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.name}</span>
                       </div>
                       <div className="customer-email flex gap-1 justify-start items-center">
                         <span className="text-cyan-900 font-medium">
                           <i className="fa-regular fa-envelope"></i>
                         </span>
-                        <span>{customer?.email}</span>
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.email}</span>
                       </div>
                       <div className="customer-phone flex gap-1 justify-start items-center">
                         <span className="text-cyan-900 font-medium">
                           <i className="fa-solid fa-phone"></i>
                         </span>
-                        <span>{customer?.mobile}</span>
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.mobile}</span>
                       </div>
                     </div>
                     <div className="customer-actions flex justify-center items-center">

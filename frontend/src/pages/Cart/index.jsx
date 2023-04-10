@@ -15,7 +15,7 @@ export default function Cart() {
   } = useCart();
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh pt-12 md:pt-0">
+    <PageFadeTransitionContainer className="min-h-100vh pt-12">
       <div className="cart-wrapper ">
         <div className="cart-container px-2 py-4 max-w-1000 mx-auto">
           <div className="cart-header text-center bg-cyan-900 text-white rounded-t py-2">

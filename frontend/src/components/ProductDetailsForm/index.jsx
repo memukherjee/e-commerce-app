@@ -12,6 +12,7 @@ import InputBox from "../InputBox";
 import { useContext } from "react";
 import { SellerContext } from "../../contexts/sellerContext";
 import clothingTypes from "../../assets/clothingTypes";
+import { toast } from "react-toastify";
 
 export default function ProductDetailsForm({
   productDetails,
@@ -65,7 +66,6 @@ export default function ProductDetailsForm({
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
-          setProcessing(false);
           setProducts((prevProducts) => {
             return [...prevProducts, res.data];
           });
@@ -75,6 +75,10 @@ export default function ProductDetailsForm({
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setProcessing(false);
       });
   };
 
@@ -135,6 +139,7 @@ export default function ProductDetailsForm({
         console.log(err);
       })
       .finally(() => {
+        console.log("finally");
         setProcessing(false);
       });
   };

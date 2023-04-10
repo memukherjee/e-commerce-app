@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
 
 export default function useCursorPosition() {
-  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
+  const [cursorPosition, setCursorPosition] = useState({
+    x: -100,
+    y: -100,
+    position: "in",
+  });
 
   useEffect(() => {
     const cursorMoveHandler = (event) => {
       const { pageX, pageY } = event;
-      setCursorPosition({ x: pageX, y: pageY });
+      setCursorPosition({
+        x: pageX,
+        y: pageY,
+        position: "in",
+      });
     };
     const onMouseOutOfWindow = (e) => {
-      setCursorPosition({ x: -100, y: -100 });
+      setCursorPosition((prev) => ({ ...prev, position: "out" }));
     };
     document.addEventListener("mousemove", cursorMoveHandler);
     document.documentElement.addEventListener("mouseleave", onMouseOutOfWindow);
@@ -21,6 +29,7 @@ export default function useCursorPosition() {
         onMouseOutOfWindow
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return cursorPosition;

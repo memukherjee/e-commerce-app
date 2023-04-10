@@ -15,7 +15,7 @@ export default function Orders() {
   const [orderIndex, setOrderIndex] = useState(0);
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh pt-12 md:pt-0">
+    <PageFadeTransitionContainer className="min-h-100vh pt-12">
       <Modal
         modalOpen={modalOpen}
         close={close}

@@ -26,7 +26,7 @@ export default function Payment() {
     }
   };
   return (
-    <PageFadeTransitionContainer className="min-h-100vh text-center">
+    <PageFadeTransitionContainer className="min-h-100vh text-center pt-16">
       <div className="payment w-11/12 max-w-450 mx-auto text-left">
         <h1 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 pt-8 pb-2">
           Order Summary

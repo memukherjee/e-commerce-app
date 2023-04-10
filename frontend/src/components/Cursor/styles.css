@@ -13,7 +13,7 @@
     transform-origin: 100% 100%;
     pointer-events: none;
     transition: all 0.3s ease;
-    transition-property: background-color, transform, backdrop-filter;
+    transition-property: opacity, transform, background-color, backdrop-filter;
 
     /* 
     -------------ARROW CURSOR-------------

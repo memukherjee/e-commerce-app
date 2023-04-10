@@ -54,7 +54,7 @@ const AdminProvider = ({ children }) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const isAdmin = moduleBasedOnPath(useLocation().pathname, false, false, true);
   useEffect(() => {
@@ -62,16 +62,18 @@ const AdminProvider = ({ children }) => {
     if (!adminFetched.current && isAdmin && adminCookie) {
       fetchAdmin(adminCookie);
       fetchAdminStat(adminCookie);
+      adminFetched.current = true;
     }
     return () => {
       setAdmin(null);
-      adminFetched.current = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin]);
 
   return (
-    <AdminContext.Provider value={{ admin, setAdmin, fetchAdmin, fetchAdminStat }}>
+    <AdminContext.Provider
+      value={{ admin, setAdmin, fetchAdmin, fetchAdminStat }}
+    >
       {children}
     </AdminContext.Provider>
   );

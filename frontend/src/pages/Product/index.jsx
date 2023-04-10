@@ -71,7 +71,7 @@ export default function Product() {
   const { reviews, addReview, ratingCount, allFetched } = useReview(pid, isVisible);
 
   return product ? (
-    <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center pt-12 md:pt-0">
+    <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center pt-12">
       <Modal
         modalOpen={modalOpen}
         close={close}

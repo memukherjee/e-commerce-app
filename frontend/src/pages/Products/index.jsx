@@ -21,6 +21,10 @@ export default function Products() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const categoryParam = useLocation()?.state?.category || categoryData || {};
   const queryParam = classifier === "all" ? null : queryData || null;
+  const genderParam =
+    classifier === "men" || classifier === "women" || classifier === "kids"
+      ? classifier
+      : null;
   const categories = useCategories();
 
   const [filterTabOpen, setFilterTabOpen] = useState(false);
@@ -44,7 +48,12 @@ export default function Products() {
     setMaxPrice,
     sort,
     setSort,
-  } = useProducts(categoryParam?.category_id, queryParam, isVisible);
+  } = useProducts(
+    categoryParam?.category_id,
+    queryParam,
+    genderParam,
+    isVisible
+  );
 
   useTitle(
     `${
@@ -61,7 +70,17 @@ export default function Products() {
     <PageFadeTransitionContainer className="products-section relative mt-16 min-h-100vh text-center w-11/12 mx-auto">
       <AnimatedText
         className="text-2xl font-pen md:text-4xl font-bold text-cyan-900"
-        text={classifier === "all" ? "All Products" : "Products"}
+        text={
+          classifier === "all"
+            ? "All Products"
+            : clothingTypes.length === 1 && clothingTypes[0] === "men"
+            ? "Men's Fashion"
+            : clothingTypes.length === 1 && clothingTypes[0] === "women"
+            ? "Women's Fashion"
+            : clothingTypes.length === 1 && clothingTypes[0] === "kids"
+            ? "Kids' Fashion"
+            : "Products"
+        }
         direction="y"
         size="large"
         align="center"

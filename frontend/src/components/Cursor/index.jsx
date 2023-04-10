@@ -21,8 +21,9 @@ function Cursor() {
       top: cursorPosition.y + "px",
       transform: mouseOverNavItem || mouseOverLink ? "scale(2)" : "",
       backgroundColor: mouseOverNavItem && !scroll ? "#000" : "initial",
-      zIndex: scroll || modalOpen ? "50" : "15",
+      zIndex: scroll || modalOpen ? "50" : "17",
       backdropFilter: mouseTransparent?"invert(0)":"invert(1)",
+      opacity: cursorPosition.position==="in"?"1":"0",
     }),
     [cursorPosition, mouseOverNavItem, mouseOverLink, scroll, mouseTransparent, modalOpen]
   );

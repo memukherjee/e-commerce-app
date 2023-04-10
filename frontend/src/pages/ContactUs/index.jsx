@@ -51,7 +51,7 @@ export default function ContactUs() {
 
   return (
     <PageFadeTransitionContainer>
-      <div className="contact-form text-center md:text-left w-11/12 mx-auto max-w-500 h-100vh flex justify-center items-center md:-mt-12">
+      <div className="contact-form text-center md:text-left w-11/12 mx-auto max-w-500 h-100vh flex justify-center items-center">
         <div className="w-full">
           <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-6">
             Send Us a Message

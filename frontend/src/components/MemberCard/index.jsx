@@ -1,3 +1,4 @@
+import SignAkash from "../../assets/SignAkash";
 import "./index.css";
 
 export default function MemberCard({ member }) {
@@ -25,7 +26,9 @@ export default function MemberCard({ member }) {
         </h3>
         <h4 className="title text-base text-gray-500">{member.title}</h4>
       </div>
-      <ul className="social">
+      {member.name === "Akash Mukherjee" &&
+        <SignAkash strokeColor={member.accentColor} />}
+      <ul className="social z-[1]">
         {member.social.linkedIn && (
           <li>
             <a href={member.social.linkedIn} aria-hidden="true" rel="noreferrer" target="_blank">

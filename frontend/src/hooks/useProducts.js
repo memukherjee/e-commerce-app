@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import arrayToString from "../utils/arrayToString";
 import useDebounce from "./useDebounce";
 
-export default function useProducts(categoryParam, queryParam, isVisible) {
+export default function useProducts(
+  categoryParam,
+  queryParam,
+  genderParam,
+  isVisible
+) {
   const [products, setProducts] = useState(null);
   const navigate = useNavigate();
 
@@ -14,7 +19,9 @@ export default function useProducts(categoryParam, queryParam, isVisible) {
   const [category, setCategory] = useState(
     categoryParam ? [categoryParam] : []
   );
-  const [clothingTypes, setClothingTypes] = useState([]);
+  const [clothingTypes, setClothingTypes] = useState(
+    genderParam ? [genderParam] : []
+  );
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);
   const [sort, setSort] = useState("popularity descending");

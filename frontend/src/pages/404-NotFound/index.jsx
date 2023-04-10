@@ -46,7 +46,7 @@ function NotFound() {
   }, []);
 
   return (
-    <PageFadeTransitionContainer className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center -mt-12">
+    <PageFadeTransitionContainer className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center">
       <h1 className="font-bold text-8xl text-gray-400">404 Not Found</h1>
 
       {[1, 2, 3, 4, 5].map((i) => {

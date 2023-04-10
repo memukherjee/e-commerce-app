@@ -23,19 +23,21 @@ const Auth = lazy(() => import("../../pages/Auth"));
 const Payment = lazy(() => import("../../pages/Payment"));
 const UserAuthForm = lazy(() => import("../UserAuthForm"));
 const SellerAuthForm = lazy(() => import("../SellerAuthForm"));
-const SellerDashboard = lazy(() => import("../../pages/SellerDashboard"));
-const SellerProducts = lazy(() => import("../../pages/SellerProducts"));
-const SellerOrder = lazy(() => import("../../pages/SellerOrder"));
+const SellerDashboard = lazy(() => import("../../pages/Seller/SellerDashboard"));
+const SellerProducts = lazy(() => import("../../pages/Seller/SellerProducts"));
+const SellerAccount = lazy(() => import("../../pages/Seller/SellerAccount"));
+const SellerOrder = lazy(() => import("../../pages/Seller/SellerOrder"));
+const SellerReviews = lazy(() => import("../../pages/Seller/SellerReviews"));
 const AdminAuthForm = lazy(() => import("../AdminAuthForm"));
-const AdminDashboard = lazy(() => import("../../pages/AdminDashboard"));
+const AdminDashboard = lazy(() => import("../../pages/Admin/AdminDashboard"));
 const CustomerManagementPage = lazy(() =>
-  import("../../pages/CustomerManagementPage")
+  import("../../pages/Admin/CustomerManagementPage")
 );
 const SellerManagementPage = lazy(() =>
-  import("../../pages/SellerManagementPage")
+  import("../../pages/Admin/SellerManagementPage")
 );
 const SellerRequests = lazy(() =>
-  import("../../pages/SellerRequests")
+  import("../../pages/Admin/SellerRequests")
 );
 const ForgotPasswordAuthForm = lazy(() => import("../ForgotPasswordAuthForm"));
 const LogOut = lazy(() => import("../../pages/LogOut"));
@@ -74,8 +76,10 @@ function AnimatedRoutes() {
                 <Auth Form={SellerAuthForm} formBg={formBgSeller} />
               )}
             />
+            <Route path="account" element={<SellerAccount />} />
             <Route path="products" element={<SellerProducts />} />
             <Route path="orders" element={<SellerOrder />} />
+            <Route path="reviews" element={<SellerReviews />} />
             <Route path="logout" element={<LogOut sellerRoute />} />
           </Route>
           <Route path="admin">

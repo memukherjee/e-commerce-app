@@ -31,7 +31,7 @@ export default function PreviousButton() {
         transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="w-8 h-8 p-6 flex justify-center items-center rounded-full sticky z-[40] top-14 left-5 md:left-10 bg-black bg-opacity-50 shadow-sm shadow-black backdrop-blur-sm"
+        className="w-8 h-8 p-6 flex justify-center items-center rounded-full fixed z-[16] top-14 left-5 md:left-10 bg-black bg-opacity-50 shadow-sm shadow-black backdrop-blur-sm"
         onClick={goBack}
       >
         <span className="text-white">

@@ -8,7 +8,7 @@ export default function About() {
   useTitle("About Us || Elegant Apparels");
 
   return (
-    <PageFadeTransitionContainer className="about min-h-100vh pt-12 md:pt-8 w-11/12 mx-auto">
+    <PageFadeTransitionContainer className="about min-h-100vh pt-12 w-11/12 mx-auto">
       <h1 className="font-pen text-cyan-900 text-4xl font-bold block mb-4">
         <AnimatedText text="Our Team" align="center" direction="y" />
       </h1>

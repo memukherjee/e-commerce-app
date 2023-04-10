@@ -5,6 +5,7 @@ import { ScreenContext } from "../../contexts/screenContext";
 import AnimatedText from "../AnimatedText";
 import Banner from "../Banner";
 import SearchBar from "../SearchBar";
+import HeaderEllipse from "../HeaderEllipse";
 
 export default function Header() {
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
@@ -43,7 +44,7 @@ export default function Header() {
                 align={mobileScreen ? "center" : ""}
               />
             </span>
-            <div className="ellipse hidden md:block absolute bottom-5 -left-5 -rotate-[15deg] w-[30rem] h-20 rounded-[50%] border-4 border-orange-400"></div>
+            <HeaderEllipse className="ellipse hidden md:block absolute bottom-5 -left-10" />
           </div>
         </div>
         <div className="text-white text-lg md:text-xl flex flex-row md:flex-col w-fit z-10 md:w-3/12 md:mt-5">

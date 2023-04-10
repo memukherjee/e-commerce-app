@@ -20,7 +20,7 @@ export default function Category() {
   return categories.length === 0 ? (
     <Loader />
   ) : (
-    <PageFadeTransitionContainer className="text-center pb-10 min-h-100vh mt-16 md:mt-0">
+    <PageFadeTransitionContainer className="text-center pb-10 min-h-100vh mt-16">
     <div className="pseudo mb-4 md:mb-8"></div>
       <AnimatedText
         className="text-2xl font-pen md:text-4xl font-bold text-cyan-900"

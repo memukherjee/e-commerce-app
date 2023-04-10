@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import getAdminDashboardOptions from "../../assets/adminDashboardOptions";
-import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
-import { AdminContext } from "../../contexts/adminContext";
-import useTitle from "../../hooks/useTitle";
+import getAdminDashboardOptions from "../../../assets/adminDashboardOptions";
+import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
+import { AdminContext } from "../../../contexts/adminContext";
+import useTitle from "../../../hooks/useTitle";
+import NumberCounter from "../../../components/NumberCounter";
 
 export default function AdminDashboard() {
   const { admin } = useContext(AdminContext);
@@ -44,9 +45,12 @@ export default function AdminDashboard() {
                         <span className="dashboard-option-content-item-title">
                           {subOption.title}
                         </span>
-                        <span className="dashboard-option-content-item-value">
-                          {subOption.value}
-                        </span>
+                        <NumberCounter
+                          className="dashboard-option-content-item-value"
+                          to={parseInt(subOption.value)}
+                          from={0}
+                          duration={2}
+                        />
                       </div>
                     ))}
                 </div>

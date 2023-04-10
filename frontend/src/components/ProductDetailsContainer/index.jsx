@@ -16,6 +16,7 @@ import isValidPinCode from "../../utils/isValidPinCode";
 import { ClipLoader } from "react-spinners";
 import ProductImageMagnify from "../ProductImageMagnify";
 import StarRating from "../StarRating";
+import ShareUrl from "../ShareUrl";
 
 export default function ProductDetailsContainer({
   product,
@@ -143,6 +144,14 @@ export default function ProductDetailsContainer({
           }
           className="image-container relative w-full h-35vh md:h-90vh bg-gray-200 md:row-start-1 md:row-end-7 md:col-start-1 md:col-end-3"
         >
+          <ShareUrl
+            title={product?.product_name}
+            text={product?.product_description}
+            url={window.location.href}
+            className="absolute top-5 right-5 md:right-12 flex justify-center items-center w-12 h-12 bg-white rounded-full shadow shadow-gray-600 text-cyan-900 text-xl"
+          >
+            <i className="fa-solid fa-share-nodes"></i>
+          </ShareUrl>
           <ProductImageMagnify
             product={product}
             open={open}
@@ -153,7 +162,7 @@ export default function ProductDetailsContainer({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.8 }}
             transition={{ duration: 0.2 }}
-            className="wishlisting-btn absolute bottom-5 right-12 w-12 h-12 bg-white rounded-full shadow shadow-gray-600 text-red-400 text-xl"
+            className="wishlisting-btn absolute bottom-5 right-5 md:right-12 w-12 h-12 bg-white rounded-full shadow shadow-gray-600 text-red-400 text-xl"
             onClick={() => addToWishList(product, setProduct)}
           >
             {product.wishListed ? (
@@ -186,7 +195,10 @@ export default function ProductDetailsContainer({
                 )}
               </span>
             </div>
-            <StarRating stars={product?.averageRating} className="text-[1.2rem]" />
+            <StarRating
+              stars={product?.averageRating}
+              className="text-[1.2rem]"
+            />
           </div>
           <div className="w-full border-2 border-cyan-900 px-2 pt-2 mt-2 relative">
             <span className="absolute -top-3 left-3 bg-cyan-900 text-white px-2">

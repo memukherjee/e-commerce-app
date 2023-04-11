@@ -15,12 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.Controller.CloudinaryController;
 import com.ecommerce.Entity.Seller;
-import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.SellerRepository;
-import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.jwt.SellerTokenValidator;
-import com.ecommerce.jwt.TokenValidator;
 
 @Service
 public class SellerService implements UserDetailsService {
@@ -107,9 +104,10 @@ public class SellerService implements UserDetailsService {
 			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 		}
 
-		if (str.username != null) {
-			seller.setUsername(str.username);
-			seller.setAvatar("https://avatars.dicebear.com/api/initials/" + str.username + ".svg");
+		if (str.name != null) {
+			seller.setName(str.name);
+			if (!seller.getAvatar().contains("cloudinary"))
+				seller.setAvatar("https://avatars.dicebear.com/api/initials/" + str.name + ".svg");
 		}
 		if (str.address != null) {
 			seller.setAddress(str.address);
@@ -117,13 +115,10 @@ public class SellerService implements UserDetailsService {
 		if (str.mobile != null) {
 			seller.setMobile(str.mobile);
 		}
-		if (str.password != null) {
-			this.PasswordEncoder = new BCryptPasswordEncoder();
-			String encodedPassword = this.PasswordEncoder.encode(str.password);
-			seller.setPassword(encodedPassword);
-		}
+
 		if (str.email != null) {
 			seller.setEmail(str.email); // check
+			seller.setUsername(str.email);
 		}
 		if (str.oldPassword != null && str.newPassword != null) {
 			System.out.println(str.oldPassword + " " + str.newPassword);

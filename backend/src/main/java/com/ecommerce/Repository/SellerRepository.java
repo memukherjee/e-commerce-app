@@ -18,6 +18,9 @@ public interface SellerRepository extends MongoRepository<Seller,String> {
 
 	@Query(value = "{}", fields = "{ 'email' : 1,'_id': 0}}")
 	List<String> getAllEmails();
+
+	@Query("{_id:?0}")
+	Seller findBySellerId(String sellerId);
 	
 		
 	

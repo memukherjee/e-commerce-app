@@ -1,7 +1,7 @@
 package com.ecommerce.Controller;
 
-import java.net.http.HttpHeaders;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -23,29 +23,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.Entity.Admin;
 import com.ecommerce.Entity.AdminRefreshToken;
 import com.ecommerce.Entity.Seller;
-import com.ecommerce.Entity.SellerRefreshToken;
-import com.ecommerce.Repository.AdminRefreshTokenRepository;
+import com.ecommerce.Entity.User;
+import com.ecommerce.Entity.objholder;
 import com.ecommerce.Repository.AdminAuthRepository;
-import com.ecommerce.Repository.SellerRefreshTokenRepository;
+import com.ecommerce.Repository.AdminRefreshTokenRepository;
 import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.Service.AdminAuthService;
-import com.ecommerce.Service.SellerService;
+import com.ecommerce.Service.AdminService;
+import com.ecommerce.Service.UserService;
 import com.ecommerce.dto.AdminStatsDTO;
 import com.ecommerce.dto.LoginDTO;
 import com.ecommerce.dto.SignupDTO;
 import com.ecommerce.dto.TokenDTO;
 import com.ecommerce.jwt.AdminTokenValidator;
 import com.ecommerce.jwt.JwtHelper;
-import com.ecommerce.jwt.SellerTokenValidator;
-import com.ecommerce.Entity.User;
-import com.ecommerce.Entity.objholder;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -73,6 +70,11 @@ public class AdminAuthREST {
 	SellerRepository sellerRepository;
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	UserService userService;
+	@Autowired
+	AdminService adminService;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody LoginDTO dto) {
@@ -232,6 +234,23 @@ public class AdminAuthREST {
 		obj.setTotalSeller(verifiedSellerCount);
 		obj.setTotalPendingReq(count);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+
+	@GetMapping("/adminMail")
+	public ResponseEntity<?> mail(@RequestHeader(value = "authorization", defaultValue = "") String auth,
+			@RequestBody Map<String, String> requestBody) {
+		System.out.println("admin mail entered...");
+		Admin admin = token.validate(auth);
+		if (admin == null)
+			return new ResponseEntity<>("INVALID TOKEN", HttpStatus.NOT_FOUND);
+
+		System.out.println(requestBody.get("to"));
+		System.out.println(requestBody.get("subject"));
+		System.out.println(requestBody.get("message"));
+
+		adminService.adminMail(requestBody.get("to"), requestBody.get("subject"), requestBody.get("message"));
+		return new ResponseEntity<>("email sended", HttpStatus.OK);
+
 	}
 
 }

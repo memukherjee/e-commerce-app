@@ -1,33 +1,12 @@
 package com.ecommerce.Controller;
 
-import com.ecommerce.Entity.OrderDetails;
-import com.ecommerce.Entity.Product;
-import com.ecommerce.Entity.ProductReview;
-import com.ecommerce.Entity.RefreshToken;
-import com.ecommerce.Entity.Seller;
-import com.ecommerce.Entity.ShoppingCart;
-import com.ecommerce.Entity.User;
-import com.ecommerce.Entity.WishList;
-import com.ecommerce.Entity.objholder;
-import com.ecommerce.dto.LoginDTO;
-import com.ecommerce.dto.SellerStatsDTO;
-import com.ecommerce.dto.SignupDTO;
-import com.ecommerce.dto.TokenDTO;
-import com.ecommerce.dto.UserStatsDTO;
-import com.ecommerce.jwt.JwtHelper;
-import com.ecommerce.jwt.TokenValidator;
-import com.ecommerce.Repository.CartRepo;
-import com.ecommerce.Repository.OrderRepo;
-import com.ecommerce.Repository.RefreshTokenRepository;
-import com.ecommerce.Repository.UserProductRepository;
-import com.ecommerce.Repository.UserRepository;
-import com.ecommerce.Repository.wishListRepository;
-import com.ecommerce.Service.ContactMail;
-import com.ecommerce.Service.UserService;
-import com.ecommerce.Service.wishlistService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,14 +26,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
+import com.ecommerce.Entity.OrderDetails;
+import com.ecommerce.Entity.Product;
+import com.ecommerce.Entity.RefreshToken;
+import com.ecommerce.Entity.ShoppingCart;
+import com.ecommerce.Entity.User;
+import com.ecommerce.Entity.WishList;
+import com.ecommerce.Entity.objholder;
+import com.ecommerce.Repository.CartRepo;
+import com.ecommerce.Repository.OrderRepo;
+import com.ecommerce.Repository.RefreshTokenRepository;
+import com.ecommerce.Repository.UserProductRepository;
+import com.ecommerce.Repository.UserRepository;
+import com.ecommerce.Repository.wishListRepository;
+import com.ecommerce.Service.ContactMail;
+import com.ecommerce.Service.UserService;
+import com.ecommerce.Service.wishlistService;
+import com.ecommerce.dto.LoginDTO;
+import com.ecommerce.dto.SignupDTO;
+import com.ecommerce.dto.TokenDTO;
+import com.ecommerce.dto.UserStatsDTO;
+import com.ecommerce.jwt.JwtHelper;
+import com.ecommerce.jwt.TokenValidator;
 
 @RestController
 
@@ -374,6 +366,12 @@ public class AuthREST {
 		obj.setTotalWishListItems(totalWishList.size());
 
 		return new ResponseEntity<>(obj, HttpStatus.OK);
+
+	}
+
+	@GetMapping("/getUserDetailsById/{userId}")
+	public ResponseEntity<?> details(@PathVariable String userId) {
+		return new ResponseEntity<>(userRepository.findByUserId(userId), HttpStatus.OK);
 
 	}
 

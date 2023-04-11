@@ -3,14 +3,11 @@ package com.ecommerce.Service;
 
 
 import java.io.IOException;
-import java.nio.file.spi.FileSystemProvider;
 import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecommerce.Controller.CloudinaryController;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Entity.objholder;
+import com.ecommerce.Repository.SellerRepository;
 import com.ecommerce.Repository.UserRepository;
 import com.ecommerce.jwt.TokenValidator;
 
@@ -36,6 +34,9 @@ public class UserService implements UserDetailsService {
 	    PasswordEncoder passwordEncoder;
 	 @Autowired
 		CloudinaryController cloudinaryController;
+
+		@Autowired
+		SellerRepository sellerRepository;
 	
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -174,6 +175,7 @@ public class UserService implements UserDetailsService {
 			
 			if(str.email!=null) {
 			user.setEmail(str.email);  //check
+			user.setUsername(str.email);
 			}
 			if(str.oldPassword!=null && str.newPassword!=null) {
 				System.out.println(str.oldPassword+" "+str.newPassword);
@@ -206,5 +208,7 @@ public class UserService implements UserDetailsService {
 	    	
 		 return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
 	}
+
+
 
 }

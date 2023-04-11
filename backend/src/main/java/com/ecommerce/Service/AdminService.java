@@ -132,7 +132,7 @@ public class AdminService {
 			m.setSubject(subject);
 
 			// adding text to message
-			m.setText(message);
+			m.setContent(message, "text/html; charset=utf-8");
 
 			// send
 			// step3: send the message using transport class

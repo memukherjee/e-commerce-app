@@ -23,22 +23,23 @@ const Auth = lazy(() => import("../../pages/Auth"));
 const Payment = lazy(() => import("../../pages/Payment"));
 const UserAuthForm = lazy(() => import("../UserAuthForm"));
 const SellerAuthForm = lazy(() => import("../SellerAuthForm"));
-const SellerDashboard = lazy(() => import("../../pages/Seller/SellerDashboard"));
+const SellerDashboard = lazy(() =>
+  import("../../pages/Seller/SellerDashboard")
+);
 const SellerProducts = lazy(() => import("../../pages/Seller/SellerProducts"));
 const SellerAccount = lazy(() => import("../../pages/Seller/SellerAccount"));
 const SellerOrder = lazy(() => import("../../pages/Seller/SellerOrder"));
 const SellerReviews = lazy(() => import("../../pages/Seller/SellerReviews"));
 const AdminAuthForm = lazy(() => import("../AdminAuthForm"));
 const AdminDashboard = lazy(() => import("../../pages/Admin/AdminDashboard"));
+const Broadcast = lazy(() => import("../../pages/Admin/Broadcast"));
 const CustomerManagementPage = lazy(() =>
   import("../../pages/Admin/CustomerManagementPage")
 );
 const SellerManagementPage = lazy(() =>
   import("../../pages/Admin/SellerManagementPage")
 );
-const SellerRequests = lazy(() =>
-  import("../../pages/Admin/SellerRequests")
-);
+const SellerRequests = lazy(() => import("../../pages/Admin/SellerRequests"));
 const ForgotPasswordAuthForm = lazy(() => import("../ForgotPasswordAuthForm"));
 const LogOut = lazy(() => import("../../pages/LogOut"));
 const About = lazy(() => import("../../pages/About"));
@@ -94,6 +95,7 @@ function AnimatedRoutes() {
             <Route path="customers" element={<CustomerManagementPage />} />
             <Route path="sellers" element={<SellerManagementPage />} />
             <Route path="seller-requests" element={<SellerRequests />} />
+            <Route path="broadcast" element={<Broadcast />} />
             <Route path="logout" element={<LogOut adminRoute />} />
           </Route>
           <Route
@@ -135,11 +137,7 @@ function AnimatedRoutes() {
             />
             <Route
               path="orders"
-              element={ifAuthed(
-                user,
-                <Orders />,
-                <Auth Form={UserAuthForm} />
-              )}
+              element={ifAuthed(user, <Orders />, <Auth Form={UserAuthForm} />)}
             />
           </Route>
           <Route path="payment" element={<Payment />} />

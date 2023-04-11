@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +44,6 @@ import com.ecommerce.jwt.AdminTokenValidator;
 import com.ecommerce.jwt.JwtHelper;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/admin/auth")
 public class AdminAuthREST {
 
@@ -81,7 +79,7 @@ public class AdminAuthREST {
 		System.out.println("admin login-email-" + dto.getEmail() + " password-" + dto.getPassword());
 		Admin logAdmin = adminAuthRepository.findByEmail(dto.getEmail());
 		if (logAdmin == null) {
-			return new ResponseEntity("email not matched", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("email not matched", HttpStatus.UNAUTHORIZED);
 		}
 
 		System.out.println("hi admin " + logAdmin.getUsername());
@@ -111,7 +109,7 @@ public class AdminAuthREST {
 
 		Admin check = adminAuthRepository.findByEmail(dto.getEmail());
 		if (check != null)
-			return new ResponseEntity("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
 
 		Admin admin = new Admin(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),
 				dto.getMobile(), dto.getAddress());
@@ -142,9 +140,9 @@ public class AdminAuthREST {
 		System.out.println("getUserDetailsByJWT");
 		Admin admin = token.validate(auth);
 		if (admin == null)
-			return new ResponseEntity("Not verified", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Not verified", HttpStatus.UNAUTHORIZED);
 		else
-			return new ResponseEntity(admin, HttpStatus.OK);
+			return new ResponseEntity<Admin>(admin, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllUser/{pageNo}/{pageSize}")
@@ -236,7 +234,7 @@ public class AdminAuthREST {
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
-	@GetMapping("/adminMail")
+	@PostMapping("/adminMail")
 	public ResponseEntity<?> mail(@RequestHeader(value = "authorization", defaultValue = "") String auth,
 			@RequestBody Map<String, String> requestBody) {
 		System.out.println("admin mail entered...");

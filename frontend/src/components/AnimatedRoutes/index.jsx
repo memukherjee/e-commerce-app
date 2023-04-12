@@ -33,6 +33,7 @@ const SellerReviews = lazy(() => import("../../pages/Seller/SellerReviews"));
 const AdminAuthForm = lazy(() => import("../AdminAuthForm"));
 const AdminDashboard = lazy(() => import("../../pages/Admin/AdminDashboard"));
 const Broadcast = lazy(() => import("../../pages/Admin/Broadcast"));
+const Newsletter = lazy(() => import("../../pages/Admin/Newsletter"));
 const CustomerManagementPage = lazy(() =>
   import("../../pages/Admin/CustomerManagementPage")
 );
@@ -96,6 +97,7 @@ function AnimatedRoutes() {
             <Route path="sellers" element={<SellerManagementPage />} />
             <Route path="seller-requests" element={<SellerRequests />} />
             <Route path="broadcast" element={<Broadcast />} />
+            <Route path="newsletter" element={<Newsletter />} />
             <Route path="logout" element={<LogOut adminRoute />} />
           </Route>
           <Route

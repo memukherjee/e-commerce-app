@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "../../../components/Modal";
 import ModalButton from "../../../components/ModalButton";
 import PageFadeTransitionContainer from "../../../components/PageFadeTransitionContainer";
@@ -10,16 +10,14 @@ import useModal from "../../../hooks/useModal";
 import useTitle from "../../../hooks/useTitle";
 import DataContainer from "../../../components/DataContainer";
 import ProfileAvatar from "../../../components/ProfileAvatar";
+import axios from "axios";
+import { getCookie } from "../../../utils/cookie";
 
 export default function Profile() {
   useTitle("Profile || Elegant Apparels");
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { modalOpen, open, close } = useModal();
   const [modalChild, setModalChild] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem("subscribed") === "true") setSubscribed(true);
-  }, []);
   return (
     <PageFadeTransitionContainer className="min-h-100vh relative pt-16 bg-gray-100">
       <Modal
@@ -92,13 +90,14 @@ export default function Profile() {
             <h2 className="text-2xl font-bold mb-4">Newsletter</h2>
             <div className="data bg-white px-4 py-6 flex flex-col gap-y-4">
               <DataContainer
-                data={subscribed ? "Subscribed" : "Not Subscribed"}
+                data={
+                  user?.isSubscribedtoNewsLetter
+                    ? "Subscribed"
+                    : "Not Subscribed"
+                }
                 label="Discover The Latest Newsletters"
               />
-              <SubscribeToNewsletterButton
-                subscribed={subscribed}
-                setSubscribed={setSubscribed}
-              />
+              <SubscribeToNewsletterButton user={user} setUser={setUser} />
             </div>
           </div>
         </div>
@@ -106,10 +105,6 @@ export default function Profile() {
     </PageFadeTransitionContainer>
   );
 }
-
-
-
-
 
 const UpdateDetailsButton = ({ setModalChild, open }) => {
   return (
@@ -139,21 +134,38 @@ const ChangePasswordButton = ({ setModalChild, open }) => {
   );
 };
 
-const SubscribeToNewsletterButton = ({ subscribed, setSubscribed }) => {
+const SubscribeToNewsletterButton = ({ user, setUser }) => {
   return (
     <button
       onClick={() => {
-        if (subscribed) {
-          localStorage.setItem("subscribed", false);
-          setSubscribed(false);
-        } else {
-          localStorage.setItem("subscribed", true);
-          setSubscribed(true);
-        }
+        axios
+          .post(
+            process.env.REACT_APP_API + "/auth/newsletter",
+            {
+              isSubscribed: !user?.isSubscribedtoNewsLetter,
+            },
+            {
+              headers: {
+                Authorization: getCookie("refreshToken"),
+              },
+            }
+          )
+          .then((res) => {
+            // console.log(res);
+            setUser((prev) => ({
+              ...prev,
+              isSubscribedtoNewsLetter: !prev?.isSubscribedtoNewsLetter,
+            }));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }}
       className="bg-cyan-900 text-white p-4 text-3/4xl"
     >
-      <span>{subscribed ? "Unsubscribe" : "Subscribe"}</span>
+      <span>
+        {user?.isSubscribedtoNewsLetter ? "Unsubscribe" : "Subscribe"}
+      </span>
     </button>
   );
 };

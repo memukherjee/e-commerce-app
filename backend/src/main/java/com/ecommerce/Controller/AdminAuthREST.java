@@ -247,7 +247,22 @@ public class AdminAuthREST {
 		System.out.println(requestBody.get("message"));
 
 		adminService.adminMail(requestBody.get("to"), requestBody.get("subject"), requestBody.get("message"));
-		return new ResponseEntity<>("email sended", HttpStatus.OK);
+		return new ResponseEntity<>("email sent", HttpStatus.OK);
+
+	}
+
+	@PostMapping("/newsletter")
+	public ResponseEntity<?> newsletter(@RequestHeader(value = "authorization", defaultValue = "") String auth,
+			@RequestBody Map<String, String> requestBody) {
+		Admin admin = token.validate(auth);
+		if (admin == null)
+			return new ResponseEntity<>("INVALID TOKEN", HttpStatus.UNAUTHORIZED);
+
+		System.out.println(requestBody.get("subject"));
+		System.out.println(requestBody.get("message"));
+
+		adminService.newsletter(requestBody.get("subject"), requestBody.get("message"));
+		return new ResponseEntity<>("email sent", HttpStatus.OK);
 
 	}
 

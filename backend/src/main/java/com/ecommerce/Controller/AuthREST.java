@@ -3,6 +3,7 @@ package com.ecommerce.Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -51,7 +52,6 @@ import com.ecommerce.jwt.TokenValidator;
 
 @RestController
 
-// @CrossOrigin(origins = @Value("${clientURL}") String clientUrl)
 @RequestMapping("/api/auth")
 public class AuthREST {
 
@@ -95,7 +95,7 @@ public class AuthREST {
 		System.out.println(dto.getEmail() + " ---" + dto.getPassword());
 		User logUser = userRepository.findByEmail(dto.getEmail());
 		if (logUser == null) {
-			return new ResponseEntity("", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("", HttpStatus.UNAUTHORIZED);
 		}
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(logUser.getUsername(), dto.getPassword()));
@@ -122,10 +122,10 @@ public class AuthREST {
 
 		User check = userRepository.findByEmail(dto.getEmail());
 		if (check != null)
-			return new ResponseEntity("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
 
 		User user = new User(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), dto.getMobile(),
-				dto.getAddress());
+				dto.getAddress(), false);
 		userRepository.save(user);
 
 		RefreshToken refreshToken = new RefreshToken();
@@ -214,9 +214,9 @@ public class AuthREST {
 		System.out.println("getUserDetailsByJWT");
 		User user = token.validate(auth);
 		if (user == null)
-			return new ResponseEntity("Not verified", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Not verified", HttpStatus.UNAUTHORIZED);
 		else
-			return new ResponseEntity(user, HttpStatus.OK);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@GetMapping("/search/{query}")
@@ -271,6 +271,20 @@ public class AuthREST {
 		return ContactMail.king(str.username, str.email, str.msg);
 
 	}
+
+	// ************************** NEWSLETTER ***********************************
+
+	@PostMapping("/newsletter")
+	public ResponseEntity<String> newsletter(@RequestBody Map<String, Boolean> reqBody,
+			@RequestHeader(value = "authorization", defaultValue = "") String auth) {
+		User user = token.validate(auth);
+		if (user == null)
+			return new ResponseEntity<>("Not verified", HttpStatus.UNAUTHORIZED);
+		user.setIsSubscribedtoNewsLetter(reqBody.get("isSubscribed"));
+		userRepository.save(user);
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+
 	// ************************PROFILE*************************************
 
 	@PostMapping("/profile")

@@ -174,11 +174,11 @@ export default function SellerOrder() {
                           {order?.cartProductDTO?.product_price >
                             order?.cartProductDTO?.discountPrice && (
                             <span className="line-through">
-                              &#8377;{order?.cartProductDTO?.product_price}{" "}
+                              &#8377;{order?.cartProductDTO?.product_price.toLocaleString("en-IN")}{" "}
                             </span>
                           )}
                           <span>
-                            &#8377;{order?.cartProductDTO?.discountPrice}
+                            &#8377;{order?.cartProductDTO?.discountPrice.toLocaleString("en-IN")}
                           </span>
                         </div>
                         <div className="product-quantity whitespace-nowrap overflow-hidden text-ellipsis">

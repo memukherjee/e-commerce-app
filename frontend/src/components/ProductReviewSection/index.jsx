@@ -16,7 +16,7 @@ export default function ProductReviewSection({
 }) {
   const { user } = useContext(UserContext);
   return (
-    <div className="reviews w-full text-left">
+    <div className="reviews w-full my-8 text-left">
       <h1 className="text-xl md:text-2xl text-center md:text-left font-bold text-cyan-900">
         <span className="underline underline-offset-4">Customer reviews</span>
       </h1>

@@ -146,11 +146,11 @@ export default function Wishlist() {
                     </Link>
                     <div className="wishlist-item-price flex items-center justify-end md:justify-start gap-2">
                       <span className="text-green-400 text-xl font-semibold">
-                        ₹{product.discountPrice}
+                        ₹{product.discountPrice.toLocaleString("en-IN")}
                       </span>
                       {product.discountPrice < product.product_price && (
                         <span className="text-red-400 text-lg font-semibold line-through">
-                          ₹{product.product_price}
+                          ₹{product.product_price.toLocaleString("en-IN")}
                         </span>
                       )}
                     </div>

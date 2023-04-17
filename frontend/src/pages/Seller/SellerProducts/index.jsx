@@ -186,10 +186,10 @@ export default function SellerProducts() {
                         <span>Price: </span>
                         {product.product_price > product.discountPrice && (
                           <span className="line-through">
-                            &#8377;{product?.product_price}{" "}
+                            &#8377;{product?.product_price.toLocaleString("en-IN")}{" "}
                           </span>
                         )}
-                        <span>&#8377;{product.discountPrice}</span>
+                        <span>&#8377;{product.discountPrice.toLocaleString("en-IN")}</span>
                       </div>
                       <div className="product-quantity whitespace-nowrap overflow-hidden text-ellipsis w-full">
                         <span>Quantity: </span>

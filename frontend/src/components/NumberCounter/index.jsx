@@ -15,7 +15,7 @@ export default function NumberCounter({
     const controls = animate(from, to, {
       duration: duration,
       onUpdate(value) {
-        node.textContent = value.toFixed(0);
+        node.textContent = Math.round(value).toLocaleString("en-IN");
       },
     });
 

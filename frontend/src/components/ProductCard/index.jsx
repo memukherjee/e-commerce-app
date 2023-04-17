@@ -51,11 +51,11 @@ export default function ProductCard({
           <span className="product-price font-normal text-lg flex flex-wrap justify-center gap-1">
             {product.product_price > product.discountPrice && (
               <span className="product-mrp line-through text-red-400">
-                ₹{product.product_price}
+                ₹{product.product_price.toLocaleString("en-IN")}
               </span>
             )}
             <span className="product-discounted-price text-green-900">
-              ₹{product.discountPrice}
+              ₹{product.discountPrice.toLocaleString("en-IN")}
             </span>
           </span>
         </div>

@@ -71,7 +71,7 @@ export default function Cart() {
                     </Link>
                     <div className="cart-item-price">
                       <h3 className="text-lg font-bold text-cyan-900">
-                        ₹{product?.discountPrice}
+                        ₹{product?.discountPrice.toLocaleString("en-IN")}
                       </h3>
                     </div>
 

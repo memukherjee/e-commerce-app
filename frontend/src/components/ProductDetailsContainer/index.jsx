@@ -182,11 +182,11 @@ export default function ProductDetailsContainer({
                 {product.product_name}
               </h1>
               <span className="price text-xl md:text-2xl font-medium flex flex-wrap items-center gap-2 whitespace-nowrap">
-                <span className="text-cyan-900">₹{product.discountPrice}</span>
+                <span className="text-cyan-900">₹{product.discountPrice.toLocaleString("en-IN")}</span>
                 {product.discountPrice < product.product_price && (
                   <span className="flex items-center gap-x-1">
                     <span className="text-red-600 line-through">
-                      ₹{product.product_price}
+                      ₹{product.product_price.toLocaleString("en-IN")}
                     </span>
                     <span className="text-green-400 text-lg">
                       {Math.round(product?.product_discount) + "% off"}

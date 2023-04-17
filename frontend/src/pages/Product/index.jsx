@@ -14,6 +14,10 @@ import useReview from "../../hooks/useReview";
 import useScrollToHashElement from "../../hooks/useScrollToHashElement";
 import useTitle from "../../hooks/useTitle";
 import { getCookie } from "../../utils/cookie";
+import ProductQnASection from "../../components/ProductQnASection";
+import AddQuestionForm from "../../components/AddQuestionForm";
+import useQnA from "../../hooks/useQnA";
+import AddAnswerForm from "../../components/AddAnswerForm";
 // import { isPng } from "../../utils/validateCredentials";
 
 export default function Product() {
@@ -48,9 +52,7 @@ export default function Product() {
           navigate("/404");
         });
     }
-    // function fetchProductStat(){
 
-    // }
     if (!productFetched.current) {
       fetchProduct();
     }
@@ -68,7 +70,12 @@ export default function Product() {
     rootMargin: "0px",
     threshold: 1.0,
   });
-  const { reviews, addReview, ratingCount, allFetched } = useReview(pid, isVisible);
+  const { reviews, addReview, ratingCount, allFetched } = useReview(
+    pid,
+    isVisible
+  );
+  const { QnAs, setQnAs, loading: qnaLoading } = useQnA(pid);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   return product ? (
     <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center pt-12">
@@ -80,6 +87,15 @@ export default function Product() {
             <ImageModalChild product={product} />
           ) : modalChild === "addReview" ? (
             <AddReviewModalChild close={close} addReview={addReview} />
+          ) : modalChild === "addQuestion" ? (
+            <AddQuestionForm productId={pid} close={close} setQnAs={setQnAs} />
+          ) : modalChild === "addAnswer" ? (
+            <AddAnswerForm
+              close={close}
+              productId={pid}
+              question={selectedQuestion}
+              setQnAs={setQnAs}
+            />
           ) : (
             ""
           )
@@ -100,21 +116,24 @@ export default function Product() {
         setModalChild={setModalChild}
         open={open}
       />
-      <div
-        id="product-review"
-        className="more-details flex flex-col justify-between gap-16 my-8 w-full"
-      >
-        <SimilarProductsSection product={product} />
-        <ProductReviewSection
-          reviews={reviews}
-          stars={product?.averageRating}
-          ratingCount={ratingCount}
-          open={open}
-          setModalChild={setModalChild}
-          allFetched={allFetched}
-          loaderRef={containerRef}
-        />
-      </div>
+      <SimilarProductsSection product={product} />
+      <ProductQnASection
+        product={product}
+        setModalChild={setModalChild}
+        open={open}
+        QnAs={QnAs}
+        loading={qnaLoading}
+        setSelectedQuestion={setSelectedQuestion}
+      />
+      <ProductReviewSection
+        reviews={reviews}
+        stars={product?.averageRating}
+        ratingCount={ratingCount}
+        open={open}
+        setModalChild={setModalChild}
+        allFetched={allFetched}
+        loaderRef={containerRef}
+      />
     </PageFadeTransitionContainer>
   ) : (
     <Loader />

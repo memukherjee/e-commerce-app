@@ -29,11 +29,11 @@ export default function ProductCarouselSlideDetails({ product }) {
           <div>
             {product?.product_price > product?.discountPrice && (
               <span className="text-red-400 line-through">
-                {product?.product_price}
+                {product?.product_price.toLocaleString("en-IN")}
               </span>
             )}
             <span className="text-green-400 ml-2">
-              {product?.discountPrice}
+              {product?.discountPrice.toLocaleString("en-IN")}
             </span>
           </div>
           <div>

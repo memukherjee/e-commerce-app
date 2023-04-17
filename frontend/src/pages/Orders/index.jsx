@@ -89,7 +89,7 @@ export default function Orders() {
                     </Link>
                     <div className="text-lg font-medium text-gray-400 w-full flex justify-start items-center gap-x-4">
                       <div className="cart-item-price">
-                        <h3>₹{order?.cartProductDTO?.discountPrice}</h3>
+                        <h3>₹{order?.cartProductDTO?.discountPrice.toLocaleString("en-IN")}</h3>
                       </div>
                       <div className="cart-item-quantity">
                         <h3>
@@ -153,8 +153,8 @@ export default function Orders() {
                     <div className="total-price">
                       <h3 className="text-lg md:text-xl font-semibold text-cyan-900">
                         {"₹" +
-                          order?.cartProductDTO?.discountPrice *
-                            order?.cartProductDTO?.quantity}
+                          (order?.cartProductDTO?.discountPrice *
+                            order?.cartProductDTO?.quantity).toLocaleString("en-IN")}
                       </h3>
                     </div>
                     {order?.orderStatus === "PROCESSING" && (

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +22,9 @@ import com.ecommerce.Entity.QnA;
 import com.ecommerce.Entity.User;
 import com.ecommerce.Repository.QnARepository;
 import com.ecommerce.Repository.SellerOrderRepository;
-import com.ecommerce.Repository.UserProductRepository;
 import com.ecommerce.jwt.TokenValidator;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/products")
 public class QnAController {
 
@@ -114,25 +111,25 @@ public class QnAController {
 	}
 
 	public boolean checkUserPurchased(User user, String productId) {
-		
-		int flag=0;
+
+		int flag = 0;
 		List<OrderDetails> orderUser = sellerOrderRepository.findByUserId(user.getEmail());
-		
-		for(int i=0;i<orderUser.size();i++) {
-			if(!orderUser.get(i).getCartProductDTO().getProduct_id().equals(productId)) {
+
+		for (int i = 0; i < orderUser.size(); i++) {
+			if (!orderUser.get(i).getCartProductDTO().getProduct_id().equals(productId)) {
 				orderUser.remove(i);
 			}
 		}
-		
-		for(OrderDetails i:orderUser) {
-			if(i.getOrderStatus().equals("Delivered")) {
-				flag=1;
+
+		for (OrderDetails i : orderUser) {
+			if (i.getOrderStatus().equals("Delivered")) {
+				flag = 1;
 				break;
-				}
+			}
 		}
-		if(flag==1)
+		if (flag == 1)
 			return true;
-		
+
 		return false;
 
 	}

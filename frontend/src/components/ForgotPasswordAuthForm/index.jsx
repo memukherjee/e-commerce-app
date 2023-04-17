@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import InputBox from "../InputBox";
 import useTitle from "../../hooks/useTitle";
+import { moduleBasedOnPath } from "../../utils/checkModule";
 
 export default function ForgotPassword() {
   const [recoveryEmail, setRecoeryEmail] = useState("");
@@ -17,17 +18,22 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
 
   useTitle("Forgot Password || Elegant Apparels");
+  const location = useLocation();
+  const isSeller = moduleBasedOnPath(location.pathname, false, true, false);
 
   const handelEmailSubmit = (e) => {
     e.preventDefault();
     setProcessing(true);
     axios
-      .post(`${process.env.REACT_APP_API}/forgotpass`, {
-        email: recoveryEmail,
-      })
+      .post(
+        `${process.env.REACT_APP_API}${isSeller ? "/seller" : ""}/auth/forgotpass`,
+        {
+          email: recoveryEmail,
+        }
+      )
       .then((res) => {
         setProcessing(false);
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setIsOtpGenerated(true);
         } else {
@@ -44,12 +50,12 @@ export default function ForgotPassword() {
     e.preventDefault();
     setProcessing(true);
     axios
-      .post(`${process.env.REACT_APP_API}/otp`, {
+      .post(`${process.env.REACT_APP_API}${isSeller ? "/seller" : ""}/auth/otp`, {
         email: recoveryEmail,
         otp: otp,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setProcessing(false);
         if (res.status === 200) {
           toast.success(res.data.message);
@@ -68,14 +74,17 @@ export default function ForgotPassword() {
     e.preventDefault();
     if (newPassword === confirmPassword) {
       axios
-        .post(`${process.env.REACT_APP_API}/reset`, {
-          pass: newPassword,
-        })
+        .post(
+          `${process.env.REACT_APP_API}${isSeller ? "/seller" : ""}/auth/reset`,
+          {
+            password: newPassword,
+          }
+        )
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             toast.success(res.data.message);
-            navigate("/auth");
+            navigate(isSeller?"/seller":"/auth");
           } else {
             toast.error(res.data.message);
           }
@@ -100,7 +109,7 @@ export default function ForgotPassword() {
         {!isOtpGenerated && (
           <InputBox
             value={recoveryEmail}
-            setValue={setRecoeryEmail}
+            onChange={(e) => setRecoeryEmail(e.target.value)}
             label="Enter your email"
             type="email"
           />
@@ -108,7 +117,7 @@ export default function ForgotPassword() {
         {isOtpGenerated && !isOtpVerified && (
           <InputBox
             value={otp}
-            setValue={setOtp}
+            onChange={(e) => setOtp(e.target.value)}
             label="Enter OTP sent to your email"
             type="number"
           />
@@ -118,13 +127,13 @@ export default function ForgotPassword() {
           <>
             <InputBox
               value={newPassword}
-              setValue={setNewPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               label="Enter New Password"
               type="password"
             />
             <InputBox
               value={confirmPassword}
-              setValue={setConfirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               label="Confirm Password"
               type="password"
             />

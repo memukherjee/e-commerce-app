@@ -49,11 +49,10 @@ export default function SellerAuthForm() {
           setProcessing(false);
           // console.log(res);
           if (res.status === 200) {
-            if(isNewSeller){
+            if (isNewSeller) {
               toast.success(res.data);
-            }
-            else{
-              setCookie("seller-accessToken", res.data.accessToken, 7);  
+            } else {
+              setCookie("seller-accessToken", res.data.accessToken, 7);
               setCookie("seller-refreshToken", res.data.refreshToken, 7);
               fetchSeller(res.data.refreshToken);
               fetchSellerStat(res.data.refreshToken);
@@ -134,7 +133,7 @@ export default function SellerAuthForm() {
         </span>
         {!isNewSeller && (
           <Link
-            to="/forgot-password"
+            to="/seller/forgot-password"
             className="block mt-2 text-base underline underline-offset-2"
           >
             Forgot Password ?

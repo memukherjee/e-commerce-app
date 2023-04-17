@@ -83,6 +83,15 @@ function AnimatedRoutes() {
             <Route path="orders" element={<SellerOrder />} />
             <Route path="reviews" element={<SellerReviews />} />
             <Route path="logout" element={<LogOut sellerRoute />} />
+            <Route
+            path="forgot-password"
+            element={
+              <Auth
+                Form={ForgotPasswordAuthForm}
+                formBg={formBgForgotPassword}
+              />
+            }
+          />
           </Route>
           <Route path="admin">
             <Route

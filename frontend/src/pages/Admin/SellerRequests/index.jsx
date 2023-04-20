@@ -9,8 +9,11 @@ import PageFadeTransitionContainer from "../../../components/PageFadeTransitionC
 import useModal from "../../../hooks/useModal";
 import useObserver from "../../../hooks/useObserver";
 import useSellerRequests from "../../../hooks/useSellerRequests";
+import useTitle from "../../../hooks/useTitle";
 
 export default function SellerManagementPage() {
+  useTitle("Manage Seller Requests || Elegant Apparels");
+
   const [containerRef, isVisible] = useObserver({
     root: null,
     rootMargin: "0px",
@@ -46,7 +49,7 @@ export default function SellerManagementPage() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-16">
+    <PageFadeTransitionContainer className="relative pt-16 min-h-100vh">
       <Modal
         close={close}
         modalOpen={modalOpen}
@@ -78,10 +81,10 @@ export default function SellerManagementPage() {
           ) : null
         }
       />
-      <div className="container text-center w-11/12 mx-auto my-4">
-        <div className="seller-search mb-8">
+      <div className="container w-11/12 mx-auto my-4 text-center">
+        <div className="mb-8 seller-search">
           <input
-            className="search-input outline-none border-b-2 border-cyan-900 w-full max-w-500 md:text-xl text-cyan-900 mt-8 px-2"
+            className="w-full px-2 mt-8 border-b-2 outline-none search-input border-cyan-900 max-w-500 md:text-xl text-cyan-900"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             type="text"
@@ -90,7 +93,7 @@ export default function SellerManagementPage() {
         </div>
         <motion.div
           layout
-          className="sellers flex flex-wrap justify-center items-center md:gap-x-16 gap-y-8 mx-auto"
+          className="flex flex-wrap items-center justify-center mx-auto sellers md:gap-x-16 gap-y-8"
         >
           <AnimatePresence>
             {sellerRequests
@@ -115,52 +118,52 @@ export default function SellerManagementPage() {
                   key={seller.id}
                   className="seller bg-gray-200 rounded-sm shadow shadow-gray-400 p-6 max-w-300 md:w-[32%] flex flex-col gap-y-4"
                 >
-                  <div className="seller-details text-left text-lg">
-                    <div className="seller-id flex gap-1 justify-start items-center">
-                      <span className="text-cyan-900 font-medium">ID:</span>
-                      <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                  <div className="text-lg text-left seller-details">
+                    <div className="flex items-center justify-start gap-1 seller-id">
+                      <span className="font-medium text-cyan-900">ID:</span>
+                      <span className="overflow-hidden whitespace-nowrap text-ellipsis">
                         {seller?.id}
                       </span>
                     </div>
-                    <div className="seller-name flex gap-1 justify-start items-center">
-                      <span className="text-cyan-900 font-medium">Name:</span>
-                      <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    <div className="flex items-center justify-start gap-1 seller-name">
+                      <span className="font-medium text-cyan-900">Name:</span>
+                      <span className="overflow-hidden whitespace-nowrap text-ellipsis">
                         {seller?.name}
                       </span>
                     </div>
-                    <div className="seller-email flex gap-1 justify-start items-center">
-                      <span className="text-cyan-900 font-medium">
+                    <div className="flex items-center justify-start gap-1 seller-email">
+                      <span className="font-medium text-cyan-900">
                         <i className="fa-regular fa-envelope"></i>
                       </span>
-                      <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      <span className="overflow-hidden whitespace-nowrap text-ellipsis">
                         {seller?.email}
                       </span>
                     </div>
-                    <div className="seller-phone flex gap-1 justify-start items-center">
-                      <span className="text-cyan-900 font-medium">
+                    <div className="flex items-center justify-start gap-1 seller-phone">
+                      <span className="font-medium text-cyan-900">
                         <i className="fa-solid fa-phone"></i>
                       </span>
-                      <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      <span className="overflow-hidden whitespace-nowrap text-ellipsis">
                         {seller?.mobile}
                       </span>
                     </div>
                   </div>
-                  <div className="seller-actions flex justify-center items-center shadow-sm shadow-black rounded">
+                  <div className="flex items-center justify-center rounded shadow-sm seller-actions shadow-black">
                     <ModalButton
                       onClick={() => viewSellerDetails(seller)}
-                      className="btn bg-cyan-900 text-white px-2 py-1 rounded-l w-1/2"
+                      className="w-1/2 px-2 py-1 text-white rounded-l btn bg-cyan-900"
                     >
                       <i className="fa-solid fa-eye"></i>
                     </ModalButton>
                     <ModalButton
                       onClick={() => acceptSellerRequest(seller)}
-                      className="btn bg-green-700 text-white px-2 py-1 w-1/2"
+                      className="w-1/2 px-2 py-1 text-white bg-green-700 btn"
                     >
                       <i className="fa-solid fa-check"></i>
                     </ModalButton>
                     <ModalButton
                       onClick={() => deleteSellerRequest(seller)}
-                      className="btn bg-red-600 text-white px-2 py-1 rounded-r w-1/2"
+                      className="w-1/2 px-2 py-1 text-white bg-red-600 rounded-r btn"
                     >
                       <i className="fa-solid fa-xmark"></i>
                     </ModalButton>
@@ -172,7 +175,7 @@ export default function SellerManagementPage() {
           {!allFetched && (
             <div
               ref={containerRef}
-              className="loading flex justify-center w-full mt-8 mb-28"
+              className="flex justify-center w-full mt-8 loading mb-28"
             >
               <ClipLoader
                 color="#164e63"
@@ -183,8 +186,8 @@ export default function SellerManagementPage() {
             </div>
           )}
           {allFetched && sellerRequests.length === 0 && (
-            <div className="no-sellers text-cyan-900 flex flex-col gap-y-4 justify-center items-center w-full mt-8 mb-28">
-              <span className="rotate-12 text-3xl">
+            <div className="flex flex-col items-center justify-center w-full mt-8 no-sellers text-cyan-900 gap-y-4 mb-28">
+              <span className="text-3xl rotate-12">
                 <i className="fa-solid fa-vest-patches"></i>
               </span>
               <h1 className="text-2xl font-medium">No seller requests found</h1>

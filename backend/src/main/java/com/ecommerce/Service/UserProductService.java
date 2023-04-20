@@ -20,7 +20,6 @@ public class UserProductService {
     public List<Product> getAllProduct(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<Product> P = repository.findAll(paging);
-
         if (P.hasContent()) {
             return P.getContent();
         } else {

@@ -16,6 +16,6 @@ public interface OrderRepo extends MongoRepository<OrderDetails, String> {
     ArrayList<OrderDetails> findAllOrder(String user_id);
 
     @Query("{seller_id:?0}")
-	List<OrderDetails> findBySellerId(String id);
-    
+    List<OrderDetails> findBySellerId(String id);
+
 }

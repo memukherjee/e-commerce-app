@@ -1,6 +1,5 @@
 package com.ecommerce.jwt;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,7 @@ import com.ecommerce.Entity.Seller;
 import com.ecommerce.Entity.SellerRefreshToken;
 import com.ecommerce.Entity.User;
 
-
 @Component
-@Log4j2
 public class JwtHelper {
     static final String issuer = "MyApp";
 
@@ -33,9 +30,12 @@ public class JwtHelper {
     private JWTVerifier accessTokenVerifier;
     private JWTVerifier refreshTokenVerifier;
 
-    public JwtHelper(@Value("${accessTokenSecret}") String accessTokenSecret, @Value("${refreshTokenSecret}") String refreshTokenSecret, @Value("${com.example.demo.refreshTokenExpirationDays}") int refreshTokenExpirationDays, @Value("${com.example.demo.accessTokenExpirationMinutes}") int accessTokenExpirationMinutes) {
+    public JwtHelper(@Value("${accessTokenSecret}") String accessTokenSecret,
+            @Value("${refreshTokenSecret}") String refreshTokenSecret,
+            @Value("${com.example.demo.refreshTokenExpirationDays}") int refreshTokenExpirationDays,
+            @Value("${com.example.demo.accessTokenExpirationMinutes}") int accessTokenExpirationMinutes) {
         accessTokenExpirationMs = (long) accessTokenExpirationMinutes * 60 * 1000;
-        refreshTokenExpirationMs = (long)refreshTokenExpirationDays * 24 * 60 * 60 * 1000;
+        refreshTokenExpirationMs = (long) refreshTokenExpirationDays * 24 * 60 * 60 * 1000;
         accessTokenAlgorithm = Algorithm.HMAC512(accessTokenSecret);
         refreshTokenAlgorithm = Algorithm.HMAC512(refreshTokenSecret);
         accessTokenVerifier = JWT.require(accessTokenAlgorithm)
@@ -54,8 +54,8 @@ public class JwtHelper {
                 .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
                 .sign(accessTokenAlgorithm);
     }
-    
-    public String generateAccessToken(Seller seller) {                  //seller
+
+    public String generateAccessToken(Seller seller) { // seller
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(seller.getId())
@@ -63,7 +63,8 @@ public class JwtHelper {
                 .withExpiresAt(new Date(new Date().getTime() + accessTokenExpirationMs))
                 .sign(accessTokenAlgorithm);
     }
-    public String generateAccessToken(Admin seller) {                  //admin
+
+    public String generateAccessToken(Admin seller) { // admin
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(seller.getId())
@@ -81,7 +82,8 @@ public class JwtHelper {
                 .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .sign(refreshTokenAlgorithm);
     }
-    public String generateRefreshToken(Seller seller, SellerRefreshToken sellerRefreshToken) {        //seller
+
+    public String generateRefreshToken(Seller seller, SellerRefreshToken sellerRefreshToken) { // seller
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(seller.getId())
@@ -90,7 +92,8 @@ public class JwtHelper {
                 .withExpiresAt(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .sign(refreshTokenAlgorithm);
     }
-    public String generateRefreshToken(Admin admin, AdminRefreshToken adminRefreshToken) {        //admin
+
+    public String generateRefreshToken(Admin admin, AdminRefreshToken adminRefreshToken) { // admin
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(admin.getId())
@@ -104,7 +107,7 @@ public class JwtHelper {
         try {
             return Optional.of(accessTokenVerifier.verify(token));
         } catch (JWTVerificationException e) {
-            System.out.println("invalid access token"+ e);
+            System.out.println("invalid access token" + e);
         }
         return Optional.empty();
     }
@@ -113,7 +116,7 @@ public class JwtHelper {
         try {
             return Optional.of(refreshTokenVerifier.verify(token));
         } catch (JWTVerificationException e) {
-            System.out.println("invalid refresh token"+e);
+            System.out.println("invalid refresh token" + e);
         }
         return Optional.empty();
     }

@@ -8,14 +8,17 @@ import PageFadeTransitionContainer from "../../components/PageFadeTransitionCont
 import useModal from "../../hooks/useModal";
 import useOrders from "../../hooks/useOrders";
 import { timeLeft, timeSince } from "../../utils/timeFormater";
+import useTitle from "../../hooks/useTitle";
 
 export default function Orders() {
+  useTitle("Your Orders || Elegant Apparels");
+
   const { orders, cancelOrder, loading } = useOrders();
   const { modalOpen, close, open } = useModal();
   const [orderIndex, setOrderIndex] = useState(0);
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh pt-12">
+    <PageFadeTransitionContainer className="pt-12 min-h-100vh">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -33,21 +36,21 @@ export default function Orders() {
         }
       />
       <div className="cart-wrapper ">
-        <div className="cart-container px-2 py-4 max-w-1000 mx-auto">
-          <div className="cart-header text-center bg-cyan-900 text-white rounded-t py-2">
+        <div className="px-2 py-4 mx-auto cart-container max-w-1000">
+          <div className="py-2 text-center text-white rounded-t cart-header bg-cyan-900">
             <h1 className="text-2xl font-bold">Your Orders</h1>
           </div>
           <div className="cart-body scroll shadow-inner shadow-black h-[70vh] overflow-auto relative">
             {loading ? (
               <ClipLoader
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 color={"#164e63"}
                 loading={true}
                 size={55}
               />
             ) : orders.length === 0 ? (
-              <div className="no-products text-center text-cyan-900 flex flex-col gap-y-4 justify-center items-center w-full mt-8 mb-28">
-                <div className="-rotate-6 text-3xl bg-orange-300 w-14 h-14 rounded-full">
+              <div className="flex flex-col items-center justify-center w-full mt-8 text-center no-products text-cyan-900 gap-y-4 mb-28">
+                <div className="text-3xl bg-orange-300 rounded-full -rotate-6 w-14 h-14">
                   <i className="fa-solid fa-shopping-cart"></i>
                 </div>
                 <h1 className="text-2xl font-medium">
@@ -56,7 +59,7 @@ export default function Orders() {
                 <p className="text-lg">Lets grab some great deals</p>
                 <Link
                   to="/categories"
-                  className="bg-cyan-900 text-white px-4 py-2 rounded-md"
+                  className="px-4 py-2 text-white rounded-md bg-cyan-900"
                 >
                   Let's Shop
                 </Link>
@@ -65,31 +68,36 @@ export default function Orders() {
               orders.map((order, index) => (
                 <div
                   key={order?.id}
-                  className="cart-item my-1 border-b-2 px-12 md:px-8 py-4 flex flex-col md:flex-row flex-wrap md:flex-nowrap justify-between items-center md:items-start"
+                  className="flex flex-col flex-wrap items-center justify-between px-12 py-4 my-1 border-b-2 cart-item md:px-8 md:flex-row md:flex-nowrap md:items-start"
                 >
                   <Link
                     to={`/product/${order?.cartProductDTO?.product_id}`}
-                    className="cart-item-image w-40 h-40 mx-auto md:mx-0 order-1 bg-orange-300 rounded-full"
+                    className="order-1 w-40 h-40 mx-auto bg-orange-300 rounded-full cart-item-image md:mx-0"
                   >
                     <img
-                      className="w-full h-full object-contain hover:scale-110 hover:rotate-3 transition-transform duration-300 ease-in-out"
+                      className="object-contain w-full h-full transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-3"
                       src={order?.cartProductDTO?.product_imageUrl}
                       alt={order?.cartProductDTO?.product_name}
                     />
                   </Link>
-                  <div className="cart-item-details w-full md:w-1/2 px-4 md:px-0 order-2 flex flex-wrap gap-x-4">
+                  <div className="flex flex-wrap order-2 w-full px-4 cart-item-details md:w-1/2 md:px-0 gap-x-4">
                     <Link
                       to={`/product/${order?.cartProductDTO?.product_id}`}
                       title={order?.cartProductDTO?.product_name}
-                      className="cart-item-name overflow-hidden"
+                      className="overflow-hidden cart-item-name"
                     >
-                      <h3 className="text-lg md:text-xl font-medium text-cyan-900 whitespace-nowrap text-ellipsis overflow-hidden">
+                      <h3 className="overflow-hidden text-lg font-medium md:text-xl text-cyan-900 whitespace-nowrap text-ellipsis">
                         {order?.cartProductDTO?.product_name}
                       </h3>
                     </Link>
-                    <div className="text-lg font-medium text-gray-400 w-full flex justify-start items-center gap-x-4">
+                    <div className="flex items-center justify-start w-full text-lg font-medium text-gray-400 gap-x-4">
                       <div className="cart-item-price">
-                        <h3>₹{order?.cartProductDTO?.discountPrice.toLocaleString("en-IN")}</h3>
+                        <h3>
+                          ₹
+                          {order?.cartProductDTO?.discountPrice.toLocaleString(
+                            "en-IN"
+                          )}
+                        </h3>
                       </div>
                       <div className="cart-item-quantity">
                         <h3>
@@ -139,8 +147,8 @@ export default function Orders() {
                       </div>
                       {(order?.orderStatus === "PROCESSING" ||
                         order?.orderStatus === "Delivered") && (
-                        <div className="delivery-address overflow-hidden w-full">
-                          <h3 className="text-ellipsis overflow-hidden whitespace-nowrap">
+                        <div className="w-full overflow-hidden delivery-address">
+                          <h3 className="overflow-hidden text-ellipsis whitespace-nowrap">
                             {order?.orderStatus === "PROCESSING"
                               ? `Will be delivered to ${order?.address}`
                               : `Delivered to ${order?.address}`}
@@ -149,12 +157,14 @@ export default function Orders() {
                       )}
                     </div>
                   </div>
-                  <div className="cart-item-actions flex md:flex-col md:w-1/6 justify-between items-center gap-4 order-3">
+                  <div className="flex items-center justify-between order-3 gap-4 cart-item-actions md:flex-col md:w-1/6">
                     <div className="total-price">
-                      <h3 className="text-lg md:text-xl font-semibold text-cyan-900">
+                      <h3 className="text-lg font-semibold md:text-xl text-cyan-900">
                         {"₹" +
-                          (order?.cartProductDTO?.discountPrice *
-                            order?.cartProductDTO?.quantity).toLocaleString("en-IN")}
+                          (
+                            order?.cartProductDTO?.discountPrice *
+                            order?.cartProductDTO?.quantity
+                          ).toLocaleString("en-IN")}
                       </h3>
                     </div>
                     {order?.orderStatus === "PROCESSING" && (
@@ -163,7 +173,7 @@ export default function Orders() {
                           setOrderIndex(index);
                           open();
                         }}
-                        className="bg-red-600 w-full border-red-600 border-2 text-white px-2 py-1 rounded-sm shadow-sm shadow-gray-900"
+                        className="w-full px-2 py-1 text-white bg-red-600 border-2 border-red-600 rounded-sm shadow-sm shadow-gray-900"
                       >
                         Cancel Order
                       </ModalButton>
@@ -173,7 +183,7 @@ export default function Orders() {
                         to={`/product/${order?.cartProductDTO?.product_id}#product-review`}
                         className="w-full text-center"
                       >
-                        <span className="product-review block p-2 bg-gray-400 rounded-sm shadow-sm text-white shadow-gray-900">
+                        <span className="block p-2 text-white bg-gray-400 rounded-sm shadow-sm product-review shadow-gray-900">
                           Give Feedback
                         </span>
                       </Link>
@@ -183,7 +193,7 @@ export default function Orders() {
               ))
             )}
           </div>
-          <div className="cart-footer px-6 md:px-12 py-6 bg-cyan-900 text-white rounded-b flex flex-col md:flex-row justify-between items-center gap-6"></div>
+          <div className="flex flex-col items-center justify-between gap-6 px-6 py-6 text-white rounded-b cart-footer md:px-12 bg-cyan-900 md:flex-row"></div>
         </div>
       </div>
     </PageFadeTransitionContainer>

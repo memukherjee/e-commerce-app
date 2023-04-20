@@ -7,7 +7,7 @@ import useCategories from "../../hooks/useCategories";
 import useTitle from "../../hooks/useTitle";
 import AnimatedText from "../../components/AnimatedText";
 import { ScreenContext } from "../../contexts/screenContext";
-import {motion as m} from "framer-motion"
+import { motion as m } from "framer-motion";
 
 export default function Category() {
   const { setMouseOverLink } = useContext(MouseOverLinkContext);
@@ -20,10 +20,10 @@ export default function Category() {
   return categories.length === 0 ? (
     <Loader />
   ) : (
-    <PageFadeTransitionContainer className="text-center pb-10 min-h-100vh mt-16">
-    <div className="pseudo mb-4 md:mb-8"></div>
+    <PageFadeTransitionContainer className="pb-10 mt-16 text-center min-h-100vh">
+      <div className="mb-4 pseudo md:mb-8"></div>
       <AnimatedText
-        className="text-2xl font-pen md:text-4xl font-bold text-cyan-900"
+        className="text-2xl font-bold font-pen md:text-4xl text-cyan-900"
         text="What are you looking for?"
         direction="y"
         size={mobileScreen ? "" : "large"}
@@ -31,7 +31,7 @@ export default function Category() {
         delay={0.5}
       />
 
-      <div className="flex flex-wrap justify-around items-center gap-8 mt-8">
+      <div className="flex flex-wrap items-center justify-around gap-8 mt-8">
         {categories.map((category) => (
           <Link
             onMouseOver={() => setMouseOverLink(true)}
@@ -52,10 +52,10 @@ export default function Category() {
               style={{
                 backgroundImage: `url(${category.category_image})`,
               }}
-              className="outline bg-no-repeat bg-center bg-cover outline-4 outline-cyan-900 outline-offset-4 bg-cyan-900 w-full py-16 relative"
+              className="relative w-full py-16 bg-center bg-no-repeat bg-cover outline outline-4 outline-cyan-900 outline-offset-4 bg-cyan-900"
             >
-              <div className="bg-black bg-opacity-70 py-6 px-8 inline-block backdrop-blur-sm">
-                <span className="text-white font-medium text-xl">
+              <div className="inline-block px-8 py-6 bg-black bg-opacity-70 backdrop-blur-sm">
+                <span className="text-xl font-medium text-white">
                   {category.category_name}
                 </span>
               </div>

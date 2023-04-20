@@ -19,7 +19,7 @@ export default function Profile() {
   const { modalOpen, open, close } = useModal();
   const [modalChild, setModalChild] = useState("");
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-16 bg-gray-100">
+    <PageFadeTransitionContainer className="relative pt-16 bg-gray-100 min-h-100vh">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -35,10 +35,10 @@ export default function Profile() {
           )
         }
       />
-      <div className="profile-container w-11/12 max-w-1200 mx-auto flex flex-col md:flex-row justify-start items-center gap-y-4 md:justify-between md:items-stretch">
-        <div className="personal-details-container w-full md:w-5/12 flex flex-col">
-          <h2 className="text-2xl font-bold mb-4">Personal Details</h2>
-          <div className="data relative bg-white px-4 py-6 flex flex-col gap-y-4 h-full">
+      <div className="flex flex-col items-center justify-start w-11/12 mx-auto profile-container max-w-1200 md:flex-row gap-y-4 md:justify-between md:items-stretch">
+        <div className="flex flex-col w-full personal-details-container md:w-5/12">
+          <h2 className="mb-4 text-2xl font-bold">Personal Details</h2>
+          <div className="relative flex flex-col h-full px-4 py-6 bg-white data gap-y-4">
             <ProfileAvatar
               user={user}
               setModalChild={setModalChild}
@@ -71,10 +71,10 @@ export default function Profile() {
             <UpdateDetailsButton setModalChild={setModalChild} open={open} />
           </div>
         </div>
-        <div className="w-full md:w-5/12 flex flex-col gap-y-8">
-          <div className="credentials-container w-full">
-            <h2 className="text-2xl font-bold mb-4">Login Credentials</h2>
-            <div className="data bg-white px-4 py-6 flex flex-col gap-y-4">
+        <div className="flex flex-col w-full md:w-5/12 gap-y-8">
+          <div className="w-full credentials-container">
+            <h2 className="mb-4 text-2xl font-bold">Login Credentials</h2>
+            <div className="flex flex-col px-4 py-6 bg-white data gap-y-4">
               <DataContainer
                 onClick={() => {
                   setModalChild("Change Details");
@@ -86,9 +86,9 @@ export default function Profile() {
               <ChangePasswordButton setModalChild={setModalChild} open={open} />
             </div>
           </div>
-          <div className="newsletter-container w-full">
-            <h2 className="text-2xl font-bold mb-4">Newsletter</h2>
-            <div className="data bg-white px-4 py-6 flex flex-col gap-y-4">
+          <div className="w-full newsletter-container">
+            <h2 className="mb-4 text-2xl font-bold">Newsletter</h2>
+            <div className="flex flex-col px-4 py-6 bg-white data gap-y-4">
               <DataContainer
                 data={
                   user?.isSubscribedtoNewsLetter
@@ -109,7 +109,7 @@ export default function Profile() {
 const UpdateDetailsButton = ({ setModalChild, open }) => {
   return (
     <ModalButton
-      className="bg-cyan-900 text-white p-4 text-3/4xl"
+      className="p-4 text-white bg-cyan-900 text-3/4xl"
       onClick={() => {
         setModalChild("Change Details");
         open();
@@ -123,7 +123,7 @@ const UpdateDetailsButton = ({ setModalChild, open }) => {
 const ChangePasswordButton = ({ setModalChild, open }) => {
   return (
     <ModalButton
-      className="bg-cyan-900 text-white p-4 text-3/4xl"
+      className="p-4 text-white bg-cyan-900 text-3/4xl"
       onClick={() => {
         setModalChild("Change Password");
         open();
@@ -161,7 +161,7 @@ const SubscribeToNewsletterButton = ({ user, setUser }) => {
             console.log(err);
           });
       }}
-      className="bg-cyan-900 text-white p-4 text-3/4xl"
+      className="p-4 text-white bg-cyan-900 text-3/4xl"
     >
       <span>
         {user?.isSubscribedtoNewsLetter ? "Unsubscribe" : "Subscribe"}

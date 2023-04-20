@@ -79,13 +79,18 @@ public class AdminAuthREST {
 		System.out.println("admin login-email-" + dto.getEmail() + " password-" + dto.getPassword());
 		Admin logAdmin = adminAuthRepository.findByEmail(dto.getEmail());
 		if (logAdmin == null) {
-			return new ResponseEntity<String>("email not matched", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("Email not matched", HttpStatus.UNAUTHORIZED);
 		}
 
 		System.out.println("hi admin " + logAdmin.getUsername());
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(logAdmin.getUsername(), dto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication;
+		try {
+			authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(logAdmin.getUsername(), dto.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("Password is incorrect", HttpStatus.UNAUTHORIZED);
+		}
 		Admin admin = (Admin) authentication.getPrincipal();
 
 		System.out.println("admin=" + admin);
@@ -99,7 +104,6 @@ public class AdminAuthREST {
 		System.out.println("refreshToken=" + refreshTokenString);
 
 		return ResponseEntity.ok(new TokenDTO(admin.getId(), accessToken, refreshTokenString));
-
 	}
 
 	@PostMapping("signup")

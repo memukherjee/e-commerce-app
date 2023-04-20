@@ -4,15 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
@@ -42,7 +37,7 @@ public class QnA {
 	}
 
 	public QnA() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public String getProductId() {
@@ -100,7 +95,5 @@ public class QnA {
 	public void setTime(LocalTime time) {
 		this.time = time;
 	}
-	
-		
 
 }

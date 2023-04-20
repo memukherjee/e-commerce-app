@@ -1,6 +1,5 @@
 package com.ecommerce.Entity;
 
-import com.ecommerce.dto.CartDTO;
 import com.ecommerce.dto.CartProductDTO;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,22 +7,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Order")
 public class OrderDetails {
 	private String id;
-    private String user_id;
-    private String seller_id;
-    private String address;
-    private CartProductDTO cartProductDTO;
-    private String method;
-    private String paymentStatus;
-    private String orderCreationId;
-    private String razorpayPaymentId;
-    private String razorPayOrderId;
-    private String razorpaypaySignature;
-    private String date;
-    private String expDelivary;
-    private String OrderStatus;
-    
-    
-    public String getId() {
+	private String user_id;
+	private String seller_id;
+	private String address;
+	private CartProductDTO cartProductDTO;
+	private String method;
+	private String paymentStatus;
+	private String orderCreationId;
+	private String razorpayPaymentId;
+	private String razorPayOrderId;
+	private String razorpaypaySignature;
+	private String date;
+	private String expDelivary;
+	private String OrderStatus;
+
+	public String getId() {
 		return id;
 	}
 
@@ -32,15 +30,14 @@ public class OrderDetails {
 	}
 
 	public String getUser_id() {
-        return user_id;
-    }
+		return user_id;
+	}
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 
-    
-    public String getSeller_id() {
+	public String getSeller_id() {
 		return seller_id;
 	}
 
@@ -56,7 +53,6 @@ public class OrderDetails {
 		this.address = address;
 	}
 
-	
 	public CartProductDTO getCartProductDTO() {
 		return cartProductDTO;
 	}
@@ -66,15 +62,14 @@ public class OrderDetails {
 	}
 
 	public String getMethod() {
-        return method;
-    }
+		return method;
+	}
 
-    public void setMethod(String method) {
-        this.method = method;
-    }
+	public void setMethod(String method) {
+		this.method = method;
+	}
 
-    
-    public String getPaymentStatus() {
+	public String getPaymentStatus() {
 		return paymentStatus;
 	}
 
@@ -123,21 +118,19 @@ public class OrderDetails {
 	}
 
 	public String getDate() {
-        return date;
-    }
+		return date;
+	}
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public String getExpDelivary() {
-        return expDelivary;
-    }
+	public String getExpDelivary() {
+		return expDelivary;
+	}
 
-    public void setExpDelivary(String expDelivary) {
-        this.expDelivary = expDelivary;
-    }
-
-    
+	public void setExpDelivary(String expDelivary) {
+		this.expDelivary = expDelivary;
+	}
 
 }

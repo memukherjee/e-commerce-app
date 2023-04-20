@@ -67,9 +67,9 @@ export default function Products() {
   );
 
   return products ? (
-    <PageFadeTransitionContainer className="products-section relative mt-16 min-h-100vh text-center w-11/12 mx-auto">
+    <PageFadeTransitionContainer className="relative w-11/12 mx-auto mt-16 text-center products-section min-h-100vh">
       <AnimatedText
-        className="text-2xl font-pen md:text-4xl font-bold text-cyan-900"
+        className="text-2xl font-bold font-pen md:text-4xl text-cyan-900"
         text={
           classifier === "all"
             ? "All Products"
@@ -110,7 +110,7 @@ export default function Products() {
 
       {/* Filter */}
       <button
-        className="p-4 cursor-none rounded-md bg-black bg-opacity-50 fixed top-20 left-12 md:left-16 shadow-md shadow-gray-700 z-10"
+        className="fixed z-10 p-4 bg-black bg-opacity-50 rounded-md shadow-md cursor-none top-20 left-12 md:left-16 shadow-gray-700"
         onClick={() => setFilterTabOpen(!filterTabOpen)}
       >
         <i className="fa-solid fa-filter"></i>
@@ -130,9 +130,9 @@ export default function Products() {
         categories={categories}
       />
 
-      <div className="products-container my-2">
+      <div className="my-2 products-container">
         {/* Products */}
-        <div className="products flex justify-center items-center flex-wrap my-4">
+        <div className="flex flex-wrap items-center justify-center my-4 products">
           {products.map((product, index) => (
             <ProductCard
               key={product.product_id}
@@ -141,7 +141,7 @@ export default function Products() {
             />
           ))}
           {products.length === 0 && allProductsFetched && (
-            <div className="text-center w-full py-36">
+            <div className="w-full text-center py-36">
               <p className="text-2xl font-semibold">No products found</p>
             </div>
           )}
@@ -151,7 +151,7 @@ export default function Products() {
         {!allProductsFetched && (
           <div
             ref={containerRef}
-            className="loading flex justify-center w-full mt-8 mb-28"
+            className="flex justify-center w-full mt-8 loading mb-28"
           >
             <ClipLoader
               color="#164e63"

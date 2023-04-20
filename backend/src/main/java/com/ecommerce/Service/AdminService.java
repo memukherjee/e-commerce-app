@@ -111,7 +111,6 @@ public class AdminService {
 
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				// TODO Auto-generated method stub
 				return new PasswordAuthentication("in.elegantapparels@gmail.com", "izrretjlgbxifkhb");
 			}
 
@@ -178,7 +177,6 @@ public class AdminService {
 
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				// TODO Auto-generated method stub
 				return new PasswordAuthentication("in.elegantapparels@gmail.com", "izrretjlgbxifkhb");
 			}
 

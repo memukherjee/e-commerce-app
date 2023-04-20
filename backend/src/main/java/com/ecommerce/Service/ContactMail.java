@@ -18,26 +18,28 @@ public class ContactMail {
 
 		System.out.println("sending mail...");
 
-		String message = "Hi "+name+"...\nThanks for contacting us...\nWe have received Your messsage and will update you soon...";
+		String message = "Hi " + name
+				+ "...\nThanks for contacting us...\nWe have received Your messsage and will update you soon...";
 		String subject = "Feedback Received";
 		String to = email;
 		String from = "in.elegantapparels@gmail.com";
 
 		sendEmail(message, subject, to, from);
-		return queen(name,email,msg);
+		return queen(name, email, msg);
 	}
-	public static ResponseEntity<String> queen(String name,String email,String msg) {
-		String message="Name: "+name+"\nEmail: "+email+"\nMessage: "+msg;
-		String subject="Feedback Received";
-		String to="in.elegantapparels@gmail.com";
+
+	public static ResponseEntity<String> queen(String name, String email, String msg) {
+		String message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + msg;
+		String subject = "Feedback Received";
+		String to = "in.elegantapparels@gmail.com";
 		String from = "in.elegantapparels@gmail.com";
-		
-		if(sendEmail(message, subject, to, from)) {
+
+		if (sendEmail(message, subject, to, from)) {
 			return new ResponseEntity<>("Success", HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>("Unsuccessful", HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
 
 	private static boolean sendEmail(String message, String subject, String to, String from) {
@@ -93,6 +95,5 @@ public class ContactMail {
 		return false;
 
 	}
-	
 
 }

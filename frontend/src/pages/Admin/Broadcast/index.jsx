@@ -56,17 +56,17 @@ export default function Broadcast() {
 
   return (
     <PageFadeTransitionContainer>
-      <div className="broadcast-form text-center md:text-left w-11/12 mx-auto max-w-500 h-100vh flex justify-center items-center">
+      <div className="flex items-center justify-center w-11/12 mx-auto text-center broadcast-form md:text-left max-w-500 h-100vh">
         <div className="w-full">
-          <h3 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 mb-6">
+          <h3 className="mb-6 text-2xl font-bold underline font-pen text-cyan-900 underline-offset-8">
             Broadcast Message
           </h3>
           <form
             onSubmit={onSubmitHandler}
-            className="flex flex-col items-bottom text-gray-500"
+            className="flex flex-col text-gray-500 items-bottom"
           >
             <select
-              className="w-full py-2 mb-4 outline-none bg-transparent md:text-left resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
+              className="w-full py-2 mb-4 overflow-auto text-xl placeholder-transparent bg-transparent border-b-2 border-gray-400 outline-none resize-none md:text-left peer focus:outline-none focus:border-cyan-900"
               name="to"
               value={to}
               onChange={handleChange}
@@ -95,7 +95,7 @@ export default function Broadcast() {
                 name="message"
                 value={message}
                 onChange={handleChange}
-                className="w-full p-2 my-2 outline-none bg-transparent md:text-left resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
+                className="w-full p-2 my-2 overflow-auto text-xl placeholder-transparent bg-transparent border-b-2 border-gray-400 outline-none resize-none md:text-left peer focus:outline-none focus:border-cyan-900"
                 autoComplete="off"
                 autoCorrect="off"
                 placeholder="Message"
@@ -108,7 +108,7 @@ export default function Broadcast() {
               </label>
             </div>
             <button
-              className="bg-cyan-900 text-white w-11/12 md:w-2/3 mx-auto mt-4 rounded-md md:rounded-none py-2 md:p-3 hover:bg-black transition-colors cursor-none duration-500"
+              className="w-11/12 py-2 mx-auto mt-4 text-white transition-colors duration-500 rounded-md bg-cyan-900 md:w-2/3 md:rounded-none md:p-3 hover:bg-black cursor-none"
               onMouseOver={() => setMouseOverLink(true)}
               onMouseOut={() => setMouseOverLink(false)}
               type="submit"

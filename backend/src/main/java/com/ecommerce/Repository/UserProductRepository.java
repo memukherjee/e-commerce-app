@@ -15,7 +15,6 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
 
     List<Product> findAll();
 
-    // Product findById(String product_id);
     Product save(List<Product> existingProduct);
 
     @Query("{product_category: ?0}")
@@ -41,11 +40,11 @@ public interface UserProductRepository extends MongoRepository<Product, String> 
 
     @Query("{discountPrice:{$lt:?0,$gt:?1},product_category:?2}")
     List<Product> filterProducts(double parseDouble, double parseDouble2, String category);
-    
+
     @Query("{discountPrice:{$lt:?0,$gt:?1},clothingType:?2}")
     List<Product> filterProductsByClothingType(double parseDouble, double parseDouble2, String clothingType);
 
-	@Query("{'_id': ?0}")
-	Product findByProductsId(String productId);
+    @Query("{'_id': ?0}")
+    Product findByProductsId(String productId);
 
 }

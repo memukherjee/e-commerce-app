@@ -16,7 +16,7 @@ function NotFound() {
     return Math.random() * (max - min) + min;
   };
 
-  useTitle("404 Not Found");
+  useTitle("404 Not Found || Elegant Apparels");
 
   useEffect(() => {
     const w = window.innerWidth;
@@ -46,8 +46,8 @@ function NotFound() {
   }, []);
 
   return (
-    <PageFadeTransitionContainer className="h-100vh mx-auto overflow-hidden flex justify-center items-center relative w-full text-center">
-      <h1 className="font-bold text-8xl text-gray-400">404 Not Found</h1>
+    <PageFadeTransitionContainer className="relative flex items-center justify-center w-full mx-auto overflow-hidden text-center h-100vh">
+      <h1 className="font-bold text-gray-400 text-8xl">404 Not Found</h1>
 
       {[1, 2, 3, 4, 5].map((i) => {
         return (

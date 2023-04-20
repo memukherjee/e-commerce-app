@@ -105,7 +105,8 @@ public class ProductReviewDTO {
 		System.out.println("dto" + this.star);
 	}
 
-	public ProductReviewDTO(String id,String productId, String message, float star, String name, String avatar, String userId,
+	public ProductReviewDTO(String id, String productId, String message, float star, String name, String avatar,
+			String userId,
 			LocalDate date, LocalTime time) {
 		super();
 		this.id = id;
@@ -125,7 +126,6 @@ public class ProductReviewDTO {
 
 	public ProductReviewDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

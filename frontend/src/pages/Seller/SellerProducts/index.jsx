@@ -27,7 +27,7 @@ export default function SellerProducts() {
   const currentProductIndex = useRef(0);
   const [filterQuery, setFilterQuery] = useState("");
 
-  useTitle("Your Products | Elegant Apparels");
+  useTitle("Your Products || Elegant Apparels");
 
   const deleteProduct = () => {
     const productId = products[currentProductIndex.current].product_id;
@@ -63,7 +63,7 @@ export default function SellerProducts() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-16">
+    <PageFadeTransitionContainer className="relative pt-16 min-h-100vh">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -90,32 +90,32 @@ export default function SellerProducts() {
         }
       />
       <AnimatedText
-          className="text-2xl font-pen md:text-4xl font-bold text-cyan-900 mt-4 mb-8"
-          text={`Your Products (${products.length})`}
-          direction="y"
-          size="large"
-          align="center"
-          delay={0.5}
-        />
-      <div className="flex flex-wrap justify-between items-center mx-auto px-2 w-full max-w-1200">
+        className="mt-4 mb-8 text-2xl font-bold font-pen md:text-4xl text-cyan-900"
+        text={`Your Products (${products.length})`}
+        direction="y"
+        size="large"
+        align="center"
+        delay={0.5}
+      />
+      <div className="flex flex-wrap items-center justify-between w-full px-2 mx-auto max-w-1200">
         <ModalButton
           onClick={() => {
             setModalForm("addNewProduct");
             open();
           }}
-          className="product-action-btn bg-lime-600 w-max text-white rounded px-4 py-2 my-4 md:my-0 shadow shadow-black"
+          className="px-4 py-2 my-4 text-white rounded shadow product-action-btn bg-lime-600 w-max md:my-0 shadow-black"
         >
           Add new product&nbsp;<i className="fas fa-plus"></i>
         </ModalButton>
-        <div className="search-input-container flex justify-between items-center px-2 w-full md:w-4/6 md:text-xl border-b-2 border-cyan-900">
+        <div className="flex items-center justify-between w-full px-2 border-b-2 search-input-container md:w-4/6 md:text-xl border-cyan-900">
           <input
             type="text"
             placeholder="Search by name, id or company name"
-            className="search-input outline-none bg-transparent text-cyan-900 h-8 md:h-auto w-11/12 placeholder:text-gray-400 placeholder:opacity-100 focus:placeholder:opacity-0 placeholder:transition-all placeholder:duration-500 placeholder:ease-in-out"
+            className="w-11/12 h-8 bg-transparent outline-none search-input text-cyan-900 md:h-auto placeholder:text-gray-400 placeholder:opacity-100 focus:placeholder:opacity-0 placeholder:transition-all placeholder:duration-500 placeholder:ease-in-out"
             value={filterQuery}
             onChange={(e) => setFilterQuery(e.target.value)}
           />
-          <span className="text-cyan-900 inline-block w-1/12 text-right">
+          <span className="inline-block w-1/12 text-right text-cyan-900">
             <i className="fas fa-search"></i>
           </span>
         </div>
@@ -125,16 +125,16 @@ export default function SellerProducts() {
           color="#164e63"
           loading={true}
           size={60}
-          className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/3 left-1/2"
         />
       ) : (
         <motion.div
           layout
-          className="products flex flex-col items-center gap-4 my-8 max-w-1200 p-2 mx-auto"
+          className="flex flex-col items-center gap-4 p-2 mx-auto my-8 products max-w-1200"
         >
           {products.length === 0 && (
-            <div className="text-center bg-yellow-400 px-6 py-4 rounded w-full max-w-500 shadow shadow-black">
-              <span className="font-medium text-xl">
+            <div className="w-full px-6 py-4 text-center bg-yellow-400 rounded shadow max-w-500 shadow-black">
+              <span className="text-xl font-medium">
                 Nothing yet in your shop
               </span>
               <img
@@ -165,48 +165,51 @@ export default function SellerProducts() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   key={product.product_id}
-                  className="product flex justify-between gap-2 bg-gray-200 h-full rounded mx-4 text-gray-500 w-full shadow-sm shadow-black"
+                  className="flex justify-between w-full h-full gap-2 mx-4 text-gray-500 bg-gray-200 rounded shadow-sm product shadow-black"
                 >
-                  <div className="product-about flex justify-between gap-8 w-2/3">
-                    <div className="product-image w-1/3 h-32 py-1">
+                  <div className="flex justify-between w-2/3 gap-8 product-about">
+                    <div className="w-1/3 h-32 py-1 product-image">
                       <img
-                        className="w-full h-full object-contain"
+                        className="object-contain w-full h-full"
                         src={product.product_imageUrl}
                         alt="product_img"
                       />
                     </div>
-                    <div className="product-details w-2/3">
+                    <div className="w-2/3 product-details">
                       <div
                         title={product.product_name}
-                        className="product-name whitespace-nowrap overflow-hidden text-ellipsis w-full"
+                        className="w-full overflow-hidden product-name whitespace-nowrap text-ellipsis"
                       >
                         {product.product_name}
                       </div>
-                      <div className="product-price whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                      <div className="w-full overflow-hidden product-price whitespace-nowrap text-ellipsis">
                         <span>Price: </span>
                         {product.product_price > product.discountPrice && (
                           <span className="line-through">
-                            &#8377;{product?.product_price.toLocaleString("en-IN")}{" "}
+                            &#8377;
+                            {product?.product_price.toLocaleString("en-IN")}{" "}
                           </span>
                         )}
-                        <span>&#8377;{product.discountPrice.toLocaleString("en-IN")}</span>
+                        <span>
+                          &#8377;{product.discountPrice.toLocaleString("en-IN")}
+                        </span>
                       </div>
-                      <div className="product-quantity whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                      <div className="w-full overflow-hidden product-quantity whitespace-nowrap text-ellipsis">
                         <span>Quantity: </span>
                         <span>{product.product_quantity}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="product-actions flex flex-col justify-evenly w-1/4">
+                  <div className="flex flex-col w-1/4 product-actions justify-evenly">
                     <ModalButton
                       onClick={() => {
                         setModalForm("editDetails");
                         currentProductIndex.current = index;
                         open();
                       }}
-                      className="group product-action-btn bg-cyan-900 text-white rounded-tr h-full shadow-md shadow-black"
+                      className="h-full text-white rounded-tr shadow-md group product-action-btn bg-cyan-900 shadow-black"
                     >
-                      <span className="inline-block group-hover:scale-105 transition-transform duration-200">
+                      <span className="inline-block transition-transform duration-200 group-hover:scale-105">
                         {!mobileScreen && "Edit Details  "}
                         <i className="fa fa-edit"></i>
                       </span>
@@ -217,9 +220,9 @@ export default function SellerProducts() {
                         currentProductIndex.current = index;
                         open();
                       }}
-                      className="group product-action-btn bg-red-600 text-white rounded-br h-full shadow-md shadow-black"
+                      className="h-full text-white bg-red-600 rounded-br shadow-md group product-action-btn shadow-black"
                     >
-                      <span className="inline-block group-hover:scale-105 transition-transform duration-200">
+                      <span className="inline-block transition-transform duration-200 group-hover:scale-105">
                         {!mobileScreen && "Remove from Inventory  "}
                         <i className="fa fa-trash"></i>
                       </span>

@@ -2,18 +2,16 @@ package com.ecommerce.Entity;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import javax.persistence.Id;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection="seller")
-public class Seller implements UserDetails{
-	
+@Document(collection = "seller")
+public class Seller implements UserDetails {
+
 	@Id
 	private String id;
 	private String name;
@@ -23,25 +21,22 @@ public class Seller implements UserDetails{
 	private String mobile;
 	private String address;
 	private String avatar;
-	private boolean accountStatus=false;
-	
-	
+	private boolean accountStatus = false;
 
 	public Seller() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Seller(String name, String email, String encode,String mobile,String address) {
+	public Seller(String name, String email, String encode, String mobile, String address) {
 		super();
-		this.setAvatar("https://avatars.dicebear.com/api/initials/"+name+".svg");
-		this.name=name;
+		this.setAvatar("https://avatars.dicebear.com/api/initials/" + name + ".svg");
+		this.name = name;
 		this.username = email;
 		this.email = email;
-		this.password=encode;
+		this.password = encode;
 		this.mobile = mobile;
 		this.address = address;
-		
+
 	}
 
 	public String getId() {
@@ -99,51 +94,47 @@ public class Seller implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	 public String getName() {
-	    	return name;
-	    }
-	    public void setName(String name) {
-	    	this.name=name;
-	    }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

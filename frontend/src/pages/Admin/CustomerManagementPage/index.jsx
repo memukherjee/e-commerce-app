@@ -12,8 +12,10 @@ import useCustomers from "../../../hooks/useCustomers";
 import useModal from "../../../hooks/useModal";
 import useObserver from "../../../hooks/useObserver";
 import { getCookie } from "../../../utils/cookie";
+import useTitle from "../../../hooks/useTitle";
 
 export default function CustomerManagementPage() {
+  useTitle("Manage Customers || Elegant Apparels");
   const [containerRef, isVisible] = useObserver({
     root: null,
     rootMargin: "0px",
@@ -61,7 +63,7 @@ export default function CustomerManagementPage() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-12">
+    <PageFadeTransitionContainer className="relative pt-12 min-h-100vh">
       <Modal
         close={close}
         modalOpen={modalOpen}
@@ -83,10 +85,10 @@ export default function CustomerManagementPage() {
         }
       />
 
-      <div className="customers-container text-center w-11/12 mx-auto my-4">
-        <div className="customers-search mb-8">
+      <div className="w-11/12 mx-auto my-4 text-center customers-container">
+        <div className="mb-8 customers-search">
           <input
-            className="search-input outline-none border-b-2 border-cyan-900 w-full max-w-500 md:text-xl text-cyan-900 mt-8 px-2"
+            className="w-full px-2 mt-8 border-b-2 outline-none search-input border-cyan-900 max-w-500 md:text-xl text-cyan-900"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             type="text"
@@ -95,7 +97,7 @@ export default function CustomerManagementPage() {
         </div>
         <motion.div
           layout
-          className="customers flex flex-wrap justify-center items-center md:gap-x-16 gap-y-8 mx-auto"
+          className="flex flex-wrap items-center justify-center mx-auto customers md:gap-x-16 gap-y-8"
         >
           <AnimatePresence>
             {customers
@@ -121,38 +123,46 @@ export default function CustomerManagementPage() {
                     key={customer.id}
                     className="customer bg-gray-200 rounded-sm shadow shadow-gray-400 p-6 max-w-300 md:w-[32%] flex flex-col gap-y-4"
                   >
-                    <div className="customer-details text-left text-lg">
-                      <div className="customer-id flex gap-1 justify-start items-center">
-                        <span className="text-cyan-900 font-medium">ID:</span>
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.id}</span>
+                    <div className="text-lg text-left customer-details">
+                      <div className="flex items-center justify-start gap-1 customer-id">
+                        <span className="font-medium text-cyan-900">ID:</span>
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                          {customer?.id}
+                        </span>
                       </div>
-                      <div className="customer-name flex gap-1 justify-start items-center">
-                        <span className="text-cyan-900 font-medium">Name:</span>
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.name}</span>
+                      <div className="flex items-center justify-start gap-1 customer-name">
+                        <span className="font-medium text-cyan-900">Name:</span>
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                          {customer?.name}
+                        </span>
                       </div>
-                      <div className="customer-email flex gap-1 justify-start items-center">
-                        <span className="text-cyan-900 font-medium">
+                      <div className="flex items-center justify-start gap-1 customer-email">
+                        <span className="font-medium text-cyan-900">
                           <i className="fa-regular fa-envelope"></i>
                         </span>
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.email}</span>
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                          {customer?.email}
+                        </span>
                       </div>
-                      <div className="customer-phone flex gap-1 justify-start items-center">
-                        <span className="text-cyan-900 font-medium">
+                      <div className="flex items-center justify-start gap-1 customer-phone">
+                        <span className="font-medium text-cyan-900">
                           <i className="fa-solid fa-phone"></i>
                         </span>
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{customer?.mobile}</span>
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                          {customer?.mobile}
+                        </span>
                       </div>
                     </div>
-                    <div className="customer-actions flex justify-center items-center">
+                    <div className="flex items-center justify-center customer-actions">
                       <ModalButton
                         onClick={() => viewCustomerDetails(customer)}
-                        className="btn bg-cyan-900 text-white px-2 py-1 rounded-l shadow-sm shadow-black w-1/2"
+                        className="w-1/2 px-2 py-1 text-white rounded-l shadow-sm btn bg-cyan-900 shadow-black"
                       >
                         <i className="fa-solid fa-eye"></i>
                       </ModalButton>
                       <ModalButton
                         onClick={() => deleteCustomer(customer)}
-                        className="btn bg-red-600 text-white px-2 py-1 rounded-r shadow-sm shadow-black w-1/2"
+                        className="w-1/2 px-2 py-1 text-white bg-red-600 rounded-r shadow-sm btn shadow-black"
                       >
                         <i className="fa-solid fa-trash"></i>
                       </ModalButton>
@@ -166,7 +176,7 @@ export default function CustomerManagementPage() {
           {!allFetched && (
             <div
               ref={containerRef}
-              className="loading flex justify-center w-full mt-8 mb-28"
+              className="flex justify-center w-full mt-8 loading mb-28"
             >
               <ClipLoader
                 color="#164e63"
@@ -177,8 +187,8 @@ export default function CustomerManagementPage() {
             </div>
           )}
           {allFetched && customers.length === 0 && (
-            <div className="no-customers text-cyan-900 flex flex-col gap-y-4 justify-center items-center w-full mt-8 mb-28">
-              <span className="rotate-12 text-3xl">
+            <div className="flex flex-col items-center justify-center w-full mt-8 no-customers text-cyan-900 gap-y-4 mb-28">
+              <span className="text-3xl rotate-12">
                 <i className="fa-solid fa-person-circle-exclamation"></i>
               </span>
               <h1 className="text-2xl font-medium">No customers found</h1>

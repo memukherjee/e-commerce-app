@@ -6,12 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "ShoppingCart")
 public class ShoppingCart {
 
-    @Id
-    private String id;
-    private String user_id;
-    private String product_id;
-    private String size;
-    private int cart_quantity;
+	@Id
+	private String id;
+	private String user_id;
+	private String product_id;
+	private String size;
+	private int cart_quantity;
 
 	public ShoppingCart(String id, String user_id, String product_id, String size, int cart_quantity) {
 		super();
@@ -23,15 +23,14 @@ public class ShoppingCart {
 	}
 
 	public String getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    
-    public String getUser_id() {
+	public String getUser_id() {
 		return user_id;
 	}
 
@@ -39,16 +38,15 @@ public class ShoppingCart {
 		this.user_id = user_id;
 	}
 
+	public String getProduct_id() {
+		return product_id;
+	}
 
-    public String getProduct_id() {
-        return product_id;
-    }
+	public void setProduct_id(String product_id) {
+		this.product_id = product_id;
+	}
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
-    }
-    
-    public String getSize() {
+	public String getSize() {
 		return size;
 	}
 
@@ -57,12 +55,12 @@ public class ShoppingCart {
 	}
 
 	public int getCart_quantity() {
-        return cart_quantity;
-    }
+		return cart_quantity;
+	}
 
-    public void setCart_quantity(int cart_quantity) {
-        this.cart_quantity = cart_quantity;
-    }
+	public void setCart_quantity(int cart_quantity) {
+		this.cart_quantity = cart_quantity;
+	}
 
 	@Override
 	public String toString() {
@@ -70,5 +68,4 @@ public class ShoppingCart {
 				+ ", size=" + size + ", cart_quantity=" + cart_quantity + "]";
 	}
 
-	   
 }

@@ -115,7 +115,7 @@ export default function LogOut({ sellerRoute, adminRoute }) {
     location.search,
   ]);
   return (
-    <div className="min-h-100vh flex justify-center items-center">
+    <div className="flex items-center justify-center min-h-100vh">
       <h1 className="text-2xl font-semibold">
         {user || (sellerRoute && seller) || (adminRoute && admin)
           ? "Logging You Out"

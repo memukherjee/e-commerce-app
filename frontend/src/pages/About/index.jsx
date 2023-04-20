@@ -8,17 +8,17 @@ export default function About() {
   useTitle("About Us || Elegant Apparels");
 
   return (
-    <PageFadeTransitionContainer className="about min-h-100vh pt-12 w-11/12 mx-auto">
-      <h1 className="font-pen text-cyan-900 text-4xl font-bold block mb-4">
+    <PageFadeTransitionContainer className="w-11/12 pt-12 mx-auto about min-h-100vh">
+      <h1 className="block mb-4 text-4xl font-bold font-pen text-cyan-900">
         <AnimatedText text="Our Team" align="center" direction="y" />
       </h1>
-      <div className="team max-w-1000 mx-auto flex flex-wrap justify-between items-center gap-8 md:gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-8 mx-auto team max-w-1000 md:gap-2">
         {members.map((member, index) => (
           <MemberCard key={index} member={member} />
         ))}
       </div>
-      <div className="text-center mx-auto w-full max-w-750 mt-16 mb-4">
-        <span className="rainbow-text bg-clip-text text-transparent text-xl font-semibold">
+      <div className="w-full mx-auto mt-16 mb-4 text-center max-w-750">
+        <span className="text-xl font-semibold text-transparent rainbow-text bg-clip-text">
           “Coming together is a beginning, staying together is progress, and
           working together is a success.”
         </span>

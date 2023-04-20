@@ -1,30 +1,20 @@
 package com.ecommerce.Entity;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
 
 @Document(collection = "products")
 public class Product {
-	@Id
+    @Id
     @GeneratedValue
     private String product_id;
-	
 
-	private String seller_id;
+    private String seller_id;
 
     @NotEmpty
     private String product_name;
@@ -34,10 +24,9 @@ public class Product {
 
     @NotEmpty
     private String product_description;
-    
+
     private ArrayList<String> size;
-    
-   // private List<Colour> product_colours;
+
     private String product_company;
 
     @NotEmpty
@@ -49,56 +38,46 @@ public class Product {
     private int product_quantity;
     private int product_sold;
     private String product_imageUrl;
-    private String clothingType="unisex";
-    
-   
+    private String clothingType = "unisex";
 
-	public Product(String product_id, String seller_id,@NotEmpty String product_name, @NotEmpty String product_category,
-			@NotEmpty String product_description,ArrayList<String> size, String product_company,
-			@NotEmpty double product_price, @NotEmpty double product_discount, double discountPrice,
-			int product_quantity, int product_sold, String product_imageUrl,String clothingType) {
-		super();
-		this.product_id = product_id;
-		this.seller_id=seller_id;
-		this.product_name = product_name;
-		this.product_category = product_category;
-		this.product_description = product_description;
-		this.size=size;
-//		this.product_colours = product_colours;
-		this.product_company = product_company;
-		this.product_price = product_price;
-		this.product_discount = product_discount;
-		this.discountPrice = discountPrice;
-		this.product_quantity = product_quantity;
-		this.product_sold = product_sold;
-		this.product_imageUrl = product_imageUrl;
-		this.clothingType=clothingType;
-	}
-    
-    
+    public Product(String product_id, String seller_id, @NotEmpty String product_name,
+            @NotEmpty String product_category,
+            @NotEmpty String product_description, ArrayList<String> size, String product_company,
+            @NotEmpty double product_price, @NotEmpty double product_discount, double discountPrice,
+            int product_quantity, int product_sold, String product_imageUrl, String clothingType) {
+        super();
+        this.product_id = product_id;
+        this.seller_id = seller_id;
+        this.product_name = product_name;
+        this.product_category = product_category;
+        this.product_description = product_description;
+        this.size = size;
+        this.product_company = product_company;
+        this.product_price = product_price;
+        this.product_discount = product_discount;
+        this.discountPrice = discountPrice;
+        this.product_quantity = product_quantity;
+        this.product_sold = product_sold;
+        this.product_imageUrl = product_imageUrl;
+        this.clothingType = clothingType;
+    }
 
-	public Product() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public Product() {
+        super();
+    }
 
-
-
-	public String getProduct_id() {
+    public String getProduct_id() {
         return product_id;
     }
-	
-	
-	
-	public String getSeller_id() {
-		return seller_id;
-	}
-	
-	public void setSeller_id(String seller_id)
-	{
-		this.seller_id=seller_id;
-	}
-    
+
+    public String getSeller_id() {
+        return seller_id;
+    }
+
+    public void setSeller_id(String seller_id) {
+        this.seller_id = seller_id;
+    }
+
     public String getProduct_name() {
         return product_name;
     }
@@ -111,11 +90,9 @@ public class Product {
         return product_category;
     }
 
-
     public void setProduct_category(String product_categoryId) {
         this.product_category = product_categoryId;
     }
-
 
     public String getProduct_description() {
         return product_description;
@@ -124,7 +101,7 @@ public class Product {
     public void setProduct_description(String product_description) {
         this.product_description = product_description;
     }
-    
+
     public ArrayList<String> getSize() {
         return size;
     }
@@ -132,14 +109,6 @@ public class Product {
     public void setSize(ArrayList<String> size) {
         this.size = size;
     }
-
-//    public List<Colour> getProduct_colour() {
-//        return product_colours;
-//    }
-//
-//    public void setProduct_colour(List<Colour> product_colours) {
-//        this.product_colours = product_colours;
-//    }
 
     public String getProduct_company() {
         return product_company;
@@ -189,20 +158,20 @@ public class Product {
         this.product_sold = product_sold;
     }
 
-	public String getProduct_imageUrl() {
-		return product_imageUrl;
-	}
+    public String getProduct_imageUrl() {
+        return product_imageUrl;
+    }
 
-	public void setProduct_imageUrl(String product_imageUrl) {
-		this.product_imageUrl = product_imageUrl;
-	}
-	 public String getClothingType() {
-			return clothingType;
-		}
+    public void setProduct_imageUrl(String product_imageUrl) {
+        this.product_imageUrl = product_imageUrl;
+    }
 
-	 public void setClothingType(String clothingType) {
-			this.clothingType = clothingType;
-		}
-	
+    public String getClothingType() {
+        return clothingType;
+    }
+
+    public void setClothingType(String clothingType) {
+        this.clothingType = clothingType;
+    }
+
 }
-    

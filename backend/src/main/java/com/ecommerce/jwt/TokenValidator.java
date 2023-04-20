@@ -8,27 +8,26 @@ import com.ecommerce.Repository.UserRepository;
 
 @Component
 public class TokenValidator {
-  
+
 	@Autowired
 	JwtHelper jwtHelper;
 	@Autowired
 	UserRepository userRepository;
-	
-	User user=null;
+
+	User user = null;
 
 	public User validate(String auth) {
 		System.out.println("token validation started");
 		System.out.println(auth);
-		
-    	if(jwtHelper.validateRefreshToken(auth)) {
-    		String uid=jwtHelper.getUserIdFromRefreshToken(auth);
-    		user=userRepository.findAllByid(uid);
-    	}else {
-    		return null;
-    	}
-    	System.out.println("token validation ended");
+
+		if (jwtHelper.validateRefreshToken(auth)) {
+			String uid = jwtHelper.getUserIdFromRefreshToken(auth);
+			user = userRepository.findAllByid(uid);
+		} else {
+			return null;
+		}
+		System.out.println("token validation ended");
 		return user;
 	}
-	
-	
+
 }

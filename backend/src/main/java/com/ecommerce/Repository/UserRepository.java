@@ -19,9 +19,11 @@ public interface UserRepository extends MongoRepository<User, String> {
 
 	public List<User> findByNameContainingIgnoreCase(String search);
 
+	// find user by id
 	@Query("{'_id': ?0}")
 	User findByUserId(String userId);
 
+	// find all user emails
 	@Query(value = "{}", fields = "{ 'email' : 1,'_id': 0}}")
 	List<String> getAllEmails();
 

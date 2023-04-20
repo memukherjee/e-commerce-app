@@ -1,7 +1,6 @@
 package com.ecommerce.Service;
 
 import java.io.IOException;
-import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,16 +46,14 @@ public class SellerService implements UserDetailsService {
 
 	public ResponseEntity<String> findByEmail(String email) { // forgot password module
 		Seller seller = sellerRepository.findByEmail(email);
-		OtpMail obj = new OtpMail();
 		System.out.println("service=" + seller);
 
 		if (seller != null) {
 			System.out.println("email verified");
-			int otp = (int) (Math.random() * 9999);
+			int otp = 1000 + (int) Math.floor(Math.random() * 9000);
 			random = String.valueOf(otp);
 			System.out.println(random);
-			obj.king(random, email); // mail
-			// v.add(random);
+			OtpMail.king(random, email); // mail sending
 
 			return (new ResponseEntity<>("Email Verified", HttpStatus.OK));
 
@@ -81,7 +78,6 @@ public class SellerService implements UserDetailsService {
 	//
 	public ResponseEntity<String> findByEmailreset(String email, String pass) {
 		Seller seller = sellerRepository.findByEmail(email);
-		Vector v = new Vector();
 		if (seller != null) {
 			System.out.println(seller);
 			this.PasswordEncoder = new BCryptPasswordEncoder();
@@ -101,7 +97,7 @@ public class SellerService implements UserDetailsService {
 
 		Seller seller = token.validate(auth);
 		if (seller == null) {
-			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 		if (str.name != null) {
@@ -143,7 +139,7 @@ public class SellerService implements UserDetailsService {
 	public ResponseEntity<?> avatar(MultipartFile file, String auth) throws IOException {
 		Seller seller = token.validate(auth);
 		if (seller == null) {
-			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		String image_url = cloudinaryController.upload(file);
 		seller.setAvatar(image_url);

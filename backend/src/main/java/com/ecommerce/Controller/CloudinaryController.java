@@ -25,13 +25,13 @@ public class CloudinaryController {
 
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile multipartFile) throws IOException {
-        Map result = cloudinaryService.upload(multipartFile);
+        Map<?, ?> result = cloudinaryService.upload(multipartFile);
         return (String) result.get("url");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map> delete(@PathVariable("id") String id) throws IOException {
-        Map result = cloudinaryService.delete(id);
-        return new ResponseEntity<Map>(result, HttpStatus.OK);
+    public ResponseEntity<?> delete(@PathVariable("id") String id) throws IOException {
+        Map<?, ?> result = cloudinaryService.delete(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

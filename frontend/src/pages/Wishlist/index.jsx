@@ -13,7 +13,7 @@ import { UserContext } from "../../contexts/userContext";
 import { toast } from "react-toastify";
 
 export default function Wishlist() {
-  useTitle("Wishlist | Elegant Apparels");
+  useTitle("Wishlist || Elegant Apparels");
   const { modalOpen, close, open } = useModal();
   const [currectProduct, setCurrectProduct] = useState(null);
   const [wishlistAction, setWishlistAction] = useState("");
@@ -66,7 +66,7 @@ export default function Wishlist() {
   };
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh pt-16">
+    <PageFadeTransitionContainer className="pt-16 min-h-100vh">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -92,28 +92,28 @@ export default function Wishlist() {
         }
       />
       <div className="wishlist-wrapper ">
-        <div className="wishlist-container px-2 py-4 max-w-1000 mx-auto">
-          <div className="wishlist-header text-center bg-cyan-900 text-white rounded-t py-2">
+        <div className="px-2 py-4 mx-auto wishlist-container max-w-1000">
+          <div className="py-2 text-center text-white rounded-t wishlist-header bg-cyan-900">
             <h1 className="text-2xl font-bold capitalize">Wishlist</h1>
           </div>
           <div className="wishlist-body shadow-inner shadow-black h-[70vh] overflow-auto relative">
             {loading ? (
               <ClipLoader
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 color={"#164e63"}
                 loading={true}
                 size={55}
               />
             ) : wishlist.length === 0 ? (
-              <div className="no-products text-center text-cyan-900 flex flex-col gap-y-4 justify-center items-center w-full mt-8 mb-28">
-                <div className="rotate-6 text-3xl bg-orange-300 w-14 h-14 rounded-full flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center w-full mt-8 text-center no-products text-cyan-900 gap-y-4 mb-28">
+                <div className="flex items-center justify-center text-3xl bg-orange-300 rounded-full rotate-6 w-14 h-14">
                   <i className="fa-solid fa-list-check"></i>
                 </div>
                 <h1 className="text-2xl font-medium">Wishlist is Empty</h1>
                 <p className="text-lg">Pick some products that you like</p>
                 <Link
                   to="/categories"
-                  className="bg-cyan-900 text-white px-4 py-2 rounded-md"
+                  className="px-4 py-2 text-white rounded-md bg-cyan-900"
                 >
                   Let's Pick
                 </Link>
@@ -122,50 +122,50 @@ export default function Wishlist() {
               wishlist.map((product) => (
                 <div
                   key={product?.product_id + product?.size}
-                  className="wishlist-item my-1 border-b-2 px-6 md:px-12 py-4 flex flex-wrap md:flex-nowrap justify-between items-center w-full md:items-start"
+                  className="flex flex-wrap items-center justify-between w-full px-6 py-4 my-1 border-b-2 wishlist-item md:px-12 md:flex-nowrap md:items-start"
                 >
                   <Link
                     to={`/product/${product?.product_id}`}
-                    className="wishlist-item-image w-28 h-28 md:w-40 md:h-40 order-1 bg-orange-300 rounded-full"
+                    className="order-1 bg-orange-300 rounded-full wishlist-item-image w-28 h-28 md:w-40 md:h-40"
                   >
                     <img
-                      className="w-full h-full object-contain hover:scale-110 hover:rotate-3 transition-transform duration-300 ease-in-out"
+                      className="object-contain w-full h-full transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-3"
                       src={product?.product_imageUrl}
                       alt={product?.product_name}
                     />
                   </Link>
-                  <div className="wishlist-item-details mt-2 md:mt-0 w-full md:w-1/2 order-3 md:order-2">
+                  <div className="order-3 w-full mt-2 wishlist-item-details md:mt-0 md:w-1/2 md:order-2">
                     <Link
                       to={`/product/${product?.product_id}`}
                       title={product?.product_name}
                       className="wishlist-item-name"
                     >
-                      <h3 className="text-lg md:text-xl font-bold text-cyan-900 whitespace-nowrap text-ellipsis overflow-hidden">
+                      <h3 className="overflow-hidden text-lg font-bold md:text-xl text-cyan-900 whitespace-nowrap text-ellipsis">
                         {product?.product_name}
                       </h3>
                     </Link>
-                    <div className="wishlist-item-price flex items-center justify-end md:justify-start gap-2">
-                      <span className="text-green-400 text-xl font-semibold">
+                    <div className="flex items-center justify-end gap-2 wishlist-item-price md:justify-start">
+                      <span className="text-xl font-semibold text-green-400">
                         ₹{product.discountPrice.toLocaleString("en-IN")}
                       </span>
                       {product.discountPrice < product.product_price && (
-                        <span className="text-red-400 text-lg font-semibold line-through">
+                        <span className="text-lg font-semibold text-red-400 line-through">
                           ₹{product.product_price.toLocaleString("en-IN")}
                         </span>
                       )}
                     </div>
                   </div>
-                  <div className="wishlist-item-actions flex flex-col gap-4 order-2 md:order-3">
+                  <div className="flex flex-col order-2 gap-4 wishlist-item-actions md:order-3">
                     <ModalButton
                       onClick={() => {
                         setCurrectProduct(product);
                         setWishlistAction("addToCart");
                         open();
                       }}
-                      className="bg-cyan-700 shadow shadow-cyan-900 text-white text-base md:text-lg px-2 py-2 rounded-md"
+                      className="px-2 py-2 text-base text-white rounded-md shadow bg-cyan-700 shadow-cyan-900 md:text-lg"
                     >
                       <span className="mr-2">Add to cart</span>
-                      <span className="p-1 bg-white text-cyan-700 rounded-full">
+                      <span className="p-1 bg-white rounded-full text-cyan-700">
                         <i className="fa-solid fa-cart-plus"></i>
                       </span>
                     </ModalButton>
@@ -176,7 +176,7 @@ export default function Wishlist() {
                         open();
                       }}
                       disabled={product?.product_quantity === 0}
-                      className="bg-green-600 shadow shadow-green-900 disabled:bg-gray-500 disabled:shadow-black text-white text-base md:text-lg px-2 py-2 rounded-md"
+                      className="px-2 py-2 text-base text-white bg-green-600 rounded-md shadow shadow-green-900 disabled:bg-gray-500 disabled:shadow-black md:text-lg"
                     >
                       {product?.product_quantity === 0 ? (
                         <span className="mr-2">Out of stock</span>
@@ -184,7 +184,7 @@ export default function Wishlist() {
                         <span className="mr-2">Buy Now</span>
                       )}
                       {product?.product_quantity > 0 && (
-                        <span className="p-1 bg-white text-green-600 rounded-full">
+                        <span className="p-1 text-green-600 bg-white rounded-full">
                           <i className="fa-solid fa-bag-shopping"></i>
                         </span>
                       )}
@@ -194,7 +194,7 @@ export default function Wishlist() {
               ))
             )}
           </div>
-          <div className="wishlist-footer px-6 md:px-12 py-6 bg-cyan-900 text-white rounded-b flex flex-col md:flex-row justify-between items-center gap-6"></div>
+          <div className="flex flex-col items-center justify-between gap-6 px-6 py-6 text-white rounded-b wishlist-footer md:px-12 bg-cyan-900 md:flex-row"></div>
         </div>
       </div>
     </PageFadeTransitionContainer>

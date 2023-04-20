@@ -78,7 +78,7 @@ export default function Product() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   return product ? (
-    <PageFadeTransitionContainer className="mx-auto overflow-hidden flex flex-col justify-center items-center relative w-11/12 text-center pt-12">
+    <PageFadeTransitionContainer className="relative flex flex-col items-center justify-center w-11/12 pt-12 mx-auto overflow-hidden text-center">
       <Modal
         modalOpen={modalOpen}
         close={close}
@@ -144,7 +144,7 @@ const ImageModalChild = ({ product }) => {
   return (
     <div className="w-full min-h-[70vh]">
       <img
-        className="w-full h-full object-contain"
+        className="object-contain w-full h-full"
         src={product?.product_imageUrl}
         alt={product?.product_name}
       />

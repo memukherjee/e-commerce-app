@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/seller")
 public class SellerProductController {
 
@@ -139,7 +137,8 @@ public class SellerProductController {
 			String image_url = cloudinaryController.upload(file);
 			product.setProduct_imageUrl(image_url);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Image uploading Failed,Image size should be within 1MB", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Image uploading Failed,Image size should be within 1MB",
+					HttpStatus.BAD_REQUEST);
 		}
 		return service.updateProduct(id, product);
 	}

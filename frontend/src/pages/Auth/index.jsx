@@ -4,7 +4,7 @@ import PageFadeTransitionContainer from "../../components/PageFadeTransitionCont
 import AuthPageBackground from "../../components/AuthPageBackground";
 
 export default function Auth({ Form, formBg }) {
-  useTitle("Sign Up or Log In || Elegant Apparels");
+  useTitle("Log In or Sign Up || Elegant Apparels");
 
   return (
     <PageFadeTransitionContainer className="min-h-100vh">

@@ -14,18 +14,18 @@ export default function Account() {
 
   return (
     <PageFadeTransitionContainer>
-      <div className="min-h-100vh py-16 w-11/12 max-w-1000 mx-auto">
+      <div className="w-11/12 py-16 mx-auto min-h-100vh max-w-1000">
         <Link to="/account/profile">
           <m.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="profile-image-container w-20 mx-auto rounded-full overflow-hidden"
+            className="w-20 mx-auto overflow-hidden rounded-full profile-image-container"
           >
             <img
               src={user.avatar}
               alt="profile"
-              className="profile-image w-full h-full object-cover"
+              className="object-cover w-full h-full profile-image"
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;
                 currentTarget.src = `https://avatars.dicebear.com/api/initials/${user?.name}.svg`;
@@ -33,14 +33,14 @@ export default function Account() {
             />
           </m.div>
         </Link>
-        <span className="font-pen text-cyan-900 text-4xl font-bold block mb-4">
+        <span className="block mb-4 text-4xl font-bold font-pen text-cyan-900">
           <AnimatedText
             text={`Hi, ${user.name.split(" ")[0]}`}
             align="center"
             direction="y"
           />
         </span>
-        <div className="account-options flex flex-wrap justify-start gap-2">
+        <div className="flex flex-wrap justify-start gap-2 account-options">
           {getAccountOptions(user).map((option, index) => (
             <AccountOptionCard key={index} option={option} />
           ))}

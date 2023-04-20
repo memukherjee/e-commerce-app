@@ -6,8 +6,10 @@ import InputBox from "../../components/InputBox";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
 import { UserContext } from "../../contexts/userContext";
 import usePayment from "../../hooks/usePayment";
+import useTitle from "../../hooks/useTitle";
 
 export default function Payment() {
+  useTitle("Select Payment Details || Elegant Apparels");
   const { loading: paymentLoading, createPayment, placeOrder } = usePayment();
   const [paymentMethod, setPaymentMethod] = useState("default");
   const { user } = useContext(UserContext);
@@ -26,26 +28,29 @@ export default function Payment() {
     }
   };
   return (
-    <PageFadeTransitionContainer className="min-h-100vh text-center pt-16">
-      <div className="payment w-11/12 max-w-450 mx-auto text-left">
-        <h1 className="font-bold text-2xl font-pen text-cyan-900 underline underline-offset-8 pt-8 pb-2">
+    <PageFadeTransitionContainer className="pt-16 text-center min-h-100vh">
+      <div className="w-11/12 mx-auto text-left payment max-w-450">
+        <h1 className="pt-8 pb-2 text-2xl font-bold underline font-pen text-cyan-900 underline-offset-8">
           Order Summary
         </h1>
         <div className="order-products">
-          <h2 className="pb-8 text-lg text-gray-400 font-medium">{`Total Products: ${orderData.total_quantity}`}</h2>
-          <div className="order-product-images w-full pb-4 flex flex-wrap justify-center items-center gap-4 overflow-auto">
+          <h2 className="pb-8 text-lg font-medium text-gray-400">{`Total Products: ${orderData.total_quantity}`}</h2>
+          <div className="flex flex-wrap items-center justify-center w-full gap-4 pb-4 overflow-auto order-product-images">
             {orderData.list.map((product) => (
-              <div key={product.product_id + product.size} className="w-20 h-20 bg-orange-300 rounded-full">
+              <div
+                key={product.product_id + product.size}
+                className="w-20 h-20 bg-orange-300 rounded-full"
+              >
                 <img
                   src={product.product_imageUrl}
                   alt={product.product_name}
-                  className="w-full h-full object-contain"
+                  className="object-contain w-full h-full"
                 />
               </div>
             ))}
           </div>
         </div>
-        <form onSubmit={buyCartItems} className="w-full mx-auto pt-8">
+        <form onSubmit={buyCartItems} className="w-full pt-8 mx-auto">
           <InputBox
             label="Delivery Address"
             type="text"
@@ -53,7 +58,7 @@ export default function Payment() {
             onChange={(e) => setDeliveryAddress(e.target.value)}
           />
           <select
-            className="w-full py-2 mb-4 outline-none bg-transparent md:text-left resize-none overflow-auto text-xl placeholder-transparent border-b-2 border-gray-400 peer focus:outline-none focus:border-cyan-900"
+            className="w-full py-2 mb-4 overflow-auto text-xl placeholder-transparent bg-transparent border-b-2 border-gray-400 outline-none resize-none md:text-left peer focus:outline-none focus:border-cyan-900"
             name="paymentMethod"
             id="paymentMethod"
             style={
@@ -71,7 +76,7 @@ export default function Payment() {
             <option value="cod">Cash On Delivery</option>
           </select>
           <button
-            className="bg-cyan-900 text-white text-xl w-full p-2 rounded-sm"
+            className="w-full p-2 text-xl text-white rounded-sm bg-cyan-900"
             type="submit"
           >
             {paymentLoading ? (

@@ -95,11 +95,16 @@ public class AuthREST {
 		System.out.println(dto.getEmail() + " ---" + dto.getPassword());
 		User logUser = userRepository.findByEmail(dto.getEmail());
 		if (logUser == null) {
-			return new ResponseEntity<>("", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Email not matched", HttpStatus.UNAUTHORIZED);
 		}
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(logUser.getUsername(), dto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication;
+		try {
+			authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(logUser.getUsername(), dto.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Password is incorrect", HttpStatus.UNAUTHORIZED);
+		}
 		User user = (User) authentication.getPrincipal();
 
 		System.out.println("user=" + user);

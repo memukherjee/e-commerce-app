@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection="admin")
-public class Admin implements UserDetails{
+@Document(collection = "admin")
+public class Admin implements UserDetails {
 	@Id
 	private String id;
 	private String username;
@@ -20,24 +20,21 @@ public class Admin implements UserDetails{
 	private String mobile;
 	private String address;
 	private String avatar;
-	
-	
 
 	public Admin() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Admin(String name, String email, String password, String mobile, String address) {
 		super();
-		
+
 		this.name = name;
-		this.username=email;
+		this.username = email;
 		this.email = email;
 		this.password = password;
 		this.mobile = mobile;
 		this.address = address;
-		this.setAvatar("https://avatars.dicebear.com/api/initials/"+name+".svg");
+		this.setAvatar("https://avatars.dicebear.com/api/initials/" + name + ".svg");
 	}
 
 	public void setUsername(String username) {
@@ -98,42 +95,36 @@ public class Admin implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

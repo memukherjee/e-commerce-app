@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Answer {
-	private String answer="";
-	private String userId="";
+	private String answer = "";
+	private String userId = "";
 	private LocalDate date;
 	private LocalTime time;
 

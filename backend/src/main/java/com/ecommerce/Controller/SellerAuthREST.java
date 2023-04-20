@@ -19,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +51,6 @@ import com.ecommerce.jwt.JwtHelper;
 import com.ecommerce.jwt.SellerTokenValidator;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/seller/auth")
 public class SellerAuthREST {
 
@@ -97,15 +95,21 @@ public class SellerAuthREST {
 		System.out.println("seller login-email-" + dto.getEmail() + " password-" + dto.getPassword());
 		Seller logSeller = sellerRepository.findByEmail(dto.getEmail());
 		if (logSeller == null) {
-			return new ResponseEntity("email not matched", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Email not matched", HttpStatus.UNAUTHORIZED);
 		}
 		if (logSeller.getAccountStatus() == false) {
-			return new ResponseEntity("Your account is yet to be verified by Elegant Apparels.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Your account is yet to be verified by Elegant Apparels.",
+					HttpStatus.NOT_FOUND);
 		}
 		System.out.println("hi seller" + logSeller.getUsername());
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getUsername(), dto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication;
+		try {
+			authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(logSeller.getUsername(), dto.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Password is incorrect", HttpStatus.UNAUTHORIZED);
+		}
 		Seller seller = (Seller) authentication.getPrincipal();
 
 		System.out.println("seller=" + seller);
@@ -129,7 +133,7 @@ public class SellerAuthREST {
 
 		Seller check = sellerRepository.findByEmail(dto.getEmail());
 		if (check != null)
-			return new ResponseEntity("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Email id incorrect or already exist", HttpStatus.UNAUTHORIZED);
 
 		Seller seller = new Seller(dto.getName(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()),
 				dto.getMobile(), dto.getAddress());
@@ -160,9 +164,9 @@ public class SellerAuthREST {
 		System.out.println("getUserDetailsByJWT");
 		Seller seller = token.validate(auth);
 		if (seller == null)
-			return new ResponseEntity("Not verified", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Not verified", HttpStatus.UNAUTHORIZED);
 		else
-			return new ResponseEntity(seller, HttpStatus.OK);
+			return new ResponseEntity<>(seller, HttpStatus.OK);
 	}
 
 	// ************************** Forgot password module **************
@@ -389,7 +393,6 @@ class review {
 
 	public review() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

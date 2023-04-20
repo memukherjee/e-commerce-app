@@ -5,23 +5,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document
-//@Data
 public class SellerRefreshToken {
-    @Id
-    String id;
-    @DocumentReference(lazy = true)
-    private Seller owner;
+	@Id
+	String id;
+	@DocumentReference(lazy = true)
+	private Seller owner;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public Seller getOwner() {
 		return owner;
 	}
+
 	public void setOwner(Seller owner) {
 		this.owner = owner;
-		System.out.println("owner="+this.owner);
+		System.out.println("owner=" + this.owner);
 	}
 }

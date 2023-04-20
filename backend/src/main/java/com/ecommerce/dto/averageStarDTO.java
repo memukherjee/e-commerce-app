@@ -2,9 +2,7 @@ package com.ecommerce.dto;
 
 public class averageStarDTO {
 
-	
-
-	float averageStar=0;
+	float averageStar = 0;
 
 	public float getAverageStar() {
 		return averageStar;
@@ -21,9 +19,6 @@ public class averageStarDTO {
 
 	public averageStarDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+
 }

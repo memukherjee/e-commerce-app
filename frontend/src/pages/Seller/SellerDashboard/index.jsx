@@ -11,37 +11,37 @@ export default function SellerDashboard() {
   const { seller } = useContext(SellerContext);
   const dashboardData = getSellerDashboardOptions(seller);
 
-  useTitle("Seller Dashboard | Elegant Apparels");
+  useTitle("Dashboard || Elegant Apparels");
 
   return (
-    <PageFadeTransitionContainer className="min-h-100vh relative pt-12">
-      <div className="dashboard relative h-full">
-        <div className="bg-gray-400 text-white text-center my-2">
+    <PageFadeTransitionContainer className="relative pt-12 min-h-100vh">
+      <div className="relative h-full dashboard">
+        <div className="my-2 text-center text-white bg-gray-400">
           <span>Welcome to Elegant Apparels, {seller.name ?? "Seller"}</span>
         </div>
-        <div className="dashboard-options grid grid-cols-1 md:grid-cols-3 auto-rows-fr items-center max-w-1200 mx-auto my-6 gap-4">
+        <div className="grid items-center grid-cols-1 gap-4 mx-auto my-6 dashboard-options md:grid-cols-3 auto-rows-fr max-w-1200">
           {dashboardData.map((option, index) => (
             <Link to={option.path} key={index} className="h-full">
-              <div className="dashboard-option bg-gray-200 h-full rounded-sm p-8 md:px-12 md:py-8 mx-4 text-gray-500">
+              <div className="h-full p-8 mx-4 text-gray-500 bg-gray-200 rounded-sm dashboard-option md:px-12 md:py-8">
                 <div
                   style={{
                     color: `${option.accentColor}`,
                   }}
-                  className="dashboard-option-heading flex justify-between text-2xl font-medium"
+                  className="flex justify-between text-2xl font-medium dashboard-option-heading"
                 >
                   <span className="dashboard-option-title">{option.title}</span>
                   <span className="dashboard-option-icon">
                     <i className={option.icon}></i>
                   </span>
                 </div>
-                <span className="dashboard-option-subheading text-lg inline-block my-2">
+                <span className="inline-block my-2 text-lg dashboard-option-subheading">
                   {option.subHeading}
                 </span>
                 <div className="dashboard-option-content">
                   {option.subOptions &&
                     option.subOptions.map((subOption, index) => (
                       <div
-                        className="dashboard-option-content-item flex justify-between text-3/4xl"
+                        className="flex justify-between dashboard-option-content-item text-3/4xl"
                         key={index}
                       >
                         <span className="dashboard-option-content-item-title">

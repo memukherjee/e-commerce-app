@@ -9,5 +9,6 @@ import com.ecommerce.Entity.Product;
 
 @Repository
 public interface AdminRepository extends MongoRepository<Product, String> {
+    // Find all products
     List<Product> findAll();
 }

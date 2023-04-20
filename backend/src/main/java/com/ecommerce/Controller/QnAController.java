@@ -131,7 +131,6 @@ public class QnAController {
 			return true;
 
 		return false;
-
 	}
 
 }

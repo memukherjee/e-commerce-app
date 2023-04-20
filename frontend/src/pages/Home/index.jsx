@@ -7,6 +7,7 @@ import Trending from "../../components/Trending";
 import features from "../../assets/features";
 import useTitle from "../../hooks/useTitle";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
+import Testimonials from "../../components/Testimonials";
 
 export default function Home() {
   useTitle("Home || Elegant Apparels");
@@ -18,6 +19,7 @@ export default function Home() {
       <DividerLine />
       <Features features={features} />
       <DividerLine />
+      <Testimonials />
       <Partners />
     </PageFadeTransitionContainer>
   );

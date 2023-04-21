@@ -24,7 +24,7 @@ export default function ContactUs() {
     };
     setFormProcessing(true);
     axios
-      .post(process.env.REACT_APP_API + "/contact", data)
+      .post(process.env.REACT_APP_API + "/auth/contact", data)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

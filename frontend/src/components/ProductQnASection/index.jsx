@@ -106,11 +106,10 @@ export default function ProductQnASection({
                       {qna?.answer?.map((ans, index) => (
                         <div key={index} className="flex items-center gap-x-4">
                           <p className="text-base md:text-lg text-gray-500">
-                          <span className="inline-block rotate-90 mr-2">
-
-                          <i className="fa-solid fa-turn-up"></i>
-                          </span>
-                          {ans?.answer}
+                            <span className="inline-block rotate-90 mr-2">
+                              <i className="fa-solid fa-turn-up"></i>
+                            </span>
+                            {ans?.answer}
                           </p>
                           <span className="text-[.5rem] md:text-base text-gray-400">
                             {timeSince(new Date(ans?.date + " " + ans?.time)) +
@@ -122,17 +121,7 @@ export default function ProductQnASection({
                   )}
 
                   <div className="qna-action">
-                    {/* <ModalButton
-                      open={open}
-                      onClick={() => {
-                        setModalChild("addReport");
-                        open();
-                      }}
-                      className="text-[.4rem] md:text-base font-medium px-2 py-0.5 rounded-xl text-red-500 shadow-sm shadow-red-500 hover:text-white hover:bg-red-500 transition-colors"
-                    >
-                      Report
-                    </ModalButton> */}
-                    {( user && qna?.userId !== user?.id) && (
+                    {user && qna?.userId !== user?.id && (
                       <ModalButton
                         open={open}
                         onClick={() => {
@@ -152,16 +141,18 @@ export default function ProductQnASection({
           </div>
         ))}
       </div>
-      <ModalButton
-        open={open}
-        onClick={() => {
-          setModalChild("addQuestion");
-          open();
-        }}
-        className="text-base md:text-lg font-medium px-2 py-0.5 rounded-sm text-cyan-900 shadow-md border border-cyan-900 hover:text-white hover:bg-cyan-900 transition-colors mt-4"
-      >
-        Haven't found what you're looking for? Ask a question
-      </ModalButton>
+      {user && (
+        <ModalButton
+          open={open}
+          onClick={() => {
+            setModalChild("addQuestion");
+            open();
+          }}
+          className="text-base md:text-lg font-medium px-2 py-0.5 rounded-sm text-cyan-900 shadow-md border border-cyan-900 hover:text-white hover:bg-cyan-900 transition-colors mt-4"
+        >
+          Haven't found what you're looking for? Ask a question
+        </ModalButton>
+      )}
     </div>
   );
 }

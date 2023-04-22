@@ -40,9 +40,10 @@ public class ProductReviewController {
 		User user = token.validate(auth);
 		if (user == null)
 			return new ResponseEntity<>("Invalid JWT token", HttpStatus.UNAUTHORIZED);
-		System.out.println(user.getId() + " " + obj.getProductId() + " " + obj.getMessage() + " " + obj.getStar());
+		System.out.println(user.getId() + " " + obj.getProductId() + " " + obj.getMessage() + " " + obj.getStar() + " "
+				+ obj.getCreatedAt());
 		ProductReview productReview = new ProductReview(user.getId(), obj.getProductId(), obj.getMessage(),
-				obj.getStar());
+				obj.getStar(), obj.getCreatedAt());
 
 		return new ResponseEntity<>(productReviewRepository.save(productReview), HttpStatus.OK);
 
@@ -57,7 +58,7 @@ public class ProductReviewController {
 			User user = userRepository.findAllByid(reviews.get(i).getUserId());
 			ProductReviewDTO obj = new ProductReviewDTO(reviews.get(i).getId(), reviews.get(i).getProductId(),
 					reviews.get(i).getMessage(), reviews.get(i).getStar(), user.getName(), user.getAvatar(),
-					user.getId(), reviews.get(i).getDate(), reviews.get(i).getTime());
+					user.getId(), reviews.get(i).getCreatedAt());
 			li.add(obj);
 		}
 		PagedListHolder<ProductReviewDTO> pagedListHolder = new PagedListHolder<ProductReviewDTO>(li);

@@ -26,7 +26,8 @@ public class CloudinaryController {
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile multipartFile) throws IOException {
         Map<?, ?> result = cloudinaryService.upload(multipartFile);
-        return (String) result.get("url");
+        System.out.println(result);
+        return (String) result.get("secure_url");
     }
 
     @DeleteMapping("/delete/{id}")

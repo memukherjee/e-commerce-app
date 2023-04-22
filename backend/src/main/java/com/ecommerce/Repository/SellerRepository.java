@@ -17,6 +17,12 @@ public interface SellerRepository extends MongoRepository<Seller, String> {
 
 	Optional<Seller> findByUsername(String username);
 
+	@Query(value = "{ 'accountStatus' : true }")
+	List<Seller> findVerified();
+
+	@Query(value = "{ 'accountStatus' : false }")
+	List<Seller> findSellerRequests();
+
 	@Query(value = "{}", fields = "{ 'email' : 1,'_id': 0}}")
 	List<String> getAllEmails();
 

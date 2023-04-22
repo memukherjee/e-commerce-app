@@ -1,6 +1,10 @@
 package com.ecommerce.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,10 +48,26 @@ public class AdminAuthService implements UserDetailsService {
 
 	}
 
-	public Page<Seller> getSeller(Integer pageNo, Integer pageSize) {
-		Page<Seller> seller = sellerRepository.findAll(PageRequest.of(pageNo, pageSize));
-		return seller;
+	public List<Seller> getSeller(Integer pageNo, Integer pageSize) {
+		List<Seller> seller = sellerRepository.findVerified();
+		PagedListHolder<Seller> pagedListHolder = new PagedListHolder<Seller>(seller);
+		pagedListHolder.setPage(pageNo);
+		pagedListHolder.setPageSize(pageSize);
+		int size = pagedListHolder.getPageCount();
+		if (pageNo >= size)
+			return Collections.emptyList();
+		return pagedListHolder.getPageList();
+	}
 
+	public List<Seller> getSellerRequests(Integer pageNo, Integer pageSize) {
+		List<Seller> seller = sellerRepository.findSellerRequests();
+		PagedListHolder<Seller> pagedListHolder = new PagedListHolder<Seller>(seller);
+		pagedListHolder.setPage(pageNo);
+		pagedListHolder.setPageSize(pageSize);
+		int size = pagedListHolder.getPageCount();
+		if (pageNo >= size)
+			return Collections.emptyList();
+		return pagedListHolder.getPageList();
 	}
 
 }

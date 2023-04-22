@@ -80,7 +80,7 @@ export default function Orders() {
                       alt={order?.cartProductDTO?.product_name}
                     />
                   </Link>
-                  <div className="flex flex-wrap order-2 w-full px-4 cart-item-details md:w-1/2 md:px-0 gap-x-4">
+                  <div className="flex flex-wrap justify-center md:justify-start order-2 w-full px-4 cart-item-details md:w-1/2 md:px-0 gap-x-4">
                     <Link
                       to={`/product/${order?.cartProductDTO?.product_id}`}
                       title={order?.cartProductDTO?.product_name}
@@ -114,7 +114,7 @@ export default function Orders() {
                       <div className="order-place-date">
                         <h3>
                           {`Order placed ${timeSince(
-                            new Date(order?.date)
+                            new Date(order?.createdAt)
                           )} ago`}
                         </h3>
                       </div>

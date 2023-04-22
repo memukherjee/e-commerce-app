@@ -1,5 +1,7 @@
 package com.ecommerce.dto;
 
+import java.util.Date;
+
 public class PlaceOrderDTO {
 
 	private CartDTO cartDTO;
@@ -8,6 +10,7 @@ public class PlaceOrderDTO {
 	private String razorpayPaymentId;
 	private String razorPayOrderId;
 	private String razorpaypaySignature;
+	private Date createdAt;
 
 	public CartDTO getCartDTO() {
 		return cartDTO;
@@ -55,6 +58,14 @@ public class PlaceOrderDTO {
 
 	public void setRazorpaypaySignature(String razorpaypaySignature) {
 		this.razorpaypaySignature = razorpaypaySignature;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 }

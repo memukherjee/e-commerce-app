@@ -157,8 +157,13 @@ public class AdminAuthREST {
 
 	@GetMapping("/getAllSeller/{pageNo}/{pageSize}")
 	public ResponseEntity<?> getSeller(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
-		Page<Seller> list = adminAuthService.getSeller(pageNo, pageSize);
-		return new ResponseEntity<>(list.getContent(), HttpStatus.OK);
+		List<Seller> list = adminAuthService.getSeller(pageNo, pageSize);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	@GetMapping("/getAllSellerRequests/{pageNo}/{pageSize}")
+	public ResponseEntity<?> getSellerRequests(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+		List<Seller> list = adminAuthService.getSellerRequests(pageNo, pageSize);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@PostMapping("/validateSeller")

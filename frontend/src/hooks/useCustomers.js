@@ -22,12 +22,11 @@ const useCustomers = (triggerFetchMore) => {
       )
       .then((res) => {
         // console.log(res);
-        if (res.data.length === 0) {
+        if (res.data.length < pageSize) {
           setAllFetched(true);
-        } else if (res.status === 200) {
-          // console.log("setting cusomers");
-          setCustomers((prev) => [...prev, ...res.data]);
         }
+        // console.log("setting cusomers");
+        setCustomers((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
         console.log(err);
@@ -45,10 +44,8 @@ const useCustomers = (triggerFetchMore) => {
     if (!customersFetched.current) {
       // console.log("initial fetch");
       fetchCustomers(pageNo.current++, pageSize.current);
-    }
-    return () => {
       customersFetched.current = true;
-    };
+    }
   }, []);
 
   return { customers, setCustomers, allFetched };

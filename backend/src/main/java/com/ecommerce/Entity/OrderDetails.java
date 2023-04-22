@@ -2,6 +2,8 @@ package com.ecommerce.Entity;
 
 import com.ecommerce.dto.CartProductDTO;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Order")
@@ -17,8 +19,8 @@ public class OrderDetails {
 	private String razorpayPaymentId;
 	private String razorPayOrderId;
 	private String razorpaypaySignature;
-	private String date;
-	private String expDelivary;
+	private Date createdAt;
+	private Date expDelivary;
 	private String OrderStatus;
 
 	public String getId() {
@@ -117,19 +119,19 @@ public class OrderDetails {
 		OrderStatus = orderStatus;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public String getExpDelivary() {
+	public Date getExpDelivary() {
 		return expDelivary;
 	}
 
-	public void setExpDelivary(String expDelivary) {
+	public void setExpDelivary(Date expDelivary) {
 		this.expDelivary = expDelivary;
 	}
 

@@ -109,6 +109,11 @@ export default function ProductReviewSection({
                       "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
                     }
                     alt=""
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg";
+                    }}
                   />
                   <div className="reviewer-info">
                     <h4 className="text-lg font-medium text-gray-400">
@@ -120,7 +125,7 @@ export default function ProductReviewSection({
                   <StarRating stars={review.star} className="text-[.9rem]" />
                   <span className="block text-gray-400 text-base">
                     Reviewed{" "}
-                    {timeSince(new Date(review.date + " " + review.time))} ago
+                    {timeSince(new Date(review.createdAt))} ago
                   </span>
                 </div>
               </div>

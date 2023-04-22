@@ -1,7 +1,6 @@
 package com.ecommerce.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +17,7 @@ public class ProductReviewDTO {
 	private String name;
 	private String avatar;
 	private String userId;
-	private LocalTime time;
-	private LocalDate date;
+	private Date createdAt;
 
 	public String getId() {
 		return id;
@@ -29,20 +27,12 @@ public class ProductReviewDTO {
 		this.id = id;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getUserId() {
@@ -106,8 +96,7 @@ public class ProductReviewDTO {
 	}
 
 	public ProductReviewDTO(String id, String productId, String message, float star, String name, String avatar,
-			String userId,
-			LocalDate date, LocalTime time) {
+			String userId, Date createdAt) {
 		super();
 		this.id = id;
 		this.productId = productId;
@@ -116,8 +105,7 @@ public class ProductReviewDTO {
 		this.name = name;
 		this.avatar = avatar;
 		this.userId = userId;
-		this.date = date;
-		this.time = time;
+		this.createdAt = createdAt;
 	}
 
 	public ProductReviewDTO(float averageStar) {

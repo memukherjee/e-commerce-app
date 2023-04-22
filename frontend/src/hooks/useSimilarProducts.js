@@ -16,7 +16,7 @@ export default function useSimilarProducts(productId, isVisble) {
       )
       .then((res) => {
         // console.log(res);
-        if (res.data.length === 0) {
+        if (res.data.length < pageSize) {
           setAllFetched(true);
           return;
         }
@@ -29,20 +29,19 @@ export default function useSimilarProducts(productId, isVisble) {
 
   const fetchMore = () => {
     setPageNo(pageNo + 1);
-    getSimilarProducts(productId, pageNo+1, pageSize);
+    getSimilarProducts(productId, pageNo + 1, pageSize);
   };
 
   useEffect(() => {
-    if (isVisble && isInitiallyFetched.current)
-        fetchMore();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isVisble && isInitiallyFetched.current) fetchMore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisble]);
 
   useEffect(() => {
-    if (!isInitiallyFetched.current) getSimilarProducts(productId, pageNo, pageSize);
-    return () => {
+    if (!isInitiallyFetched.current){
+      getSimilarProducts(productId, pageNo, pageSize);
       isInitiallyFetched.current = true;
-    };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

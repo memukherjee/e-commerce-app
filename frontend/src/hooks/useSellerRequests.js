@@ -8,13 +8,13 @@ export default function useSellerRequests(triggerFetchMore) {
   const sellerRequestsFetched = useRef(false);
   const [allFetched, setAllFetched] = useState(false);
   const pageNo = useRef(0);
-  const pageSize = useRef(12);
+  const pageSize = useRef(4);
 
   const fetchSellerRequests = () => {
     axios
       .get(
         process.env.REACT_APP_API +
-          `/admin/auth/getAllSeller/${pageNo.current}/${pageSize.current}`,
+          `/admin/auth/getAllSellerRequests/${pageNo.current}/${pageSize.current}`,
         {
           headers: {
             Authorization: getCookie("admin-refreshToken"),
@@ -23,14 +23,10 @@ export default function useSellerRequests(triggerFetchMore) {
       )
       .then((res) => {
         // console.log(res);
-        if (res.data.length === 0) {
+        if (res.data.length < pageSize.current) {
           setAllFetched(true);
-        } else if (res.status === 200) {
-          const unverifiedSellerRequests = res.data.filter(
-            (sellerRequest) => !sellerRequest.accountStatus
-          );
-          setSellerRequests((prev) => [...prev, ...unverifiedSellerRequests]);
         }
+        setSellerRequests((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +77,7 @@ export default function useSellerRequests(triggerFetchMore) {
 
   useEffect(() => {
     if (!sellerRequestsFetched.current) {
-      //   console.log("initial fetch");
+      // console.log("initial fetch");
       fetchSellerRequests();
     }
 
@@ -92,7 +88,7 @@ export default function useSellerRequests(triggerFetchMore) {
 
   useEffect(() => {
     if (triggerFetchMore && sellerRequestsFetched.current) {
-      //   console.log("fetch more: " + pageNo.current);
+      // console.log("fetch more: " + pageNo.current);
       fetchSellerRequests(pageNo.current++, pageSize.current);
     }
   }, [triggerFetchMore]);

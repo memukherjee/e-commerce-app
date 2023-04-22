@@ -121,7 +121,7 @@ export default function SearchBar() {
       transition={containerTransition}
       ref={parentRef}
       className={
-        "searchbar absolute top-[200px] md:top-[210px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 text-center z-[11] md:max-w-750 h-16 bg-white shadow-md shadow-gray-900 px-4 flex flex-col"
+        "searchbar absolute top-[170px] md:top-[210px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 text-center z-[11] md:max-w-750 h-16 bg-white shadow-md shadow-gray-900 px-4 flex flex-col"
       }
     >
       <div className="w-full min-h-[4em] flex items-center relative py-3 px-5">

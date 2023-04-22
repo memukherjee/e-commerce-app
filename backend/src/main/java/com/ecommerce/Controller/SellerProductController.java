@@ -74,7 +74,7 @@ public class SellerProductController {
 			String image_url = cloudinaryController.upload(file);
 			product.setProduct_imageUrl(image_url);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Image uploading Failed,Image size should be within 1MB",
+			return new ResponseEntity<String>("Image uploading Failed,Image size should be within 10MB",
 					HttpStatus.BAD_REQUEST);
 		}
 		repo.save(product);

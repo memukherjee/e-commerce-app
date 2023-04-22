@@ -58,7 +58,7 @@ export default function SellerReviews() {
                         </div>
                         <div className="text-base text-gray-400 reviewer-date">
                           Reviewed{" "}
-                          {timeSince(new Date(review.date + " " + review.time))}{" "}
+                          {timeSince(new Date(review?.createdAt))}{" "}
                           ago
                         </div>
                       </div>

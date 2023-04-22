@@ -27,22 +27,19 @@ const usePayment = () => {
       razorpayPaymentId: response?.razorpay_payment_id,
       razorpayOrderId: response?.razorpay_order_id,
       razorpaySignature: response?.razorpay_signature,
+      createdAt: new Date(),
     };
 
     // console.log(data);
 
     try {
-      const result = await axios.post(
-        process.env.REACT_APP_API + "/order/placeOrder",
-        data,
-        {
-          headers: {
-            Authorization: getCookie("refreshToken"),
-          },
-        }
-      );
+      await axios.post(process.env.REACT_APP_API + "/order/placeOrder", data, {
+        headers: {
+          Authorization: getCookie("refreshToken"),
+        },
+      });
 
-      console.log(result);
+      // console.log(result);
       fetchUserStat(getCookie("refreshToken"));
       toast.success("Order placed successfully");
       navigate("/account/orders");

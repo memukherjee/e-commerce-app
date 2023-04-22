@@ -1,7 +1,6 @@
 package com.ecommerce.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -82,8 +81,13 @@ public class OrderService {
                 orderDetails.setRazorpaypaySignature(placeOrderDTO.getRazorpaypaySignature());
             }
 
-            orderDetails.setDate(LocalDate.now() + " " + LocalTime.now());
-            orderDetails.setExpDelivary(LocalDate.now().plusDays(7) + " " + LocalTime.now());
+            orderDetails.setCreatedAt(placeOrderDTO.getCreatedAt());
+            
+            // calculating expected delivery date
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(placeOrderDTO.getCreatedAt());
+            cal.add(Calendar.DATE, 7);
+            orderDetails.setExpDelivary(cal.getTime());
 
             orderDetails.setOrderStatus("PROCESSING");
             orderRepo.save(orderDetails);

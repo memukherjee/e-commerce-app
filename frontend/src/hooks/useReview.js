@@ -33,6 +33,7 @@ export default function useReview(productId, triggerRefetch) {
           productId,
           message,
           star,
+          createdAt: new Date(),
         },
         {
           headers: {
@@ -68,7 +69,9 @@ export default function useReview(productId, triggerRefetch) {
           setReviews(prev=>[...prev,...res.data]);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   }, [productId]);
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 package com.ecommerce.Entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,8 +9,6 @@ import javax.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-import java.time.LocalTime;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -25,8 +25,7 @@ public class ProductReview {
 	private String productId;
 	private String message;
 	private float star;
-	private LocalTime time;
-	private LocalDate date;
+	private Date createdAt;
 
 	public String getUserId() {
 		return userId;
@@ -60,30 +59,21 @@ public class ProductReview {
 		this.star = star;
 	}
 
-	public LocalTime getTime() {
-		return time;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setTime(LocalTime time) {
-		this.time = time;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public ProductReview(String userId, String productId, String message, float star) {
+	public ProductReview(String userId, String productId, String message, float star, Date createdAt) {
 		super();
 		this.userId = userId;
 		this.productId = productId;
 		this.message = message;
 		this.star = star;
-		this.time = LocalTime.now();
-		this.date = LocalDate.now();
+		this.createdAt = createdAt;
 	}
 
 	public ProductReview() {

@@ -22,7 +22,7 @@ export default function useSellers(triggerFetchMore) {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setSellers((prev) => prev.filter((seller) => seller.id !== id));
         toast.success("Seller deleted successfully");
       })
@@ -44,15 +44,10 @@ export default function useSellers(triggerFetchMore) {
       )
       .then((res) => {
         // console.log(res);
-        if (res.data.length === 0) {
+        if (res.data.length < pageSize) {
           setAllFetched(true);
-        } else if (res.status === 200) {
-          // console.log("setting cusomers");
-          const verifiedSellers = res.data.filter(
-            (seller) => seller.accountStatus
-          );
-          setSellers((prev) => [...prev, ...verifiedSellers]);
         }
+        setSellers((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
         console.log(err);

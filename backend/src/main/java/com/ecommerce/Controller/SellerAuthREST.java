@@ -1,8 +1,7 @@
 package com.ecommerce.Controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -299,8 +298,8 @@ public class SellerAuthREST {
 		int c = 0;
 		for (ProductReview i : reviews) {
 			obj[c] = new review(i.getId(), userRepository.findByUserId(i.getUserId()),
-					userProductRepository.findByProductsId(i.getProductId()), i.getMessage(), i.getStar(), i.getDate(),
-					i.getTime());
+					userProductRepository.findByProductsId(i.getProductId()), i.getMessage(), i.getStar(),
+					i.getCreatedAt());
 			c++;
 		}
 
@@ -321,8 +320,7 @@ class review {
 	private Product product;
 	private String message;
 	private float star;
-	private LocalDate date;
-	private LocalTime time;
+	private Date createdAt;
 
 	public String getId() {
 		return id;
@@ -364,31 +362,22 @@ class review {
 		this.star = star;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-
-	public review(String id, User user, Product product, String message, float star, LocalDate date, LocalTime time) {
+	public review(String id, User user, Product product, String message, float star, Date createdAt) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.product = product;
 		this.message = message;
 		this.star = star;
-		this.date = date;
-		this.time = time;
+		this.createdAt = createdAt;
 	}
 
 	public review() {

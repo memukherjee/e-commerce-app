@@ -193,7 +193,7 @@ export default function SellerOrder() {
                         </div>
                       </div>
                       <div className="overflow-hidden order-place-date whitespace-nowrap text-ellipsis">
-                        {`Order placed ${timeSince(new Date(order?.date))} ago`}
+                        {`Order placed ${timeSince(new Date(order?.createdAt))} ago`}
                       </div>
                       <div className="overflow-hidden order-delivery-address md:whitespace-nowrap text-ellipsis">
                         {`Delivery Address: ${order?.address}`}

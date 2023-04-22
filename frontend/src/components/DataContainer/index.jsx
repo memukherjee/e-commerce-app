@@ -4,9 +4,9 @@ const DataContainer = ({ data, label, onClick }) => {
       <span className="text-gray-400 text-[.8rem]">{label}</span>
       <span
         onClick={onClick}
-        className="block text-gray-700 text-3/4xl border border-gray-300 p-2"
+        className="block text-gray-700 text-3/4xl border border-gray-300 p-2 min-h-[45px]"
       >
-        {data}
+        {data ?? "Not Available"}
       </span>
     </div>
   );

@@ -18,7 +18,6 @@ export default function useSimilarProducts(productId, isVisble) {
         // console.log(res);
         if (res.data.length < pageSize) {
           setAllFetched(true);
-          return;
         }
         setSimilarProducts((prev) => [...prev, ...res.data]);
       })

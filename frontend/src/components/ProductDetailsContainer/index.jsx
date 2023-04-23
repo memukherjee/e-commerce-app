@@ -124,6 +124,8 @@ export default function ProductDetailsContainer({
   );
   const [pincodeStatus, setPincodeStatus] = useState("unchecked");
 
+  const [showFullName, setShowFullName] = useState(false);
+
   return (
     <>
       <div className="product min-h-90vh pt-4 pb-4 w-full flex flex-col justify-between gap-4 md:grid md:grid-rows-6 md:grid-cols-4 md:gap-y-2 md:gap-x-8">
@@ -174,15 +176,33 @@ export default function ProductDetailsContainer({
         </div>
         <div className="product-info order-2 w-full md:max-h-100vh text-left flex flex-col gap-y-2 justify-between md:row-start-1 md:row-end-7 md:col-start-3 md:col-end-5">
           <div className="flex flex-col">
-            <div className="flex flex-col md:flex-row justify-between md:items-center gap-x-4">
-              <h1 className="font-medium max-w-750 text-xl md:text-[2.5rem] text-gray-600 leading-tight">
+            <div className="flex flex-col md:flex-row md:flex-wrap justify-between md:items-center gap-x-4">
+              <h1
+                title={product.product_name}
+                onClick={() => setShowFullName(!showFullName)}
+                style={
+                  showFullName
+                    ? {
+                        overflow: "auto",
+                        maxHeight: "180px",
+                      }
+                    : {
+                        display: "-webkit-box",
+                        WebkitLineClamp: "5",
+                        WebkitBoxOrient: "vertical",
+                      }
+                }
+                className="font-medium w-full text-xl md:text-[2rem] text-gray-600 leading-tight break-words text-ellipsis overflow-hidden"
+              >
                 <span className="max-w-750 block font-normal text-lg text-gray-400">
                   {product.product_company}
                 </span>
                 {product.product_name}
               </h1>
               <span className="price text-xl md:text-2xl font-medium flex flex-wrap items-center gap-2 whitespace-nowrap">
-                <span className="text-cyan-900">₹{product.discountPrice.toLocaleString("en-IN")}</span>
+                <span className="text-cyan-900">
+                  ₹{product.discountPrice.toLocaleString("en-IN")}
+                </span>
                 {product.discountPrice < product.product_price && (
                   <span className="flex items-center gap-x-1">
                     <span className="text-red-600 line-through">

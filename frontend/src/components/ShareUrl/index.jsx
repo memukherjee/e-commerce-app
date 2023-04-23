@@ -19,7 +19,7 @@ export default function ShareUrl({ className, children, title, text, url }) {
         await navigator.clipboard
           .writeText(url)
           .then(() => {
-            console.log("Copied to clipboard");
+            // console.log("Copied to clipboard");
             toast.success("Link Copied to clipboard");
           })
           .catch((err) => {
@@ -32,10 +32,10 @@ export default function ShareUrl({ className, children, title, text, url }) {
 
   const handleOnClick = async () => {
     if (navigator.share) {
-      console.log("Share supported");
+      // console.log("Share supported");
       await shareNative();
     } else {
-      console.log("Share not supported");
+      // console.log("Share not supported");
       await shareFallback();
     }
   };

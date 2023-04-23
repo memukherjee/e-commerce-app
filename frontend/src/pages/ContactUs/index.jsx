@@ -16,7 +16,7 @@ export default function ContactUs() {
 
   const sendMessage = (values) => {
     const { name, email, message } = values;
-    console.log(name, email, message);
+    // console.log(name, email, message);
     const data = {
       name,
       email,
@@ -26,7 +26,7 @@ export default function ContactUs() {
     axios
       .post(process.env.REACT_APP_API + "/auth/contact", data)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           toast.success("Message sent successfully");
           clearForm();

@@ -19,7 +19,7 @@ export default function UserProfileDetailsForm({ close }) {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setSeller(res.data);
         toast.success("Profile Updated");
         clearForm();

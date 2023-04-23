@@ -45,7 +45,7 @@ export default function SellerManagementPage() {
             <ConfirmationForm
               success="Delete"
               successAction={() => {
-                console.log("Delete seller");
+                // console.log("Delete seller");
                 deleteSellerApi(selectedSeller.id);
                 close();
               }}

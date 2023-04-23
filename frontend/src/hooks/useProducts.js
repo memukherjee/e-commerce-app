@@ -43,12 +43,12 @@ export default function useProducts(
       pageNo.current
     }&pageSize=${pageSize.current}`;
     pageNo.current += 1;
-    // console.log(route);
+    console.log(route);
     axios
       .get(route)
       .then((res) => {
         // console.log(res);
-        if (res.data.length === 0) {
+        if (res.data.length < pageSize.current) {
           setAllProductsFetched(true);
         }
         products === null

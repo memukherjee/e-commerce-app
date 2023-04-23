@@ -11,7 +11,13 @@ export default function ProductCarouselSlideDetails({ product }) {
         <div className="w-full">
           <Link
             to={`/product/${product?.product_id}`}
-            className="text-[1.2rem] leading-snug font-normal text-white inline-block px-2"
+            title={product?.product_name}
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: "5",
+              WebkitBoxOrient: "vertical",
+            }}
+            className="text-[1.2rem] leading-snug font-normal text-white inline-block px-2 text-ellipsis overflow-hidden"
           >
             {product?.product_name}
           </Link>

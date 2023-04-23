@@ -28,7 +28,7 @@ export default function Wishlist() {
   };
 
   const onBuyNow = (product, size, quantity) => {
-    console.log(product, size, quantity);
+    // console.log(product, size, quantity);
     if (!user) {
       navigate("/auth");
       toast.warn("Login first to buy");

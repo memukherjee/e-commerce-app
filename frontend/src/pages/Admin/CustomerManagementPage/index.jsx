@@ -53,7 +53,7 @@ export default function CustomerManagementPage() {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setCustomers((prev) => prev.filter((customer) => customer.id !== id));
         toast.success("Customer deleted successfully");
       })
@@ -72,7 +72,7 @@ export default function CustomerManagementPage() {
             <ConfirmationForm
               success="Delete"
               successAction={() => {
-                console.log("Delete customer");
+                // console.log("Delete customer");
                 deleteCustomerApi(selectedCustomer.id);
                 close();
               }}

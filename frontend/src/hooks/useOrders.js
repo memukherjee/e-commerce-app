@@ -17,7 +17,7 @@ export default function useOrders() {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setOrders((prev) => [...prev.filter((o) => o.id !== order.id), { ...order, orderStatus: "Cancelled" }]);
         setUser((prev) => ({ ...prev, totalOrder: prev.totalOrder - 1 }));
       })

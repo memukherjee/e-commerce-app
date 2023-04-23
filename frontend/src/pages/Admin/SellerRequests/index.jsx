@@ -58,7 +58,7 @@ export default function SellerManagementPage() {
             <ConfirmationForm
               success="Accept"
               successAction={() => {
-                console.log("Accept seller");
+                // console.log("Accept seller");
                 acceptSellerRequestAPI(selectedSeller.id);
                 close();
               }}
@@ -69,7 +69,7 @@ export default function SellerManagementPage() {
             <ConfirmationForm
               success="Delete"
               successAction={() => {
-                console.log("Delete seller");
+                // console.log("Delete seller");
                 deleteSellerRequestAPI(selectedSeller.id);
                 close();
               }}

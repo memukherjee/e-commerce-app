@@ -113,7 +113,7 @@ export default function ProductDetailsForm({
     const formData = new FormData();
     formData.append("file", file);
     formData.append("productData", JSON.stringify(data));
-    console.log(formData);
+    // console.log(formData);
     axios
       .put(process.env.REACT_APP_API + "/seller/updateProducts", formData, {
         headers: {
@@ -121,7 +121,7 @@ export default function ProductDetailsForm({
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         setProducts((prevProducts) => {
           const updatedProducts = prevProducts.map((product) => {
@@ -139,7 +139,7 @@ export default function ProductDetailsForm({
         console.log(err);
       })
       .finally(() => {
-        console.log("finally");
+        // console.log("finally");
         setProcessing(false);
       });
   };

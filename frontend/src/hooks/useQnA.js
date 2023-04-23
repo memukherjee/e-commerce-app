@@ -14,8 +14,8 @@ export default function useQnA(productId) {
       );
       // console.log(response);
       setQnAs(response.data);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function useSellerProducts(setProcessing) {
   const [products, setProducts] = useState([]);
@@ -19,8 +20,9 @@ export default function useSellerProducts(setProcessing) {
           // console.log(response);
           setProducts(response.data);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          toast.error("Something went wrong");
+          console.log(err);
         })
         .finally(() => {
           setProcessing(false);

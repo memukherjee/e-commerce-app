@@ -4,6 +4,7 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ScreenContext } from "../../contexts/screenContext";
 import ProductCard from "../ProductCard";
+import { toast } from "react-toastify";
 
 export default function Trending() {
   const mobileScreen = useContext(ScreenContext);
@@ -20,6 +21,7 @@ export default function Trending() {
           setTrendingProducts(res.data);
         })
         .catch((err) => {
+          toast.error("Something went wrong");
           console.log(err);
         });
     }
@@ -37,7 +39,6 @@ export default function Trending() {
 
   return (
     <>
-      
       <motion.div
         className="trending-section mt-10 text-center"
         initial={{ opacity: 0 }}

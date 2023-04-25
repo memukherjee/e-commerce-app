@@ -7,6 +7,7 @@ import InputBox from "../../components/InputBox";
 import PageFadeTransitionContainer from "../../components/PageFadeTransitionContainer";
 import useForm from "../../hooks/useForm";
 import useTitle from "../../hooks/useTitle";
+import { UserContext } from "../../contexts/userContext";
 
 export default function ContactUs() {
   const [formProcessing, setFormProcessing] = useState(false);
@@ -42,8 +43,14 @@ export default function ContactUs() {
       });
   };
 
+  const {user} = useContext(UserContext);
+
   const [values, handleChange, onSubmitHandler, clearForm] = useForm(
-    {},
+    {
+      name: user?.name ?? "",
+      email: user?.email ?? "",
+      message: "",
+    },
     sendMessage
   );
 

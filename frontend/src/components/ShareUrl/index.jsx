@@ -23,6 +23,7 @@ export default function ShareUrl({ className, children, title, text, url }) {
             toast.success("Link Copied to clipboard");
           })
           .catch((err) => {
+            toast.error("Something went wrong");
             console.log(err);
           });
       }

@@ -29,6 +29,7 @@ export default function useSellerRequests(triggerFetchMore) {
         setSellerRequests((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -50,6 +51,7 @@ export default function useSellerRequests(triggerFetchMore) {
         toast.success("Seller accepted successfully");
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -71,6 +73,7 @@ export default function useSellerRequests(triggerFetchMore) {
         toast.success("Seller deleted successfully");
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };

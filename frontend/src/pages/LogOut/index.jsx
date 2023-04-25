@@ -6,6 +6,7 @@ import { SellerContext } from "../../contexts/sellerContext";
 import { UserContext } from "../../contexts/userContext";
 import useTitle from "../../hooks/useTitle";
 import { eraseCookie, getCookie } from "../../utils/cookie";
+import { toast } from "react-toastify";
 export default function LogOut({ sellerRoute, adminRoute }) {
   const navigate = useNavigate();
 
@@ -67,7 +68,10 @@ export default function LogOut({ sellerRoute, adminRoute }) {
             navigate("/seller");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          toast.error("Something went wrong");
+          console.log(err);
+        });
     };
 
     const logoutAdmin = () => {
@@ -92,7 +96,10 @@ export default function LogOut({ sellerRoute, adminRoute }) {
             navigate("/admin");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          toast.error("Something went wrong");
+          console.log(err);
+        });
     };
 
     sellerRoute ? logoutSeller() : adminRoute ? logoutAdmin() : logoutUser();

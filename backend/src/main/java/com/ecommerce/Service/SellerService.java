@@ -141,7 +141,12 @@ public class SellerService implements UserDetailsService {
 		if (seller == null) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		String image_url = cloudinaryController.upload(file);
+		String image_url;
+		if (file == null) {
+			image_url = "https://avatars.dicebear.com/api/initials/" + seller.getName() + ".svg";
+		} else {
+			image_url = cloudinaryController.upload(file);
+		}
 		seller.setAvatar(image_url);
 
 		return new ResponseEntity<>(sellerRepository.save(seller), HttpStatus.OK);

@@ -18,6 +18,7 @@ import ProductQnASection from "../../components/ProductQnASection";
 import AddQuestionForm from "../../components/AddQuestionForm";
 import useQnA from "../../hooks/useQnA";
 import AddAnswerForm from "../../components/AddAnswerForm";
+import { toast } from "react-toastify";
 // import { isPng } from "../../utils/validateCredentials";
 
 export default function Product() {
@@ -49,6 +50,7 @@ export default function Product() {
         })
         .catch((err) => {
           console.log(err);
+          toast.error("Something went wrong");
           navigate("/404");
         });
     }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function useSimilarProducts(productId, isVisble) {
   const isInitiallyFetched = useRef(false);
@@ -22,6 +23,7 @@ export default function useSimilarProducts(productId, isVisble) {
         setSimilarProducts((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -37,7 +39,7 @@ export default function useSimilarProducts(productId, isVisble) {
   }, [isVisble]);
 
   useEffect(() => {
-    if (!isInitiallyFetched.current){
+    if (!isInitiallyFetched.current) {
       getSimilarProducts(productId, pageNo, pageSize);
       isInitiallyFetched.current = true;
     }

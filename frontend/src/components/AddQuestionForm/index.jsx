@@ -3,6 +3,7 @@ import InputBox from "../InputBox";
 import axios from "axios";
 import { getCookie } from "../../utils/cookie";
 import { PulseLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 export default function AddQuestionForm({ productId, close, setQnAs }) {
   const [question, setQuestion] = useState("");
@@ -31,6 +32,7 @@ export default function AddQuestionForm({ productId, close, setQnAs }) {
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Something went wrong");
       })
       .finally(() => {
         setProcessing(false);

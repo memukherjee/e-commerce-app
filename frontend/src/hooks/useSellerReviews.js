@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function useSellerReviews() {
   const [reviews, setReviews] = useState([]);
@@ -23,6 +24,7 @@ export default function useSellerReviews() {
         setReviews(res.data);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       })
       .finally(() => {

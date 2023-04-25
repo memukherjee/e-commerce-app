@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SellerContext } from "../contexts/sellerContext";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function useSellerOrder() {
   const [orders, setOrders] = useState([]);
@@ -32,6 +33,7 @@ export default function useSellerOrder() {
         });
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   }
@@ -59,6 +61,7 @@ export default function useSellerOrder() {
         });
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   }
@@ -76,6 +79,7 @@ export default function useSellerOrder() {
         setOrders(res.data);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       })
       .finally(() => setProcessing(false));

@@ -270,10 +270,10 @@ public class AuthREST {
 	@PostMapping("/contact")
 	public ResponseEntity<String> contact(@RequestBody objholder str) {
 		System.out.println("contact speaking");
-		System.out.println(str.username);
+		System.out.println(str.name);
 		System.out.println(str.email);
 		System.out.println(str.msg);
-		return ContactMail.king(str.username, str.email, str.msg);
+		return ContactMail.king(str.name, str.email, str.msg);
 
 	}
 
@@ -299,8 +299,9 @@ public class AuthREST {
 	}
 
 	@PostMapping("/avatar")
-	public ResponseEntity<?> avatar(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<?> avatar(@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestHeader(value = "authorization", defaultValue = "") String auth) throws IOException {
+		System.out.println(file);
 		return userService.avatar(file, auth);
 
 	}

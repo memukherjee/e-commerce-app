@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import arrayToString from "../utils/arrayToString";
 import useDebounce from "./useDebounce";
+import { toast } from "react-toastify";
 
 export default function useProducts(
   categoryParam,
@@ -43,7 +44,7 @@ export default function useProducts(
       pageNo.current
     }&pageSize=${pageSize.current}`;
     pageNo.current += 1;
-    console.log(route);
+    // console.log(route);
     axios
       .get(route)
       .then((res) => {
@@ -57,6 +58,7 @@ export default function useProducts(
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Something went wrong");
         navigate("/404");
       })
       .finally(() => {

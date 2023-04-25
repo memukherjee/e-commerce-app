@@ -136,7 +136,8 @@ export default function ProductDetailsForm({
         close();
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err);        
+        toast.error("Something went wrong");
       })
       .finally(() => {
         // console.log("finally");

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 const useCustomers = (triggerFetchMore) => {
   const [customers, setCustomers] = useState([]);
@@ -29,6 +30,7 @@ const useCustomers = (triggerFetchMore) => {
         setCustomers((prev) => [...prev, ...res.data]);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };

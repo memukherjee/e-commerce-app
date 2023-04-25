@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function useQnA(productId) {
   const [QnAs, setQnAs] = useState([]);
@@ -15,6 +16,7 @@ export default function useQnA(productId) {
       // console.log(response);
       setQnAs(response.data);
     } catch (err) {
+      toast.error("Something went wrong");
       console.log(err);
     } finally {
       setLoading(false);

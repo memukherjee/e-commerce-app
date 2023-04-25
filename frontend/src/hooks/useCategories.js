@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function useCategories() {
   const [categories, setCategories] = useState([]);
@@ -12,8 +13,9 @@ export default function useCategories() {
         // console.log(response.data);
         setCategories(response.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong");
         navigate("/404");
       });
   }, [navigate]);

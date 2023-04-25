@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useRef, useCallback, useContext } from "react";
 import { UserContext } from "../contexts/userContext";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function useReview(productId, triggerRefetch) {
   const [reviews, setReviews] = useState([]);
@@ -21,6 +22,7 @@ export default function useReview(productId, triggerRefetch) {
         setRatingCount(res.data);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -50,6 +52,7 @@ export default function useReview(productId, triggerRefetch) {
         }
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -70,6 +73,7 @@ export default function useReview(productId, triggerRefetch) {
         }
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   }, [productId]);

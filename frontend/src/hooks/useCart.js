@@ -29,7 +29,10 @@ export default function useCart() {
         setTotalPrice(res.data.total);
         setQuantity(res.data.total_quantity);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Something went wrong");
+        console.log(err);
+      });
   };
 
   useEffect(() => {

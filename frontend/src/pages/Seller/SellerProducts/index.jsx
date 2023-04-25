@@ -54,7 +54,7 @@ export default function SellerProducts() {
         }
       })
       .catch((err) => {
-        toast("Something went wrong", { type: "error" });
+        toast.error("Something went wrong");
         console.log(err);
       })
       .finally(() => {
@@ -187,7 +187,9 @@ export default function SellerProducts() {
                         {product.product_price > product.discountPrice && (
                           <span className="line-through">
                             &#8377;
-                            {product?.product_price.toLocaleString("en-IN")}{" "}
+                            {product?.product_price.toLocaleString(
+                              "en-IN"
+                            )}{" "}
                           </span>
                         )}
                         <span>

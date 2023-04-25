@@ -144,7 +144,12 @@ public class UserService implements UserDetailsService {
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		String image_url = cloudinaryController.upload(file);
+		String image_url = "";
+		if (file == null) {
+			image_url = "https://avatars.dicebear.com/api/initials/" + user.getName() + ".svg";
+		} else {
+			image_url = cloudinaryController.upload(file);
+		}
 		user.setAvatar(image_url);
 
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);

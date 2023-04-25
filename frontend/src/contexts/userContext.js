@@ -35,6 +35,7 @@ const UserProvider = ({ children }) => {
         // console.log(res.data);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };

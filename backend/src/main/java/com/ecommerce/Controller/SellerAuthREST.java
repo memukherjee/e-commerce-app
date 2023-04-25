@@ -211,7 +211,7 @@ public class SellerAuthREST {
 	}
 
 	@PostMapping("/avatar")
-	public ResponseEntity<?> avatar(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<?> avatar(@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestHeader(value = "authorization", defaultValue = "") String auth) throws IOException {
 		return sellerService.avatar(file, auth);
 

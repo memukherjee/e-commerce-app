@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { getCookie } from "../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function useWishlist() {
   const [wishlist, setWishlist] = useState([]);
@@ -27,6 +28,7 @@ export default function useWishlist() {
         setLoading(false);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };

@@ -58,6 +58,7 @@ export default function CustomerManagementPage() {
         toast.success("Customer deleted successfully");
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };

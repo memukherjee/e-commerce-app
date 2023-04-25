@@ -12,6 +12,7 @@ import DataContainer from "../../../components/DataContainer";
 import ProfileAvatar from "../../../components/ProfileAvatar";
 import axios from "axios";
 import { getCookie } from "../../../utils/cookie";
+import { toast } from "react-toastify";
 
 export default function Profile() {
   useTitle("Profile || Elegant Apparels");
@@ -158,6 +159,7 @@ const SubscribeToNewsletterButton = ({ user, setUser }) => {
             }));
           })
           .catch((err) => {
+            toast.error("Something went wrong");
             console.log(err);
           });
       }}

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getCookie } from "../utils/cookie";
 import { UserContext } from "../contexts/userContext";
+import { toast } from "react-toastify";
 
 export default function useOrders() {
   const [orders, setOrders] = useState([]);
@@ -18,10 +19,14 @@ export default function useOrders() {
       })
       .then((res) => {
         // console.log(res);
-        setOrders((prev) => [...prev.filter((o) => o.id !== order.id), { ...order, orderStatus: "Cancelled" }]);
+        setOrders((prev) => [
+          ...prev.filter((o) => o.id !== order.id),
+          { ...order, orderStatus: "Cancelled" },
+        ]);
         setUser((prev) => ({ ...prev, totalOrder: prev.totalOrder - 1 }));
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -35,9 +40,12 @@ export default function useOrders() {
       })
       .then((res) => {
         // console.log(res.data);
-        setOrders(prev=>[...prev, ...res.data]);
+        setOrders((prev) => [...prev, ...res.data]);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        toast.error("Something went wrong");
+        console.log(error);
+      })
       .finally(() => setLoading(false));
   }
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion as m } from "framer-motion";
@@ -7,6 +7,7 @@ import { ClipLoader } from "react-spinners";
 import { ScreenContext } from "../../contexts/screenContext";
 import useDebounce from "../../hooks/useDebounce";
 import { useClickOutside } from "react-click-outside-hook";
+import { toast } from "react-toastify";
 
 export default function SearchBar() {
   const mobileScreen = useContext(ScreenContext);
@@ -47,8 +48,10 @@ export default function SearchBar() {
     }
   }, [hasClickedOutside]);
 
-  const getSuggestions = useCallback(() => {
+  const getSuggestions = () => {
     const pageSize = 5;
+    setFetching(true);
+    setNoSuggestions(false);
     axios
       .get(
         process.env.REACT_APP_API +
@@ -57,16 +60,18 @@ export default function SearchBar() {
       .then((res) => {
         // console.log(res.data);
         if (res.data && res.data.length === 0) setNoSuggestions(true);
+        else setNoSuggestions(false);
         setSuggestions(res.data);
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       })
       .finally(() => {
-        setFetching(false);
+        // console.log(debouncedSearchValue, inputRef.current.value);
+        if (debouncedSearchValue === inputRef.current.value) setFetching(false);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchValue]);
+  };
 
   useEffect(() => {
     if (debouncedSearchValue === "") {
@@ -75,9 +80,6 @@ export default function SearchBar() {
       setNoSuggestions(false);
       return;
     }
-
-    setFetching(true);
-    setNoSuggestions(false);
 
     getSuggestions();
 
